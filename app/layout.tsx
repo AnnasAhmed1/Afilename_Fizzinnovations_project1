@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
-        <style>{`
+        {/* <style>{`
             @font-face {
               font-family: 'Karla';
               src: url('/fonts/static/Karla-Bold.tff'),
@@ -41,7 +41,7 @@ export default function RootLayout({
               font-weight: normal;
               font-style: normal;
             }
-          `}</style>
+          `}</style> */}
       </Head>
       <body>{children}</body>
     </html>
