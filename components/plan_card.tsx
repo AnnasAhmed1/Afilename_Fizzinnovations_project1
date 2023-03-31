@@ -1,7 +1,6 @@
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
-import { Inter, Karla } from "next/font/google";
+import { Karla } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 export default function PlanCard({
   name,
@@ -22,51 +21,46 @@ export default function PlanCard({
 }) {
   return (
     <>
-      <div className="max-w-xs w-80 gap-8 flex items-center flex-col shadow-card py-9 rounded-2xl">
-        <p
-          className={`${karla.className} text-[#242634] text-14 font-bold w-full px-3.5`}
-        >
+      <div
+        className={`${karla.className} max-w-xs sm:w-72 text-[#242634] w-80 gap-6 sm:gap-4 flex items-center flex-col shadow-card pt-9 h-[85vh] sm:h-[75vh] overflow-hidden rounded-2xl relative`}
+      >
+        <p className={` text-[#242634] text-14 font-bold w-full px-3.5`}>
           {name}
         </p>
         <hr className="w-full" />
-        <p className={`${karla.className} font-bold text-4xl`}>${price}</p>
-        <p className={`${karla.className} text-14 text-[rgba(0,0,0,0.85)]`}>
-          {subtext}
-        </p>
-        <div className="flex flex-col gap-2">
-          <p className={`${karla.className} text-14  font-bold`}>{plan}</p>
-          <p
-            className={`${karla.className} text-14  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
-          >
-            <CheckBoxIcon className="text-base text-blue-500" />5 GB Max File
-            Size
+        <div>
+          <p className={` font-bold pb-4 text-[#242634] text-4xl sm:text-3xl`}>
+            ${price}
           </p>
           <p
-            className={`${karla.className} text-14  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
+            className={` text-14 sm:text-xs ${
+              !subtext ? "text-white" : "text-[rgba(0,0,0,0.85)]"
+            }`}
           >
-            <CheckBoxIcon className="text-base text-blue-500" />
-            Unlimited Storage
-          </p>
-          <p
-            className={`${karla.className} text-14  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
-          >
-            <CheckBoxIcon className="text-base text-blue-500" />
-            Unlimited Files
-          </p>
-          <p
-            className={`${karla.className} text-14  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
-          >
-            <CheckBoxIcon className="text-base text-blue-500" />
-            Saves files in the cloud
+            Billed Monthly
           </p>
         </div>
+        <div className="flex flex-col gap-2 px-14">
+          <p className={` text-14 sm:text-xs font-bold`}>{plan}</p>
+          {services?.map((v, i) => {
+            return (
+              <p
+                key={i}
+                className={` text-14 sm:text-xs text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
+              >
+                <CheckBoxIcon className="text-base text-blue-500" />
+                {v}
+              </p>
+            );
+          })}
+        </div>
         <button
-          className={`${karla.className} mt-16 mb-8 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 `}
+          className={` mt-16 mb-8 bottom-24 sm:bottom-16 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-6 absolute`}
         >
           {buttonText}
         </button>
         <p
-          className={`${karla.className} text-[rgba(0,0,0,0.85)] w-52 text-11 `}
+          className={` text-[rgba(0,0,0,0.85)] bottom-8 sm:bottom-6 w-52 text-11 absolute `}
         >
           {bottomText}
         </p>

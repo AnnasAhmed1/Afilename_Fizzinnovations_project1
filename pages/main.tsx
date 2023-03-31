@@ -1,5 +1,7 @@
 // import Navbar from "";
 
+import BusinessPlanCard from "@/components/business_plan_card";
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import PlanCard from "@/components/plan_card";
 import { Inter, Kalam, Karla } from "next/font/google";
@@ -9,62 +11,176 @@ const karla = Karla({ subsets: ["latin"] });
 
 export default function Main() {
   return (
-    <div className="flex flex-col gap-28">
+    <div className=" ">
       <Navbar />
-      <div className="flex flex-col items-center gap-20 px-10">
-        <h1 className={`${karla.className} text-6xl font-bold text-center`}>
+      <section className="flex flex-col items-center gap-20 sm:gap-14 px-[5%] sm:px-[4%] md:bg-red-400">
+        <h1
+          className={`${karla.className} text-6xl sm:text-3xl md:text-5xl  font-bold text-[#242634] text-center`}
+        >
           Store whatever you want, when you want
         </h1>
-        <p className={`${karla.className} text-xl max-w-lg text-center`}>
-          Simple file sharing, storage, at a fair price. Stop overpaying with
-          gigantic media companies. Securely store whatever you can dream and
-          create.{" "}
+        <p
+          className={`${karla.className} text-xl sm:text-sm text-[#242634] text-center`}
+        >
+          Simple file sharing, storage, at a fair price.
+          <br />
+          Stop overpaying with gigantic media companies.
+          <br />
+          Securely store whatever you can dream and create.{" "}
         </p>
         <div className={`${karla.className} flex flex-col items-center gap-4`}>
-          <p className="text-4xl font-bold">Upload A File Now</p>
+          <p className="text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold">
+            Upload A File Now
+          </p>
           <button
-            className={`${karla.className} text-14 text-center bg-[#0066FF] text-white py-1 px-10 rounded-full`}
+            className={`${karla.className} text-14 sm:text-xs text-center bg-[#0066FF] text-white py-1 px-10 sm:px-7 rounded-full`}
           >
             Upload a file
           </button>
         </div>
-        <p className={`${karla.className} text-4xl font-bold`}>Personal</p>
-        <div className="flex gap-8">
-          <PlanCard
-            name="Bundled"
-            price="0.00"
-            subtext={false}
-            plan="The Bundled Plan includes"
-            buttonText="Get with a bundle"
-            bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
-            services={["", ""]}
-          />
-          <PlanCard
-            name="Premium"
-            price="2.99"
-            subtext={true}
-            plan="The Premium Plan includes"
-            buttonText="Start Now"
-            bottomText=""
-            services={["", ""]}
-          />
-          <PlanCard
-            name="Premium Pro"
-            price="6.99"
-            subtext={true}
-            plan="The Premium Pro Plan includes"
-            buttonText="Start Now"
-            bottomText=""
-            services={["", ""]}
-          />
-        </div>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
+        <p
+          className={`${karla.className} text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold`}
+        >
+          Personal
+        </p>
+        <section>
+          <p
+            className={`${karla.className} text-2xl sm:text-base text-[#242634] font-bold text-center`}
+          >
+            Personal Plans
+          </p>
+          <p
+            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]  font-bold text-center`}
+          >
+            For personal use only.
+          </p>
+          <div className="flex flex-wrap sm:flex-col justify-center gap-8">
+            <PlanCard
+              name="Bundled"
+              price="0.00"
+              subtext={false}
+              plan="The Bundled Plan includes"
+              buttonText="Get with a bundle"
+              bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
+              services={[
+                "5 GB Max File Size",
+                "Unlimited Storage",
+                "Unlimited Files",
+                "Save files in the cloud",
+              ]}
+            />
+            <PlanCard
+              name="Premium"
+              price="2.99"
+              subtext={true}
+              plan="The Premium Plan includes"
+              buttonText="Start Now"
+              bottomText=""
+              services={[
+                "5 GB Max File Size",
+                "Unlimited Storage",
+                "Unlimited Files",
+                "Save files in the cloud",
+              ]}
+            />
+            <PlanCard
+              name="Premium Pro"
+              price="6.99"
+              subtext={true}
+              plan="The Premium Pro Plan includes"
+              buttonText="Start Now"
+              bottomText=""
+              services={[
+                "5GB Max Per Each File",
+                "Multi Part Files",
+                "End to end encryption (on the desktop application)",
+                "Unlimited Files",
+                "Unlimited Storage",
+                "Save files in the cloud",
+              ]}
+            />
+          </div>
+        </section>
+        <section className="pt-[15%] ">
+          <p
+            className={`${karla.className} text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold text-center`}
+          >
+            Business Pricing
+          </p>
+          <p
+            className={`${karla.className} text-xl md:text-base sm:text-sm text-center font-semibold`}
+          >
+            Consumption-Based Rate Comparison
+            <br />
+            Pay as you go
+            <br />
+            Billing is to your balance
+          </p>
+          <div className="flex flex-wrap justify-center gap-8 pt-[8%]">
+            <BusinessPlanCard
+              name="AFILENAME"
+              image="afilename"
+              price="0.99"
+              price1="0.30"
+              button={true}
+              subtext={false}
+              plan="The Bundled Plan includes"
+              buttonText="Get with a bundle"
+              bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
+              services={[
+                { title: "No hidden fees", icon: "tick" },
+                { title: "No transfer fees", icon: "tick" },
+                { title: "Unlimited Web Downloads", icon: "tick" },
+                { title: "Encyption", icon: "tick" },
+              ]}
+            />
+            <BusinessPlanCard
+              name="MEGA"
+              image="mega"
+              price="2.69"
+              price1="2.69"
+              button={false}
+              subtext={false}
+              plan="The Bundled Plan includes"
+              buttonText="Get with a bundle"
+              bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
+              services={[
+                { title: "Encyption", icon: "tick" },
+                { title: "Limited API", icon: "stop" },
+                { title: "Limited Transfer", icon: "stop" },
+                { title: "Limited Users", icon: "stop" },
+              ]}
+            />
+          </div>
+        </section>
+        <section className={`${karla.className} text-center  pt-[15%]`}>
+          <h1 className="text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold pb-8">
+            Creators{" "}
+          </h1>
+          <p className="text-xl md:text-base sm:text-sm font-semibold pb-8">
+            Get <b>100% </b>
+            of revenue, excluding third party payment processing fees, directly
+            to you.
+            <br />
+            Only pay 30 cents per TB (streamed/downloaded) of anything you send.
+            Its simply inexpensive.
+            <br />
+            Upload videos, clips, music and photos of nearly anything you can
+            imagine.
+          </p>
 
-      {/* <p className="text-lg" >annas</p> */}
+          <button className="text-white text-sm sm:text-xs my-10 bg-[#0066FF] block w-44 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
+            Upload a Video Now
+          </button>
+          <button className="text-white text-sm sm:text-xs my-10 bg-[#5F5E5E] block w-44 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
+            Upload a Music
+          </button>
+          <button className="text-white text-sm sm:text-xs my-10 bg-[#B1B3B6] block w-44 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
+            Upload a Clip Now
+          </button>
+        </section>
+      </section>
+      <Footer />
     </div>
   );
 }
