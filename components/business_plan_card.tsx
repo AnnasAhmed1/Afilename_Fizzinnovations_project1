@@ -5,6 +5,11 @@ import Image from "next/image";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
+interface MyObject {
+  title: string;
+  icon: string;
+  // add other properties here if needed
+}
 export default function BusinessPlanCard({
   name,
   image,
@@ -59,18 +64,20 @@ export default function BusinessPlanCard({
         </div>
         <div className="flex flex-col gap-2 sm:gap-1 px-14 pt-3">
           {services?.map((v, i) => {
-            console.log(v.title);
+            const myObj = v as MyObject;
+            // let title=v.title
+            console.log(myObj.title);
             return (
               <p
                 key={i}
                 className={`${karla.className} text-14 sm:text-xs  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
               >
-                {v.icon == "stop" ? (
+                {myObj.icon == "stop" ? (
                   <StopIcon className="text-base border text-[#FF0100]" />
                 ) : (
                   <CheckBoxIcon className="text-base text-blue-500" />
-                )}
-                {v.title}
+                )}ß
+                {myObj.title}
               </p>
             );
           })}
