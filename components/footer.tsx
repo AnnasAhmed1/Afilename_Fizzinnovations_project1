@@ -17,6 +17,7 @@ export default function Footer() {
             alt="logo"
             // width={30}
             className="
+            w-7
           md:w-8
           sm:w-4
           "
