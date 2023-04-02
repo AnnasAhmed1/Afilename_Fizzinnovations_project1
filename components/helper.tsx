@@ -1,6 +1,7 @@
 import { Inter, Karla } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
+const karla = Karla({ subsets: ["latin"] });
 
 export function P1({ text }: { text: string }) {
   return (
@@ -9,5 +10,14 @@ export function P1({ text }: { text: string }) {
     >
       {text}
     </p>
+  );
+}
+export function H1({ text }: { text: string }) {
+  return (
+    <h1
+      className={"text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold text-center"}
+    >
+      {text}
+    </h1>
   );
 }

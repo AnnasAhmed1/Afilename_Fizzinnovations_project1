@@ -6,6 +6,10 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Inter, Karla } from "next/font/google";
 import { P1 } from "./helper";
+import Link from "next/link";
+import { Modal } from "@mui/material";
+import Signup from "../pages/signup";
+import Login from "../pages/login";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -16,11 +20,30 @@ export default function Navbar() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  function scrollToSection(e: React.MouseEvent<HTMLAnchorElement>, id: string) {
+    e.preventDefault();
+    const element = document.querySelector(`#${id}`);
+    element?.scrollIntoView({ behavior: "smooth" });
+  }
+  const [ref, setRef] = React.useState("");
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+
   return (
     <nav className="flex justify-between items-center px-[2%] pt-4 pb-[4%]">
+      <Modal
+        open={modalOpen}
+        onClose={handleModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="rounded-s-3xl"
+      >
+        {ref == "signup" ? <Signup /> : <Login />}
+      </Modal>
       <div
         className="
       hidden
@@ -46,16 +69,16 @@ export default function Navbar() {
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
+          onClose={handleMenuClose}
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>Upload</MenuItem>
-          <MenuItem onClick={handleClose}>Personal</MenuItem>
-          <MenuItem onClick={handleClose}>Business</MenuItem>
-          <MenuItem onClick={handleClose}>Creators</MenuItem>
-          <MenuItem onClick={handleClose}>Docs</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Upload</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Personal</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Business</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Creators</MenuItem>
+          <MenuItem onClick={handleMenuClose}>Docs</MenuItem>
         </Menu>
       </div>
 
@@ -80,11 +103,35 @@ export default function Navbar() {
       <div
         className={`flex flex-1 justify-center gap-12 md:hidden sm:hidden md:gap-8`}
       >
-        <P1 text="Upload" />
-        <P1 text="Personal" />
-        <P1 text="Business" />
-        <P1 text="Creators" />
+        <a
+          className="scroll-smooth"
+          onClick={(e) => scrollToSection(e, "upload")}
+        >
+          <P1 text="Upload" />
+        </a>
+        <a
+          className="scroll-smooth"
+          onClick={(e) => scrollToSection(e, "personal")}
+        >
+          <P1 text="Personal" />
+        </a>
+        <a
+          className="scroll-smooth"
+          onClick={(e) => scrollToSection(e, "business")}
+        >
+          <P1 text="Business" />
+        </a>
+        <a
+          className="scroll-smooth"
+          onClick={(e) => scrollToSection(e, "creators")}
+        >
+          <P1 text="Creators" />
+        </a>
         <P1 text="Docs" />
+        <a
+          className="scroll-smooth"
+          // onClick={(e) => scrollToSection(e, "upload")}
+        ></a>
       </div>
       <div
         className="
@@ -93,7 +140,13 @@ export default function Navbar() {
     sm:gap-1.5
     "
       >
-        <button className="border py-2.5 md:p-1.5 sm:p-1 border-black w-28 sm:w-14 md:w-24">
+        <button
+          className="border py-2.5 md:p-1.5 sm:p-1 border-black w-28 sm:w-14 md:w-24"
+          onClick={() => {
+            handleModalOpen();
+            setRef("signup");
+          }}
+        >
           <P1 text="Signup" />
         </button>
         <button
@@ -111,6 +164,10 @@ export default function Navbar() {
           sm:w-14
           sm:text-xs
           "
+          onClick={() => {
+            handleModalOpen();
+            setRef("login");
+          }}  
         >
           Login
         </button>

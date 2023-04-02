@@ -1,19 +1,21 @@
 // import Navbar from "";
-
 import BusinessPlanCard from "@/components/business_plan_card";
 import Footer from "@/components/footer";
+import { H1 } from "@/components/helper";
 import Navbar from "@/components/navbar";
 import PlanCard from "@/components/plan_card";
-import { Inter, Kalam, Karla } from "next/font/google";
+// import { check } from "@/config/get_function";
+import { Inter, Karla } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 
 export default function Main() {
+  // console.log(check)
   return (
-    <div className=" ">
+    <div className="scroll-smooth ">
       <Navbar />
-      <section className="flex flex-col items-center gap-20 sm:gap-14 px-[5%] sm:px-[4%] md:bg-red-400">
+      <section className="flex flex-col items-center gap-20 sm:gap-14 px-[5%] sm:px-[4%]">
         <h1
           className={`${karla.className} text-6xl sm:text-3xl md:text-5xl  font-bold text-[#242634] text-center`}
         >
@@ -26,26 +28,25 @@ export default function Main() {
           <br />
           Stop overpaying with gigantic media companies.
           <br />
-          Securely store whatever you can dream and create.{" "}
+          Securely store whatever you can dream and create.
         </p>
-        <div className={`${karla.className} flex flex-col items-center gap-4`}>
-          <p className="text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold">
-            Upload A File Now
-          </p>
+        <section
+          id="upload"
+          className={`${karla.className} flex flex-col items-center gap-4`}
+        >
+          <H1 text="Upload A File Now" />
+
           <button
             className={`${karla.className} text-14 sm:text-xs text-center bg-[#0066FF] text-white py-1 px-10 sm:px-7 rounded-full`}
           >
             Upload a file
           </button>
-        </div>
-        <p
-          className={`${karla.className} text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold`}
-        >
-          Personal
-        </p>
-        <section>
+        </section>
+        <section id="personal" className="pb-[15%]">
+          <H1 text="Personal" />
+
           <p
-            className={`${karla.className} text-2xl sm:text-base text-[#242634] font-bold text-center`}
+            className={`${karla.className} text-2xl sm:text-base text-[#242634] pt-[10%] font-bold text-center`}
           >
             Personal Plans
           </p>
@@ -101,12 +102,9 @@ export default function Main() {
             />
           </div>
         </section>
-        <section className="pt-[15%] ">
-          <p
-            className={`${karla.className} text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold text-center`}
-          >
-            Business Pricing
-          </p>
+        <section id="business" className="pb-[15%] ">
+          <H1 text="Business Pricing" />
+
           <p
             className={`${karla.className} text-xl md:text-base sm:text-sm text-center font-semibold`}
           >
@@ -153,11 +151,9 @@ export default function Main() {
             />
           </div>
         </section>
-        <section className={`${karla.className} text-center  pt-[15%]`}>
-          <h1 className="text-4xl md:text-3xl sm:text-xl text-[#242634] font-bold pb-8">
-            Creators{" "}
-          </h1>
-          <p className="text-xl md:text-base sm:text-sm font-semibold pb-8">
+        <section id="creators" className={`${karla.className} text-center `}>
+          <H1 text="Creators" />
+          <p className="text-xl md:text-base sm:text-sm font-semibold py-8">
             Get <b>100% </b>
             of revenue, excluding third party payment processing fees, directly
             to you.
