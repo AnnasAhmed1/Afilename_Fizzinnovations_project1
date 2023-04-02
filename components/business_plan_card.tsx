@@ -35,7 +35,16 @@ export default function BusinessPlanCard({
 }) {
   return (
     <>
-      <div className="max-w-xs w-80 sm:w-72 gap-2 flex items-center flex-col shadow-card pt-5 h-[73vh] sm:h-[65vh] overflow-hidden rounded-2xl relative">
+      <div className="max-w-xs
+       w-80 
+       sm:w-72 
+       gap-2 
+       flex 
+       items-center 
+       flex-col 
+       pb-[4%]
+       shadow-card 
+       pt-5 /h-[73vh] /sm:h-[65vh] overflow-hidden rounded-2xl relative">
         <p
           className={`${karla.className} flex items-center text-3xl sm:text-2xl font-bold w-full gap-2 px-3.5`}
         >
@@ -62,7 +71,7 @@ export default function BusinessPlanCard({
             (per month)
           </p>
         </div>
-        <div className="flex flex-col gap-2 sm:gap-1 px-14 pt-3">
+        <div className="flex flex-col gap-2 h-[180px] sm:gap-1 px-14 pt-3">
           {services?.map((v, i) => {
             const myObj = v as MyObject;
             // let title=v.title
@@ -83,11 +92,11 @@ export default function BusinessPlanCard({
           })}
         </div>
       { button? <button
-          className={`${karla.className} mt-16 mb-8 bottom-7 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-7 absolute`}
+          className={`${karla.className}  mb-8 bottom-7 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-7`}
         >
           Contact us
         </button>
-      :  <p className={`${karla.className} bottom-7 text-xs sm:text-[10] absolute text-center font-bold`}>
+      :  <p className={`${karla.className} bottom-7 text-xs sm:text-[10] text-center font-bold`}>
           *Price based on the Pro III annual plan<br/>*Pro Flexi at $16.24 a month
           <br/>Requires 3 TB based storage<br/>Additional Storage Billed at $2.69 per TB
         </p>} 

@@ -22,7 +22,22 @@ export default function PlanCard({
   return (
     <>
       <div
-        className={`${karla.className} max-w-xs sm:w-72 text-[#242634] w-80 gap-6 sm:gap-4 flex items-center flex-col shadow-card pt-9 h-[85vh] sm:h-[75vh] overflow-hidden rounded-2xl relative`}
+        className={`${karla.className}
+         max-w-xs sm:w-72
+          text-[#242634]
+           w-80 gap-6
+            sm:gap-4 
+            flex 
+            items-center 
+            flex-col
+             shadow-card 
+             pt-9 
+             
+            //  /h-[85vh]
+            //   /sm:h-[75vh] 
+              overflow-hidden
+               rounded-2xl 
+               relative`}
       >
         <p className={` text-[#242634] text-14 font-bold w-full px-3.5`}>
           {name}
@@ -40,7 +55,7 @@ export default function PlanCard({
             Billed Monthly
           </p>
         </div>
-        <div className="flex flex-col gap-2 px-14 h-[42%] overflow-hidden">
+        <div className="flex flex-col gap-2 px-14 h-[300px]">
           <p className={` text-14 sm:text-xs font-bold`}>{plan}</p>
           {services?.map((v, i) => {
             return (
@@ -60,7 +75,7 @@ export default function PlanCard({
           {buttonText}
         </button>
         <p
-          className={` text-[rgba(0,0,0,0.85)] bottom-8 sm:bottom-6 w-52 text-11 absolute `}
+          className={` text-[rgba(0,0,0,0.85)] bottom-8 sm:bottom-6 mb-[4%] w-52 text-11 `}
         >
           {bottomText}
         </p>

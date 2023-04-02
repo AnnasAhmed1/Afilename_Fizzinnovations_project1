@@ -8,7 +8,19 @@ const karla = Karla({ subsets: ["latin"] });
 export default function Footer() {
   return (
     <>
-      <nav className="flex border-t border-black justify-between items-center px-10 mt-[10%] py-4">
+      <nav className="
+      border-t border-black
+      flex
+      items-center
+      justify-center
+      gap-5
+      flex-wrap/
+      flex-col/
+      md:flex-col
+      sm:flex-col
+      py-10
+      px-5
+      ">
         <div
           className={`flex  items-center gap-4 md:gap-3 sm:gap-1.5 ${karla.className}`}
         >
@@ -28,7 +40,7 @@ export default function Footer() {
           </h1>
         </div>
         <div
-          className={`flex md:hidden sm:hidden flex-1 flex-wrap items-center justify-center gap-12 md:gap-6`}
+          className={`flex flex-1 md:flex-col sm:flex-col items-center justify-center gap-12 md:gap-6 sm:gap-4`}
         >
           <p className={`${inter.className} text-2xl font-bold`}>Legal</p>
           <P1 text="Terms" />
@@ -42,7 +54,7 @@ export default function Footer() {
           Contact Us
         </p>
       </nav>
-      <div
+      {/* <div
         className={`hidden md:flex sm:flex flex-wrap items-center justify-center sm:gap-4 md:gap-6`}
       >
         <p className={`${inter.className} text-2xl font-bold`}>Legal</p>
@@ -50,7 +62,7 @@ export default function Footer() {
         <P1 text="Privacy Policy" />
         <P1 text="Refund Policy" />
         <P1 text="DMCA Policy" />
-      </div>
+      </div> */}
     </>
   );
 }
