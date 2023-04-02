@@ -40,7 +40,7 @@ export default function PlanCard({
             Billed Monthly
           </p>
         </div>
-        <div className="flex flex-col gap-2 px-14">
+        <div className="flex flex-col gap-2 px-14 h-[42%] overflow-hidden">
           <p className={` text-14 sm:text-xs font-bold`}>{plan}</p>
           {services?.map((v, i) => {
             return (
@@ -55,7 +55,7 @@ export default function PlanCard({
           })}
         </div>
         <button
-          className={` mt-16 mb-8 bottom-24 sm:bottom-16 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-6 absolute`}
+          className={`  mb-8 bottom-24 sm:bottom-16 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-6`}
         >
           {buttonText}
         </button>

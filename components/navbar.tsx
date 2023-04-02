@@ -34,7 +34,7 @@ export default function Navbar() {
   const handleModalClose = () => setModalOpen(false);
 
   return (
-    <nav className="flex justify-between items-center px-[2%] pt-4 pb-[4%]">
+    <nav className="flex justify-between items-center px-[2%] pt-4 pb-[7%]">
       <Modal
         open={modalOpen}
         onClose={handleModalClose}
