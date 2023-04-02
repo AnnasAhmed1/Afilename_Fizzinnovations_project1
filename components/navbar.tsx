@@ -104,34 +104,36 @@ export default function Navbar() {
         className={`flex flex-1 justify-center gap-12 md:hidden sm:hidden md:gap-8`}
       >
         <a
-          className="scroll-smooth"
+          className="scroll-smooth cursor-pointer"
           onClick={(e) => scrollToSection(e, "upload")}
         >
           <P1 text="Upload" />
         </a>
         <a
-          className="scroll-smooth"
+          className="scroll-smooth cursor-pointer"
           onClick={(e) => scrollToSection(e, "personal")}
         >
           <P1 text="Personal" />
         </a>
         <a
-          className="scroll-smooth"
+          className="scroll-smooth cursor-pointer"
           onClick={(e) => scrollToSection(e, "business")}
         >
           <P1 text="Business" />
         </a>
         <a
-          className="scroll-smooth"
+          className="scroll-smooth cursor-pointer"
           onClick={(e) => scrollToSection(e, "creators")}
         >
           <P1 text="Creators" />
         </a>
-        <P1 text="Docs" />
         <a
-          className="scroll-smooth"
+          className="scroll-smooth cursor-pointer"
+          href="/docs"
           // onClick={(e) => scrollToSection(e, "upload")}
-        ></a>
+        >
+          <P1 text="Docs" />
+        </a>
       </div>
       <div
         className="
@@ -167,7 +169,7 @@ export default function Navbar() {
           onClick={() => {
             handleModalOpen();
             setRef("login");
-          }}  
+          }}
         >
           Login
         </button>
