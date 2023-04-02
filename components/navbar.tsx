@@ -127,13 +127,15 @@ export default function Navbar() {
         >
           <P1 text="Creators" />
         </a>
-        <a
-          className="scroll-smooth cursor-pointer"
-          href="/docs"
-          // onClick={(e) => scrollToSection(e, "upload")}
-        >
-          <P1 text="Docs" />
-        </a>
+        <Link href="/docs" legacyBehavior>
+          {/* <a>About</a> */}
+          <a
+            className="scroll-smooth cursor-pointer"
+            // onClick={(e) => scrollToSection(e, "upload")}
+          >
+            <P1 text="Docs" />
+          </a>
+        </Link>
       </div>
       <div
         className="
