@@ -45,7 +45,7 @@ export default function Docs(props: Props) {
   }
   const [files, setFiles] = useState<Array<any>>([]);
   const [filesDetails, setFilesDetails] = useState<Array<object>>([]);
-  const [folders, setFolders] = useState<Array<any>> ([]);
+  const [folders, setFolders] = useState<Array<any>>([]);
 
   //   useEffect(() => {
   //     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
@@ -115,9 +115,7 @@ export default function Docs(props: Props) {
           }}
           open
         >
-          <DrawerComp
-          folders={folders}
-          />
+          <DrawerComp folders={folders} />
         </Drawer>
       </Box>
       <main
@@ -259,6 +257,7 @@ export default function Docs(props: Props) {
             const fileObj = v as FileObject;
             return (
               <div
+                key={i}
                 className={`flex gap-3 border-b border-[#EBEFF2] text-[#242634]  ${karla.className}`}
               >
                 {fileObj.contentType.slice(0, 5) == "image" ? (
