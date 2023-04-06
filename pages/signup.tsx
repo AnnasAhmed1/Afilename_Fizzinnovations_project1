@@ -74,9 +74,9 @@ export default function Signup({handleChange,handleSubmit}:{handleSubmit:any,han
              rounded-[5px]
               text-white`}
             type={"submit"}
-            onClick={() => {
-              handleSubmit(email);
-            }}
+            // onClick={() => {
+            //   handleSubmit(email);
+            // }}
           >
             Continue
             <EastIcon className="text-base ml-3" />

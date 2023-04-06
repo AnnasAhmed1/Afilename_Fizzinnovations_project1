@@ -11,6 +11,8 @@ import { Box, Modal, Typography } from "@mui/material";
 import Signup from "../pages/signup";
 import Login from "../pages/login";
 import { handleInsertAction } from "@/config/API_actions";
+import { API } from "@/config/API";
+import Cookies from "js-cookie";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
