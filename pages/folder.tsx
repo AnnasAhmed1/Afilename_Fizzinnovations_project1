@@ -5,18 +5,19 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import { Inter, Karla, Manrope } from "next/font/google";
+import { useRouter } from "next/router";
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FolderIcon from "@mui/icons-material/Folder";
 import DrawerComp from "@/components/drawer_comp";
 import { handleFetchAction } from "@/config/API_actions";
 import Cookies from "js-cookie";
-import { useRouter } from "next/router";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -37,20 +38,22 @@ interface FileObject {
 
 export default function Docs(props: Props) {
   const router = useRouter();
+  const { id, name } = router.query;
+  console.log(id, name);
   interface FileDetails {
     name: string;
   }
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<Array<any>>([]);
   const [filesDetails, setFilesDetails] = useState<Array<object>>([]);
-  const [folders, setFolders] = useState([]);
+  const [folders, setFolders] = useState<Array<any>> ([]);
 
-  useEffect(() => {
-    !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
-  }, []);
+  //   useEffect(() => {
+  //     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
+  //   }, []);
 
-  useEffect(() => {
-    getFilesDetails();
-  }, [files]);
+  //   useEffect(() => {
+  //     getFilesDetails();
+  //   }, [files]);
 
   const getFiles = async () => {
     try {
@@ -66,8 +69,8 @@ export default function Docs(props: Props) {
   async function getFilesDetails() {
     console.log(files, "filesdetails");
     try {
-      await files?.map(async (v, i) =>
-        await handleFetchAction(`files/${v}`).then((res: any) => {
+      await files?.map((v, i) =>
+        handleFetchAction(`files/${v}`).then((res: any) => {
           const data = res.data;
           console.log(data);
           filesDetails.push(data);
@@ -102,9 +105,6 @@ export default function Docs(props: Props) {
         aria-label="mailbox folders"
       >
         <Drawer
-        className="
-        scrollbar-none
-        "
           variant="permanent"
           sx={{
             display: { xs: "none", sm: "block" },
@@ -161,7 +161,7 @@ export default function Docs(props: Props) {
             </p>
           </div>
         </section>
-        <section
+        {/* <section
           className="
         pl-[2%]
         mb-8"
@@ -181,11 +181,7 @@ export default function Docs(props: Props) {
             className="
             flex
             gap-6
-            overflow-x-scroll
-            scrollbar-track-white
-            scroll-m-0
-            scroll-p-0
-            scrollbar-none
+            overflow-scroll
             w-full
           "
           >
@@ -209,10 +205,7 @@ export default function Docs(props: Props) {
                   items-center
                   "
                     onClick={() => {
-                      router.push({
-                        pathname: "/folder",
-                        query: { id: obj._id, name: obj.name },
-                      });
+                      router.push(`/folder/${obj._id}`);
                     }}
                   >
                     <p>
@@ -236,20 +229,33 @@ export default function Docs(props: Props) {
             )}
           </div>
         </section>
-        <hr />
+        <hr /> */}
         <section className=" pl-[2%]">
           <h1
             className={`
             ${karla.className}
             font-bold
-            text-xl
+            text-2xl
             text-[#2E2E2E]
-            my-4
+
+            mb-4
+            mt-10
+            ml-[-10px]
           `}
           >
-            Files
+            <FolderCopyIcon className="mr-[10px]" />
+            {name}
           </h1>
-          {filesDetails?.map((v, i) => {
+          {[
+            { title: "Some video.mp4", contentType: "video" },
+            { title: "Some Image.peg", contentType: "image" },
+            { title: "animportantfile.docx", contentType: "application" },
+            { title: "animportantfile.docx", contentType: "application" },
+            { title: "Some video.mp4", contentType: "video" },
+            { title: "Some Image.peg", contentType: "image" },
+            { title: "animportantfile.docx", contentType: "application" },
+            { title: "animportantfile.docx", contentType: "application" },
+          ]?.map((v, i) => {
             const fileObj = v as FileObject;
             return (
               <div

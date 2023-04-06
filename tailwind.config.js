@@ -34,17 +34,12 @@ module.exports = {
         "2xl": { min: "1536px" },
         // => @media (min-width: 1536px) { ... }
       },
-      // fontFamily: {
-      //   "Inter": ,
-      // },
-
-      // backgroundImage: {
-      //   'hero-pattern': "url('/images/slider1.jpeg')",
-      // }
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar'),
+  ],
 };

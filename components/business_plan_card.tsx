@@ -8,7 +8,6 @@ const karla = Karla({ subsets: ["latin"] });
 interface MyObject {
   title: string;
   icon: string;
-  // add other properties here if needed
 }
 export default function BusinessPlanCard({
   name,
@@ -26,7 +25,7 @@ export default function BusinessPlanCard({
   image: string;
   price: string;
   price1: string;
-  button:boolean;
+  button: boolean;
   subtext: boolean;
   plan: string;
   buttonText: string;
@@ -35,7 +34,8 @@ export default function BusinessPlanCard({
 }) {
   return (
     <>
-      <div className="max-w-xs
+      <div
+        className="max-w-xs
        w-80 
        sm:w-72 
        gap-2 
@@ -44,7 +44,8 @@ export default function BusinessPlanCard({
        flex-col 
        pb-[4%]
        shadow-card 
-       pt-5 /h-[73vh] /sm:h-[65vh] overflow-hidden rounded-2xl relative">
+       pt-5 /h-[73vh] /sm:h-[65vh] overflow-hidden rounded-2xl relative"
+      >
         <p
           className={`${karla.className} flex items-center text-3xl sm:text-2xl font-bold w-full gap-2 px-3.5`}
         >
@@ -74,8 +75,6 @@ export default function BusinessPlanCard({
         <div className="flex flex-col gap-2 h-[180px] sm:gap-1 px-14 pt-3">
           {services?.map((v, i) => {
             const myObj = v as MyObject;
-            // let title=v.title
-            console.log(myObj.title);
             return (
               <p
                 key={i}
@@ -85,21 +84,31 @@ export default function BusinessPlanCard({
                   <StopIcon className="text-base border text-[#FF0100]" />
                 ) : (
                   <CheckBoxIcon className="text-base text-blue-500" />
-                )}ß
-                {myObj.title}
+                )}
+                ß{myObj.title}
               </p>
             );
           })}
         </div>
-      { button? <button
-          className={`${karla.className}  mb-8 bottom-7 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-7`}
-        >
-          Contact us
-        </button>
-      :  <p className={`${karla.className} bottom-7 text-xs sm:text-[10] text-center font-bold`}>
-          *Price based on the Pro III annual plan<br/>*Pro Flexi at $16.24 a month
-          <br/>Requires 3 TB based storage<br/>Additional Storage Billed at $2.69 per TB
-        </p>} 
+        {button ? (
+          <button
+            className={`${karla.className}  mb-8 bottom-7 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-7`}
+          >
+            Contact us
+          </button>
+        ) : (
+          <p
+            className={`${karla.className} bottom-7 text-xs sm:text-[10] text-center font-bold`}
+          >
+            *Price based on the Pro III annual plan
+            <br />
+            *Pro Flexi at $16.24 a month
+            <br />
+            Requires 3 TB based storage
+            <br />
+            Additional Storage Billed at $2.69 per TB
+          </p>
+        )}
       </div>
     </>
   );

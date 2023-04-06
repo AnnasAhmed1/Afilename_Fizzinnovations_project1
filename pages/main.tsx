@@ -4,14 +4,15 @@ import Footer from "@/components/footer";
 import { H1 } from "@/components/helper";
 import Navbar from "@/components/navbar";
 import PlanCard from "@/components/plan_card";
-// import { check } from "@/config/get_function";
+import Cookies from "js-cookie";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 import { Inter, Karla } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 
 export default function Main() {
-  // console.log(check)
   return (
     <div className="scroll-smooth ">
       <Navbar />
