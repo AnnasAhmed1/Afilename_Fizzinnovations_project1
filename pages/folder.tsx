@@ -258,7 +258,14 @@ export default function Docs(props: Props) {
             return (
               <div
                 key={i}
-                className={`flex gap-3 border-b border-[#EBEFF2] text-[#242634]  ${karla.className}`}
+                className={`
+                flex 
+                gap-3 
+                border-b 
+                border-[#EBEFF2] 
+                text-[#242634]  
+                ${karla.className}`
+              }
               >
                 {fileObj.contentType.slice(0, 5) == "image" ? (
                   <InsertPhotoOutlinedIcon className="text-xl mt-4" />

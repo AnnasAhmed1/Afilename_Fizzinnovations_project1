@@ -253,6 +253,7 @@ export default function Docs(props: Props) {
             const fileObj = v as FileObject;
             return (
               <div
+              key={i}
                 className={`flex gap-3 border-b border-[#EBEFF2] text-[#242634]  ${karla.className}`}
               >
                 {fileObj.contentType.slice(0, 5) == "image" ? (
