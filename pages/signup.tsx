@@ -7,45 +7,17 @@ import { handleInsertAction } from "@/config/API_actions";
 const karla = Karla({ subsets: ["latin"] });
 const mavenPro = Maven_Pro({ subsets: ["latin"] });
 
-export default function Signup() {
+export default function Signup({handleChange,handleSubmit}:{handleSubmit:any,handleChange:any}) {
   const [email, setEmail] = useState("");
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setEmail(e.target.value);
-    console.log(email);
-  };
-
-  const handleSubmit = (email: string) => {
-    handleInsertAction("/account/signin/", {
-      email: "annasahmed1609@gmail.com",
-    })
-      .then((res) => {
-        console.log(res);
-        handleModalOpen();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
   return (
     <>
-      <Modal
-        open={modalOpen}
-        onClose={handleModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        className="rounded-s-3xl"
-      >
-        <Login />
-      </Modal>
+     
       <div
         className="
         flex
-     
         flex-col
         bg-white
         pt-4
@@ -114,7 +86,7 @@ export default function Signup() {
           className={`
           ${karla.className} 
           pt-10
-          font-light 
+          font-light ß
           text-[13px] 
           text-center`}
         >

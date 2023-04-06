@@ -7,9 +7,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Inter, Karla } from "next/font/google";
 import { P1 } from "./helper";
 import Link from "next/link";
-import { Modal } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import Signup from "../pages/signup";
 import Login from "../pages/login";
+import { handleInsertAction } from "@/config/API_actions";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -32,7 +33,31 @@ export default function Navbar() {
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
+  const [verifyModalOpen, setVerifyModalOpen] = useState(false);
+  const handleVerifyModalOpen = () => setVerifyModalOpen(true);
+  const handleVerifyModalClose = () => setVerifyModalOpen(false);
 
+  const [email, setEmail] = useState("");
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEmail(e.target.value);
+    console.log(email);
+  };
+  const handleSubmit = async (email: string) => {
+    await handleInsertAction("/account/signin/", {
+      email: email,
+    })
+      .then((res: any) => {
+        console.log(email);
+        console.log(res.data);
+        handleModalClose();
+        handleVerifyModalOpen();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <nav
       className="
@@ -50,7 +75,24 @@ export default function Navbar() {
         aria-describedby="modal-modal-description"
         className="rounded-s-3xl"
       >
-        <Signup />
+        <Box>
+          <Signup
+            handleChange={handleChange}
+            handleSubmit={() => handleSubmit(email)}
+          />
+        </Box>
+      </Modal>
+
+      <Modal
+        open={verifyModalOpen}
+        onClose={handleVerifyModalClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="rounded-s-3xl"
+      >
+        <Box>
+          <Login />
+        </Box>
       </Modal>
       <div
         className="
@@ -96,13 +138,11 @@ export default function Navbar() {
         <Image
           src={require("../images/logo.svg")}
           alt="logo"
-          // width={30}
           className="
           w-7
           md:w-8
           sm:w-4
           "
-          // className="w-4"
         />
         <h1 className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)] font-extrabold">
           AFILENAME
