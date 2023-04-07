@@ -47,7 +47,7 @@ export default function BusinessPlanCard({
        pt-5 /h-[73vh] /sm:h-[65vh] overflow-hidden rounded-2xl relative"
       >
         <p
-          className={`${karla.className} flex items-center text-3xl sm:text-2xl font-bold w-full gap-2 px-3.5`}
+          className={`font-karla flex items-center text-3xl sm:text-2xl font-bold w-full gap-2 px-3.5`}
         >
           <Image
             src={require(`../images/${image}_logo.svg`)}
@@ -57,9 +57,7 @@ export default function BusinessPlanCard({
           {name}
         </p>
         <hr className="w-full" />
-        <div
-          className={`${karla.className} text-center font-bold text-[#242634]`}
-        >
+        <div className={`font-karla text-center font-bold text-[#242634]`}>
           <p className="text-4xl sm:text-3xl">${price}</p>
           <p className="text-base sm:text-sm">
             /TB Stored
@@ -78,7 +76,7 @@ export default function BusinessPlanCard({
             return (
               <p
                 key={i}
-                className={`${karla.className} text-14 sm:text-xs  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
+                className={`font-karla text-14 sm:text-xs  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
               >
                 {myObj.icon == "stop" ? (
                   <StopIcon className="text-base border text-[#FF0100]" />
@@ -92,13 +90,13 @@ export default function BusinessPlanCard({
         </div>
         {button ? (
           <button
-            className={`${karla.className}  mb-8 bottom-7 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-7`}
+            className={`font-karla  mb-8 bottom-7 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-7`}
           >
             Contact us
           </button>
         ) : (
           <p
-            className={`${karla.className} bottom-7 text-xs sm:text-[10] text-center font-bold`}
+            className={`font-karla bottom-7 text-xs sm:text-[10] text-center font-bold`}
           >
             *Price based on the Pro III annual plan
             <br />

@@ -4,17 +4,24 @@ import EastIcon from "@mui/icons-material/East";
 import { Modal, TextField } from "@mui/material";
 import Login from "./login";
 import { handleInsertAction } from "@/config/API_actions";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 const karla = Karla({ subsets: ["latin"] });
 const mavenPro = Maven_Pro({ subsets: ["latin"] });
 
-export default function Signup({handleChange,handleSubmit}:{handleSubmit:any,handleChange:any}) {
+export default function Signup({
+  handleChange,
+  handleSubmit,
+}: {
+  handleSubmit: any;
+  handleChange: any;
+}) {
   const [email, setEmail] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
   return (
     <>
-     
       <div
         className="
         flex
@@ -31,7 +38,7 @@ export default function Signup({handleChange,handleSubmit}:{handleSubmit:any,han
       >
         <h3
           className={`
-          ${karla.className} font-extrabold 
+          font-karla font-extrabold 
           text-4xl
          mb-2
           text-center 
@@ -84,7 +91,7 @@ export default function Signup({handleChange,handleSubmit}:{handleSubmit:any,han
         </form>
         <h6
           className={`
-          ${karla.className} 
+          font-karla 
           pt-10
           font-light ß
           text-[13px] 

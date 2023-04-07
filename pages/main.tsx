@@ -18,12 +18,12 @@ export default function Main() {
       <Navbar />
       <section className="flex flex-col items-center gap-20 sm:gap-14 px-[5%] sm:px-[4%]">
         <h1
-          className={`${karla.className} text-6xl sm:text-3xl md:text-5xl  font-bold text-[#242634] text-center`}
+          className={`font-karla text-6xl sm:text-3xl md:text-5xl  font-bold text-[#242634] text-center`}
         >
           Store whatever you want, when you want
         </h1>
         <p
-          className={`${karla.className} text-xl sm:text-sm text-[#242634] text-center`}
+          className={`font-karla text-xl sm:text-sm text-[#242634] text-center`}
         >
           Simple file sharing, storage, at a fair price.
           <br />
@@ -33,12 +33,12 @@ export default function Main() {
         </p>
         <section
           id="upload"
-          className={`${karla.className} flex flex-col items-center gap-4`}
+          className={`font-karla flex flex-col items-center gap-4`}
         >
           <H1 text="Upload A File Now" />
 
           <button
-            className={`${karla.className} text-14 sm:text-xs text-center bg-[#0066FF] text-white py-1 px-10 sm:px-7 rounded-full`}
+            className={`font-karla text-14 sm:text-xs text-center bg-[#0066FF] text-white py-1 px-10 sm:px-7 rounded-full`}
           >
             Upload a file
           </button>
@@ -47,12 +47,12 @@ export default function Main() {
           <H1 text="Personal" />
 
           <p
-            className={`${karla.className} text-2xl sm:text-base text-[#242634] pt-[10%] font-bold text-center`}
+            className={`font-karla text-2xl sm:text-base text-[#242634] pt-[10%] font-bold text-center`}
           >
             Personal Plans
           </p>
           <p
-            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]  font-bold text-center`}
+            className={`font-karla text-base pb-[3%] sm:text-sm text-[#242634]  font-bold text-center`}
           >
             For personal use only.
           </p>
@@ -107,7 +107,7 @@ export default function Main() {
           <H1 text="Business Pricing" />
 
           <p
-            className={`${karla.className} text-xl md:text-base sm:text-sm text-center font-semibold`}
+            className={`font-karla text-xl md:text-base sm:text-sm text-center font-semibold`}
           >
             Consumption-Based Rate Comparison
             <br />
@@ -152,7 +152,7 @@ export default function Main() {
             />
           </div>
         </section>
-        <section id="creators" className={`${karla.className} text-center `}>
+        <section id="creators" className={`font-karla text-center `}>
           <H1 text="Creators" />
           <p className="text-xl md:text-base sm:text-sm font-semibold py-8">
             Get <b>100% </b>

@@ -4,6 +4,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Inter, Karla, Maven_Pro } from "next/font/google";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 import EastIcon from "@mui/icons-material/East";
 import { TextField } from "@mui/material";
 const inter = Inter({ subsets: ["latin"] });
@@ -28,7 +30,6 @@ const style = {
 }
 export default function Login() {
   return (
-    
     <div
       className="
         flex
@@ -44,14 +45,14 @@ export default function Login() {
         right-[25%]"
     >
       <h3
-        className={`${karla.className} font-extrabold text-4xl text-center text-[rgba(0,0,0,0.75)] `}
+        className={`font-karla font-extrabold text-4xl text-center text-[rgba(0,0,0,0.75)] `}
       >
         Verify Login
       </h3>
       <hr />
 
       <h6
-        className={`${karla.className} pt-8 px-5 font-medium pb-10 text-[#262626] text-base text-center`}
+        className={`font pt-8 px-5 font-medium pb-10 text-[#262626] text-base text-center`}
       >
         A login link was sent to you. You can check your email and click on the
         link or button.

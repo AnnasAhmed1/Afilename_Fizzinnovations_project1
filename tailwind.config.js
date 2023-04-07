@@ -7,7 +7,19 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    fontFamily: {
+      'karla': ['Karla', 'ui-sans-serif', 'system-ui'],
+      'inter': ['Inter', 'ui-sans-serif', 'system-ui'],
+      'manrope': ['Manrope', 'ui-sans-serif', 'system-ui']
+    },
     extend: {
+
+      scrollbar: {
+        width: '6px',
+        height: '6px',
+        track: '#f1f1f1',
+        thumb: '#888',
+      },
       fontSize: {
         14: "14px",
         11: "11px",

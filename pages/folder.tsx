@@ -8,9 +8,8 @@ import { Inter, Karla, Manrope } from "next/font/google";
 import { useRouter } from "next/router";
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import FolderIcon from "@mui/icons-material/Folder";
 import DrawerComp from "@/components/drawer_comp";
-import { handleFetchAction } from "@/config/API_actions";
+import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
 import Cookies from "js-cookie";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
@@ -39,6 +38,7 @@ interface FileObject {
 export default function Docs(props: Props) {
   const router = useRouter();
   const { id, name } = router.query;
+  // name?.toString();
   console.log(id, name);
   interface FileDetails {
     name: string;
@@ -46,14 +46,50 @@ export default function Docs(props: Props) {
   const [files, setFiles] = useState<Array<any>>([]);
   const [filesDetails, setFilesDetails] = useState<Array<object>>([]);
   const [folders, setFolders] = useState<Array<any>>([]);
+  const [newFolderName, setNewFolderName] = useState<string>("");
 
-  //   useEffect(() => {
-  //     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
-  //   }, []);
+  useEffect(() => {
+    !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
+  }, []);
 
   //   useEffect(() => {
   //     getFilesDetails();
   //   }, [files]);
+  const uploadRequest = async (filename?: any, contentType?: any) => {
+    try {
+      handleInsertAction("files/upload", {
+        filename,
+        contentType,
+      }).then((response: any) => {
+        console.log(response);
+        getFiles();
+        // getFilesDetails();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleFileChangeFunction = (event: any) => {
+    const file = event.target.files[0];
+    uploadRequest(file?.name, file?.type);
+  };
+  const handleFolderChangeFunction = (e: any) => {
+    setNewFolderName(e.target.value);
+  };
+
+  const createFolder = async (folderName: string) => {
+    console.log(folderName);
+    try {
+      handleInsertAction("/folders/createfolder", {
+        name: folderName,
+      }).then((response: any) => {
+        getFolders();
+        console.log(response);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getFiles = async () => {
     try {
@@ -115,7 +151,12 @@ export default function Docs(props: Props) {
           }}
           open
         >
-          <DrawerComp folders={folders} />
+          <DrawerComp
+            folders={folders}
+            handleFileChangeFunction={handleFileChangeFunction}
+            createFolder={() => createFolder(newFolderName)}
+            handleFolderChangeFunction={handleFolderChangeFunction}
+          />
         </Drawer>
       </Box>
       <main
@@ -146,11 +187,11 @@ export default function Docs(props: Props) {
           <div className="flex gap-4 items-center">
             <div>
               <p
-                className={`${manrope.className} text-[#2E3271] text-base font-semibold`}
+                className={`font-manrope text-[#2E3271] text-base font-semibold`}
               >
                 @kevan
               </p>
-              <p className={`${manrope.className} text-[#7c8db5b8] text-xs `}>
+              <p className={`font-manrope text-[#7c8db5b8] text-xs `}>
                 Premium
               </p>
             </div>
@@ -166,7 +207,7 @@ export default function Docs(props: Props) {
         >
           <h1
             className={`
-            ${karla.className}
+            font-karla
             font-bold
             text-xl
             text-[#2E2E2E]
@@ -211,7 +252,7 @@ export default function Docs(props: Props) {
                     </p>
                     <p
                       className={`
-                    ${inter.className}
+                    font-inter
                     text-lg
                     font-semibold
                     text-[#1A1A1A]
@@ -231,9 +272,9 @@ export default function Docs(props: Props) {
         <section className=" pl-[2%]">
           <h1
             className={`
-            ${karla.className}
+            font-karla
             font-bold
-            text-2xl
+            text-[32px]
             text-[#2E2E2E]
 
             mb-4
@@ -241,10 +282,10 @@ export default function Docs(props: Props) {
             ml-[-10px]
           `}
           >
-            <FolderCopyIcon className="mr-[10px]" />
+            <FolderCopyIcon className="mr-[20px] text-3xl " />
             {name}
           </h1>
-          {[
+          {/*    {[
             { title: "Some video.mp4", contentType: "video" },
             { title: "Some Image.peg", contentType: "image" },
             { title: "animportantfile.docx", contentType: "application" },
@@ -264,8 +305,7 @@ export default function Docs(props: Props) {
                 border-b 
                 border-[#EBEFF2] 
                 text-[#242634]  
-                ${karla.className}`
-              }
+                font-karla`}
               >
                 {fileObj.contentType.slice(0, 5) == "image" ? (
                   <InsertPhotoOutlinedIcon className="text-xl mt-4" />
@@ -280,15 +320,15 @@ export default function Docs(props: Props) {
                   <p className="text-sm font-medium mb-[1px] ">
                     {fileObj.title}
                   </p>
-                  <p className="text-xs ">{/* {v.dateUploaded} */}3 days ago</p>
+                  <p className="text-xs ">3 days ago</p>
                 </div>
                 <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
                   1.46MB
-                </p>
+               </p>
                 <MoreVertIcon className="text-lg my-auto h-fit" />
               </div>
             );
-          })}
+          })} */}
         </section>
       </main>
     </Box>

@@ -25,13 +25,12 @@ export default function ListItemComp(props: {
   handleFileChangeFunction?: any;
   filetype?: string;
   input?: boolean;
+  onClick?: any;
 }) {
-  const { text, Icon, handleFileChangeFunction, filetype } = props;
+  const { text, Icon, handleFileChangeFunction, filetype, onClick } = props;
   const fileInputRef = React.useRef<HTMLInputElement>(null);
   var input;
   props.input ? (input = false) : (input = true);
-  console.log("input", input);
-
   const handleClick = () => {
     fileInputRef.current?.click();
   };
@@ -46,10 +45,10 @@ export default function ListItemComp(props: {
           fontSize: "14px",
           color: "rgba(0, 0, 0, 0.85)",
           gap: "10px",
-          paddingLeft: "25px",
+          paddingLeft: "5px",
           cursor: "pointer",
         }}
-        onClick={handleClick}
+        onClick={input ? handleClick : onClick}
       >
         {Icon}
 

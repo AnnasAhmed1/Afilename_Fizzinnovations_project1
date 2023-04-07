@@ -9,7 +9,7 @@ import { Inter, Karla, Manrope } from "next/font/google";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FolderIcon from "@mui/icons-material/Folder";
 import DrawerComp from "@/components/drawer_comp";
-import { handleFetchAction } from "@/config/API_actions";
+import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -17,6 +17,7 @@ import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import Image from "next/image";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -41,16 +42,62 @@ export default function Docs(props: Props) {
     name: string;
   }
   const [files, setFiles] = useState([]);
-  const [filesDetails, setFilesDetails] = useState<Array<object>>([]);
+  const [filesDetails, setFilesDetails] = useState<Array<any>>([]);
+  const [arr, setArr] = useState<Array<any>>([]);
   const [folders, setFolders] = useState([]);
+  const [newFolderName, setNewFolderName] = useState<string>("");
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
   }, []);
 
+  // const arr=<Array>[]
   useEffect(() => {
-    getFilesDetails();
+    if (filesDetails.length == 0) {
+      getFilesDetails();
+    } else {
+      setFilesDetails(arr);
+      console.log(filesDetails, arr, "filesDetails use effect");
+      getFilesDetails();
+    }
   }, [files]);
+
+  const uploadRequest = async (filename?: any, contentType?: any) => {
+    try {
+      handleInsertAction("files/upload", {
+        filename,
+        contentType,
+      }).then((response: any) => {
+        console.log(response);
+        getFiles();
+        // getFilesDetails();
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFileChangeFunction = (event: any) => {
+    const file = event.target.files[0];
+    uploadRequest(file?.name, file?.type);
+  };
+  const handleFolderChangeFunction = (e: any) => {
+    setNewFolderName(e.target.value);
+  };
+
+  const createFolder = async (folderName: string) => {
+    console.log(folderName);
+    try {
+      handleInsertAction("/folders/createfolder", {
+        name: folderName,
+      }).then((response: any) => {
+        getFolders();
+        console.log(response);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const getFiles = async () => {
     try {
@@ -63,24 +110,25 @@ export default function Docs(props: Props) {
     }
   };
 
-  async function getFilesDetails() {
-    console.log(files, "filesdetails");
+  const getFilesDetails = async () => {
+    console.log(filesDetails, "filesdetials getfiles function");
+    console.log(files, "filesdetails111");
+
+    await setFilesDetails(arr);
     try {
-      await files?.map(async (v, i) =>
-        await handleFetchAction(`files/${v}`).then((res: any) => {
-          const data = res.data;
-          console.log(data);
-          filesDetails.push(data);
-          i == filesDetails.length - 1
-            ? setFilesDetails([...filesDetails])
-            : null;
-          console.log(filesDetails);
-        })
+      await files?.map(
+        async (v, i) =>
+          await handleFetchAction(`files/${v}`).then((res: any) => {
+            const data = res.data;
+            filesDetails.push(data);
+            setFilesDetails([...filesDetails]);
+            console.log("filesDetails==>", filesDetails);
+          })
       );
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const getFolders = async () => {
     try {
@@ -102,7 +150,7 @@ export default function Docs(props: Props) {
         aria-label="mailbox folders"
       >
         <Drawer
-        className="
+          className="
         scrollbar-none
         "
           variant="permanent"
@@ -111,18 +159,23 @@ export default function Docs(props: Props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
+              padding: "0 30px",
             },
           }}
           open
         >
           <DrawerComp
-          folders={folders}
+            folders={folders}
+            handleFileChangeFunction={handleFileChangeFunction}
+            createFolder={() => createFolder(newFolderName)}
+            handleFolderChangeFunction={handleFolderChangeFunction}
           />
         </Drawer>
       </Box>
       <main
         className={`
-      w-[80%]  
+        w-[calc(100%-240px)]
+      w-[80%]/  
       pl-[3.5%] 
       pr-[2%]
       mt-[5%]
@@ -132,7 +185,8 @@ export default function Docs(props: Props) {
           className="flex 
         justify-between 
         pr-[10%]
-       
+        
+
         "
         >
           <input
@@ -148,11 +202,11 @@ export default function Docs(props: Props) {
           <div className="flex gap-4 items-center">
             <div>
               <p
-                className={`${manrope.className} text-[#2E3271] text-base font-semibold`}
+                className={`font-manrope text-[#2E3271] text-base font-semibold`}
               >
                 @kevan
               </p>
-              <p className={`${manrope.className} text-[#7c8db5b8] text-xs `}>
+              <p className={`font-manrope text-[#7c8db5b8] text-xs `}>
                 Premium
               </p>
             </div>
@@ -163,12 +217,18 @@ export default function Docs(props: Props) {
         </section>
         <section
           className="
-        pl-[2%]
-        mb-8"
+        pl-[3%]
+        mb-8
+        border-b-[0.25px]
+        pt-[7%]
+        pb-[5%]
+        border-black
+        "
         >
           <h1
             className={`
-            ${karla.className}
+            font-karla
+            tracking-[1px]
             font-bold
             text-xl
             text-[#2E2E2E]
@@ -182,31 +242,30 @@ export default function Docs(props: Props) {
             flex
             gap-6
             overflow-x-scroll
-            scrollbar-track-white
+            scrollbar-thin
             scroll-m-0
             scroll-p-0
-            scrollbar-none
-            w-full
           "
           >
             {folders.length == 0 ? (
               <p className="my-4">No folders yet</p>
             ) : (
               folders.map((v, i) => {
-                console.log(folders, i, "aaaa");
-                console.log(files, i, "aaaa");
                 const obj = v as MyObject;
                 return (
                   <div
                     key={i}
                     className="border-2
                   border-[rgba(0,0,0,0.06)]
+                  container
+                  cursor-pointer
                   rounded-lg
-                  w-[150px]
-                  flex
-                  flex-col
-                  justify-center
-                  items-center
+                  min-w-[150px]
+                  min-h-[185px]
+                  max-h-[185px]
+                  pt-[35px]
+                  pb-[20px]
+                  mx-auto
                   "
                     onClick={() => {
                       router.push({
@@ -215,17 +274,22 @@ export default function Docs(props: Props) {
                       });
                     }}
                   >
-                    <p>
-                      <FolderIcon className="text-9xl" />
-                    </p>
+                    <Image
+                      src={require("../images/folder_icon.svg")}
+                      alt="folder icon"
+                      className="w-[100px] mx-auto"
+                    />
                     <p
                       className={`
-                    ${inter.className}
-                    text-lg
+                    font-inter
+                    text-[18px]
                     font-semibold
                     text-[#1A1A1A]
-                    ml-[14px]/
-                    mt-[-5px]/
+                    mt-[10px]
+                    px-[28px]
+                    mx-6/
+                    leading-[18px]
+                    tracking-[0.01em]
                    `}
                     >
                       {obj.name}
@@ -236,15 +300,23 @@ export default function Docs(props: Props) {
             )}
           </div>
         </section>
-        <hr />
-        <section className=" pl-[2%]">
+        {/* <hr
+        className="
+        border-[0.25px]
+        border-black
+        "
+        /> */}
+        <section className="">
           <h1
             className={`
-            ${karla.className}
+            font-karla
             font-bold
             text-xl
             text-[#2E2E2E]
+            tracking-[1px]
             my-4
+            pl-[1.5%]
+           
           `}
           >
             Files
@@ -253,8 +325,10 @@ export default function Docs(props: Props) {
             const fileObj = v as FileObject;
             return (
               <div
-              key={i}
-                className={`flex gap-3 border-b border-[#EBEFF2] text-[#242634]  ${karla.className}`}
+                key={i}
+                className={`flex gap-3 border-b
+                 border-[#EBEFF2]
+                  text-[#242634] font-karla`}
               >
                 {fileObj.contentType.slice(0, 5) == "image" ? (
                   <InsertPhotoOutlinedIcon className="text-xl mt-4" />

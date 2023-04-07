@@ -15,11 +15,13 @@ import { ListItem } from "@mui/material";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import ListItemComp from "@/components/list_item";
 import SourceIcon from "@mui/icons-material/Source";
+import { useRouter } from "next/router";
 export default function NestedListComp(props: { folders?: Array<Object> }) {
-  console.log(props.folders)
+  const router = useRouter();
   const [open, setOpen] = React.useState(true);
   interface FolderObject {
     name: string;
+    _id: string;
   }
 
   const handleClick = () => {
@@ -28,29 +30,43 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
 
   return (
     <>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton className="p-0 my-4" onClick={handleClick}>
         <ListItemIcon
           sx={{
             minWidth: "auto",
             paddingRight: "10px",
-            color: "rgba(0,0,0,0.85)",
           }}
         >
           <SourceIcon
             sx={{
               fontSize: "16px",
-              coloe: "rgba(0,0,0,0.85)",
             }}
           />
         </ListItemIcon>
-        <ListItemText primary="Folders" />
+
+        <p
+          className="
+        text-[rgba(0,0,0,0.85)]
+        font-karla
+        text-sm
+        mr-auto
+        "
+        >
+          Folders
+        </p>
         {open ? <ExpandLess /> : <ExpandMore />}
       </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse className="pl-[5px]" in={open} timeout="auto" unmountOnExit>
         {props.folders?.map((v, i) => {
-          const folderObj=v as FolderObject;
+          const folderObj = v as FolderObject;
           return (
             <ListItemComp
+              onClick={() => {
+                router.push({
+                  pathname: "/folder",
+                  query: { id: folderObj._id, name: folderObj.name },
+                });
+              }}
               key={i}
               text={folderObj.name}
               input={true}

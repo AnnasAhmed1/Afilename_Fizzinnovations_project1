@@ -22,7 +22,7 @@ export default function PlanCard({
   return (
     <>
       <div
-        className={`${karla.className}
+        className={`font-karla
          max-w-xs sm:w-72
           text-[#242634]
            w-80 gap-6

@@ -135,7 +135,8 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`flex  items-center gap-4 md:gap-3 sm:gap-1.5 ${karla.className}`}
+        className={`flex items-center gap-4 md:gap-3 sm:gap-1.5 
+        `}
       >
         <Image
           src={require("../images/logo.svg")}
@@ -213,7 +214,7 @@ export default function Navbar() {
          sm:p-1
          text-base 
           font-bold 
-         ${inter.className}
+         font-inter
           text-white 
           w-28
           md:w-24

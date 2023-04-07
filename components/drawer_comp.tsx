@@ -1,5 +1,12 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { Collapse, ListItemButton, Modal, TextField } from "@mui/material";
+import {
+  Collapse,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Modal,
+  TextField,
+} from "@mui/material";
 import Image from "next/image";
 import ListItemComp from "./list_item";
 import NestedListComp from "@/components/nested_list_comp";
@@ -12,14 +19,24 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import DriveFolderUploadSharpIcon from "@mui/icons-material/DriveFolderUploadSharp";
 import VideocamIcon from "@mui/icons-material/Videocam";
 import MusicVideoRoundedIcon from "@mui/icons-material/MusicVideoRounded";
+import SourceIcon from "@mui/icons-material/Source";
+
 import AddIcon from "@mui/icons-material/Add";
 
 const karla = Karla({ subsets: ["latin"] });
 
-export default function DrawerComp({folders}:{folders:any}) {
-  console.log("folders", folders);
+export default function DrawerComp({
+  folders,
+  handleFileChangeFunction,
+  handleFolderChangeFunction,
+  createFolder,
+}: {
+  folders: any;
+  createFolder: any;
+  handleFileChangeFunction: any;
+  handleFolderChangeFunction: any;
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [newFolderName, setNewFolderName] = useState("");
   const drawerWidth = 240;
   const [open, setOpen] = useState(true);
 
@@ -31,35 +48,36 @@ export default function DrawerComp({folders}:{folders:any}) {
     setOpen(!open);
   };
 
-  const uploadRequest = async (filename?: any, contentType?: any) => {
-    try {
-      handleInsertAction("files/upload", {
-        filename,
-        contentType,
-      }).then((response: any) => {
-        console.log(response);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const uploadRequest = async (filename?: any, contentType?: any) => {
+  //   try {
+  //     handleInsertAction("files/upload", {
+  //       filename,
+  //       contentType,
+  //     }).then((response: any) => {
+  //       console.log(response);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
-  const handleFileChangeFunction = (event: any) => {
-    const file = event.target.files[0];
-    uploadRequest(file?.name, file?.type);
-  };
+  // const handleFileChangeFunction = (event: any) => {
+  //   const file = event.target.files[0];
+  //   uploadRequest(file?.name, file?.type);
+  // };
 
-  const createFolder = async (folderName: string) => {
-    try {
-      handleInsertAction("/folders/createfolder", {
-        name: folderName,
-      }).then((response: any) => {
-        console.log(response);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const createFolder = async (folderName: string) => {
+  //   console.log(folderName);
+  //   try {
+  //     handleInsertAction("/folders/createfolder", {
+  //       name: folderName,
+  //     }).then((response: any) => {
+  //       console.log(response);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const optionsList = [
     {
@@ -173,9 +191,7 @@ export default function DrawerComp({folders}:{folders:any}) {
             label="Enter Folder Name"
             placeholder="Folder Name"
             className="mx-12 my-[5%]"
-            onChange={(e: any) => {
-              setNewFolderName(e);
-            }}
+            onChange={handleFolderChangeFunction}
           />
           <button
             className={`
@@ -188,9 +204,7 @@ export default function DrawerComp({folders}:{folders:any}) {
              bg-[#0066FF] 
              rounded-[5px]
               text-white`}
-            onClick={() => {
-              createFolder(newFolderName);
-            }}
+            onClick={createFolder}
           >
             Create Folder
           </button>
@@ -201,7 +215,7 @@ export default function DrawerComp({folders}:{folders:any}) {
         flex  
         items-center 
         justify-center 
-        my-8 
+        py-8 
         gap-2  
         sm:gap-1 
         ${karla.className}`}
@@ -227,15 +241,21 @@ export default function DrawerComp({folders}:{folders:any}) {
           AFILENAME
         </h1>
       </div>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton className="p-0 my-4" onClick={handleClick}>
         <p
           className="
         mr-[auto]
         flex
         items-center
+        justify-center
+        content-center
+        text-center
         bg-[#DEDEDE]
-        gap-1
+        rounded-[5px]
+        gap-[6px]
+        text-black
         px-3
+        py-[2px]
         "
         >
           <AddIcon
@@ -256,7 +276,7 @@ export default function DrawerComp({folders}:{folders:any}) {
             fontSize: "14px",
             color: "rgba(0, 0, 0, 0.85)",
             gap: "10px",
-            paddingLeft: "25px",
+            paddingLeft: "5px",
             cursor: "pointer",
           }}
           onClick={() => {
@@ -298,6 +318,32 @@ export default function DrawerComp({folders}:{folders:any}) {
         />
       </Collapse>
       <NestedListComp folders={folders} />
+      <ListItemButton className="p-0 my-4" onClick={handleClick}>
+        <ListItemIcon
+          sx={{
+            minWidth: "auto",
+            paddingRight: "10px",
+          }}
+        >
+          <SourceIcon
+            sx={{
+              fontSize: "16px",
+            }}
+          />
+        </ListItemIcon>
+
+        <p
+          className="
+        text-[rgba(0,0,0,0.85)]
+        font-karla
+        text-sm
+        mr-auto
+        "
+        >
+          Recent
+        </p>
+        {/* {open ? <ExpandLess /> : <ExpandMore />} */}
+      </ListItemButton>
       <button
         className={`
       ${karla.className}
@@ -307,10 +353,11 @@ export default function DrawerComp({folders}:{folders:any}) {
       border
       p-1
       border-[#1890FF]
-      mx-auto
+      mx-auto/
       flex
+      w-full
       justify-center
-      my-[70px]
+      my-[60px]
       `}
       >
         Upgrade Plan
@@ -319,7 +366,7 @@ export default function DrawerComp({folders}:{folders:any}) {
         className={`${karla.className}
         text-[10px]
         text-[#7c8db5b8]
-        mx-[30px]
+        mx-[30px]/
         pb-8
 
         `}

@@ -34,7 +34,7 @@ function VerifyPage() {
         Cookies.set("email", res.data.email);
         Cookies.set("apikey", res.data.apikey);
         console.log(res.data);
-        setLoading(false);
+       
         router.push("/docs");
         console.log("navigaation", loading);
       })
