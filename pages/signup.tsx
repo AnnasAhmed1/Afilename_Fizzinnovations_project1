@@ -89,7 +89,7 @@ export default function Signup({
             // }}
           >
             Continue
-            <EastIcon className="text-base ml-3" />
+            <EastIcon sx={{color:"#ffffff !important"}} className="text-base ml-3" />
           </button>
         </form>
         <h6
