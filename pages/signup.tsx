@@ -38,7 +38,7 @@ export default function Signup({
       >
         <h3
           className={`
-          font-karla font-extrabold 
+          ${karla.className} font-extrabold 
           text-4xl
          mb-2
           text-center 
@@ -91,7 +91,7 @@ export default function Signup({
         </form>
         <h6
           className={`
-          font-karla 
+          ${karla.className} 
           pt-10
           font-light ß
           text-[13px] 

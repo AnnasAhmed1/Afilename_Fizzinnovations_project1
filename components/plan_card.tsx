@@ -22,7 +22,7 @@ export default function PlanCard({
   return (
     <>
       <div
-        className={`font-karla
+        className={`${karla.className}
          max-w-xs sm:w-72
           text-[#242634]
            w-80 gap-6
@@ -32,12 +32,13 @@ export default function PlanCard({
             flex-col
              shadow-card 
              pt-9 
+             pb-6
              
             //  /h-[85vh]
             //   /sm:h-[75vh] 
               overflow-hidden
                rounded-2xl 
-               relative`}
+               `}
       >
         <p className={` text-[#242634] text-14 font-bold w-full px-3.5`}>
           {name}
@@ -55,22 +56,25 @@ export default function PlanCard({
             Billed Monthly
           </p>
         </div>
-        <div className="flex flex-col gap-2 px-14 h-[300px]">
+        <div className="flex flex-col gap-2 px-14 h-[250px]">
           <p className={` text-14 sm:text-xs font-bold`}>{plan}</p>
           {services?.map((v, i) => {
             return (
               <p
                 key={i}
-                className={` text-14 sm:text-xs text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
+                className={` text-14 sm:text-xs  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
               >
-                <CheckBoxIcon className="text-base text-blue-500" />
+                <CheckBoxIcon
+                  style={{ color: "#2196f3 !important" }}
+                  className="text-base text-blue-500 !important"
+                />
                 {v}
               </p>
             );
           })}
         </div>
         <button
-          className={`  mb-8 bottom-24 sm:bottom-16 text-14 text-white bg-[#0066FF] rounded-full py-1 px-10 sm:px-6`}
+          className={`  mb-8 bottom-24 sm:bottom-16 font-extrabold text-14 text-white bg-[#0066FF] rounded-full py-1 px-4 sm:px-6`}
         >
           {buttonText}
         </button>

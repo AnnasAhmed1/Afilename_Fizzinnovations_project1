@@ -45,7 +45,7 @@ export default function Login() {
         right-[25%]"
     >
       <h3
-        className={`font-karla font-extrabold text-4xl text-center text-[rgba(0,0,0,0.75)] `}
+        className={`${karla.className} font-extrabold text-4xl text-center text-[rgba(0,0,0,0.75)] `}
       >
         Verify Login
       </h3>

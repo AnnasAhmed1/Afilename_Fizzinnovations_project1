@@ -68,7 +68,7 @@ export default function Navbar() {
     items-center 
     px-[2%] 
     pt-4 
-    pb-[7%]"
+    pb-[7%]/"
     >
       <Modal
         open={modalOpen}
@@ -135,15 +135,15 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`flex items-center gap-4 md:gap-3 sm:gap-1.5 
+        className={`flex items-center gap-3 md:gap-3 sm:gap-1.5 
         `}
       >
         <Image
           src={require("../images/logo.svg")}
           alt="logo"
           className="
-          w-7
-          md:w-8
+          w-9
+          md:w-6
           sm:w-4
           "
         />
@@ -187,13 +187,13 @@ export default function Navbar() {
       <div
         className="
         flex
-        gap-2.5
+        gap-4
         sm:gap-1.5
     "
       >
         <button
           className="border 
-          py-2.5 
+          py-1.5
           md:p-1.5 
           sm:p-1 
           border-black 
@@ -207,14 +207,14 @@ export default function Navbar() {
           <P1 text="Signup" />
         </button>
         <button
-          className="border py-2.5 
+          className="border py-1.5
         border-transparent
          bg-black 
          md:p-1.5
          sm:p-1
          text-base 
           font-bold 
-         font-inter
+         ${inter.className}
           text-white 
           w-28
           md:w-24

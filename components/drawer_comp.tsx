@@ -1,6 +1,7 @@
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Collapse,
+  Drawer,
   ListItemButton,
   ListItemIcon,
   ListItemText,
@@ -157,6 +158,22 @@ export default function DrawerComp({
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
   return (
+    <Drawer
+    className="
+  scrollbar-none
+  "
+    variant="permanent"
+    sx={{
+      display: { xs: "none", sm: "block" },
+      "& .MuiDrawer-paper": {
+        boxSizing: "border-box",
+        width: drawerWidth,
+        padding: "0 30px",
+        overflowX:"hidden"
+      },
+    }}
+    open
+  >
     <div>
       <Modal
         open={modalOpen}
@@ -335,7 +352,7 @@ export default function DrawerComp({
         <p
           className="
         text-[rgba(0,0,0,0.85)]
-        font-karla
+        ${karla.className}
         text-sm
         mr-auto
         "
@@ -389,5 +406,6 @@ export default function DrawerComp({
         </p>
       </div>
     </div>
+    </Drawer>
   );
 }

@@ -61,7 +61,7 @@ export default function Docs(props: Props) {
         filename,
         contentType,
       }).then((response: any) => {
-        console.log(response);
+        console.log(response.data.url);
         getFiles();
         // getFilesDetails();
       });
@@ -104,6 +104,7 @@ export default function Docs(props: Props) {
 
   async function getFilesDetails() {
     console.log(files, "filesdetails");
+    // setFilesDetails([])
     try {
       await files?.map((v, i) =>
         handleFetchAction(`files/${v}`).then((res: any) => {
@@ -187,11 +188,11 @@ export default function Docs(props: Props) {
           <div className="flex gap-4 items-center">
             <div>
               <p
-                className={`font-manrope text-[#2E3271] text-base font-semibold`}
+                className={`${manrope.className} text-[#2E3271] text-base font-semibold`}
               >
                 @kevan
               </p>
-              <p className={`font-manrope text-[#7c8db5b8] text-xs `}>
+              <p className={`${manrope.className} text-[#7c8db5b8] text-xs `}>
                 Premium
               </p>
             </div>
@@ -207,7 +208,7 @@ export default function Docs(props: Props) {
         >
           <h1
             className={`
-            font-karla
+            ${karla.className}
             font-bold
             text-xl
             text-[#2E2E2E]
@@ -252,7 +253,7 @@ export default function Docs(props: Props) {
                     </p>
                     <p
                       className={`
-                    font-inter
+                    ${inter.className}
                     text-lg
                     font-semibold
                     text-[#1A1A1A]
@@ -272,7 +273,7 @@ export default function Docs(props: Props) {
         <section className=" pl-[2%]">
           <h1
             className={`
-            font-karla
+            ${karla.className}
             font-bold
             text-[32px]
             text-[#2E2E2E]
@@ -305,7 +306,7 @@ export default function Docs(props: Props) {
                 border-b 
                 border-[#EBEFF2] 
                 text-[#242634]  
-                font-karla`}
+                ${karla.className}`}
               >
                 {fileObj.contentType.slice(0, 5) == "image" ? (
                   <InsertPhotoOutlinedIcon className="text-xl mt-4" />

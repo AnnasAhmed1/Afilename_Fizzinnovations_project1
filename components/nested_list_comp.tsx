@@ -47,7 +47,7 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
         <p
           className="
         text-[rgba(0,0,0,0.85)]
-        font-karla
+        ${karla.className}
         text-sm
         mr-auto
         "

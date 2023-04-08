@@ -16,14 +16,14 @@ export default function Main() {
   return (
     <div className="scroll-smooth ">
       <Navbar />
-      <section className="flex flex-col items-center gap-20 sm:gap-14 px-[5%] sm:px-[4%]">
+      <section className="flex flex-col items-center gap-28/ sm:gap-14/ px-[5%] sm:px-[4%]">
         <h1
-          className={`font-karla text-6xl sm:text-3xl md:text-5xl  font-bold text-[#242634] text-center`}
+          className={`${karla.className}  text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] text-center`}
         >
           Store whatever you want, when you want
         </h1>
         <p
-          className={`font-karla text-xl sm:text-sm text-[#242634] text-center`}
+          className={`${karla.className} text-xl leading-10 sm:text-sm text-[#242634] text-center`}
         >
           Simple file sharing, storage, at a fair price.
           <br />
@@ -33,26 +33,26 @@ export default function Main() {
         </p>
         <section
           id="upload"
-          className={`font-karla flex flex-col items-center gap-4`}
+          className={`${karla.className} flex flex-col py-[5%] items-center gap-4`}
         >
           <H1 text="Upload A File Now" />
 
           <button
-            className={`font-karla text-14 sm:text-xs text-center bg-[#0066FF] text-white py-1 px-10 sm:px-7 rounded-full`}
+            className={`${karla.className} text-14 sm:text-xs font-extrabold text-center bg-[#0066FF] text-white py-1 px-16 sm:px-7 rounded-full`}
           >
             Upload a file
           </button>
         </section>
-        <section id="personal" className="pb-[15%]">
+        <section id="personal" className="">
           <H1 text="Personal" />
 
           <p
-            className={`font-karla text-2xl sm:text-base text-[#242634] pt-[10%] font-bold text-center`}
+            className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634] pt-[10%] font-bold text-center`}
           >
             Personal Plans
           </p>
           <p
-            className={`font-karla text-base pb-[3%] sm:text-sm text-[#242634]  font-bold text-center`}
+            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]  font-bold text-center`}
           >
             For personal use only.
           </p>
@@ -103,11 +103,11 @@ export default function Main() {
             />
           </div>
         </section>
-        <section id="business" className="pb-[15%] ">
+        <section id="business" className="my-[18%] ">
           <H1 text="Business Pricing" />
 
           <p
-            className={`font-karla text-xl md:text-base sm:text-sm text-center font-semibold`}
+            className={`${karla.className} text-xl md:text-base sm:text-sm pt-[3%] text-center font-semibold`}
           >
             Consumption-Based Rate Comparison
             <br />
@@ -152,9 +152,9 @@ export default function Main() {
             />
           </div>
         </section>
-        <section id="creators" className={`font-karla text-center `}>
+        <section id="creators" className={`${karla.className} text-center `}>
           <H1 text="Creators" />
-          <p className="text-xl md:text-base sm:text-sm font-semibold py-8">
+          <p className="text-xl leading-[40px] md:text-base sm:text-sm font-semibold py-8">
             Get <b>100% </b>
             of revenue, excluding third party payment processing fees, directly
             to you.
@@ -166,13 +166,13 @@ export default function Main() {
             imagine.
           </p>
 
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#0066FF] block w-44 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
+          <button className="text-white text-sm sm:text-xs my-10 bg-[#0066FF] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
             Upload a Video Now
           </button>
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#5F5E5E] block w-44 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
+          <button className="text-white text-sm sm:text-xs my-10 bg-[#5F5E5E] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
             Upload a Music
           </button>
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#B1B3B6] block w-44 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
+          <button className="text-white text-sm sm:text-xs my-10 bg-[#B1B3B6] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
             Upload a Clip Now
           </button>
         </section>

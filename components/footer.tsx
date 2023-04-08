@@ -24,7 +24,7 @@ export default function Footer() {
       "
       >
         <div
-          className={`flex  items-center gap-4 md:gap-3 sm:gap-1.5 font-karla`}
+          className={`flex  items-center gap-4 md:gap-3 sm:gap-1.5 ${karla.className}`}
         >
           <Image
             src={require("../images/logo.svg")}
@@ -44,14 +44,14 @@ export default function Footer() {
         <div
           className={`flex flex-1 md:flex-col sm:flex-col items-center justify-center gap-12 md:gap-6 sm:gap-4`}
         >
-          <p className={`font-inter text-2xl font-bold`}>Legal</p>
+          <p className={`${inter.className} text-2xl font-bold`}>Legal</p>
           <P1 text="Terms" />
           <P1 text="Privacy Policy" />
           <P1 text="Refund Policy" />
           <P1 text="DMCA Policy" />
         </div>
         <p
-          className={`font-inter text-[#131313] font-bold text-2xl md:text-xl sm:text-base`}
+          className={`${inter.className} text-[#131313] font-bold text-2xl md:text-xl sm:text-base`}
         >
           Contact Us
         </p>
@@ -59,7 +59,7 @@ export default function Footer() {
       {/* <div
         className={`hidden md:flex sm:flex flex-wrap items-center justify-center sm:gap-4 md:gap-6`}
       >
-        <p className={`font-inter text-2xl font-bold`}>Legal</p>
+        <p className={`${inter.className} text-2xl font-bold`}>Legal</p>
         <P1 text="Terms" />
         <P1 text="Privacy Policy" />
         <P1 text="Refund Policy" />

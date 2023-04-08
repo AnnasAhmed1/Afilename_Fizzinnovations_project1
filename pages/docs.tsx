@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import Box from "@mui/material/Box";
@@ -51,16 +51,9 @@ export default function Docs(props: Props) {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
   }, []);
 
-  // const arr=<Array>[]
-  useEffect(() => {
-    if (filesDetails.length == 0) {
-      getFilesDetails();
-    } else {
-      setFilesDetails(arr);
-      console.log(filesDetails, arr, "filesDetails use effect");
-      getFilesDetails();
-    }
-  }, [files]);
+  // useEffect(() => {
+  //   getFilesDetails();
+  // }, [files]);
 
   const uploadRequest = async (filename?: any, contentType?: any) => {
     try {
@@ -101,8 +94,12 @@ export default function Docs(props: Props) {
 
   const getFiles = async () => {
     try {
-      handleFetchAction("/account/files").then((response: any) => {
-        setFiles(response.data.fileIds);
+      handleFetchAction("/account/files").then((res: any) => {
+        const response = res.data.fileIds;
+        setFiles(response);
+        getFilesDetails(response);
+        // newFun();
+        return response;
         console.log("files", files);
       });
     } catch (error) {
@@ -110,19 +107,15 @@ export default function Docs(props: Props) {
     }
   };
 
-  const getFilesDetails = async () => {
-    console.log(filesDetails, "filesdetials getfiles function");
-    console.log(files, "filesdetails111");
-
-    await setFilesDetails(arr);
+  const getFilesDetails = async (_files?: any) => {
+    let tempArr: any[] = [];
     try {
-      await files?.map(
-        async (v, i) =>
+      await _files?.map(
+        async (v: string, i: any) =>
           await handleFetchAction(`files/${v}`).then((res: any) => {
             const data = res.data;
-            filesDetails.push(data);
-            setFilesDetails([...filesDetails]);
-            console.log("filesDetails==>", filesDetails);
+            tempArr.push(data);
+            setFilesDetails([...tempArr]);
           })
       );
     } catch (error) {
@@ -149,28 +142,12 @@ export default function Docs(props: Props) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <Drawer
-          className="
-        scrollbar-none
-        "
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-              padding: "0 30px",
-            },
-          }}
-          open
-        >
-          <DrawerComp
-            folders={folders}
-            handleFileChangeFunction={handleFileChangeFunction}
-            createFolder={() => createFolder(newFolderName)}
-            handleFolderChangeFunction={handleFolderChangeFunction}
-          />
-        </Drawer>
+        <DrawerComp
+          folders={folders}
+          handleFileChangeFunction={handleFileChangeFunction}
+          createFolder={() => createFolder(newFolderName)}
+          handleFolderChangeFunction={handleFolderChangeFunction}
+        />
       </Box>
       <main
         className={`
@@ -202,11 +179,11 @@ export default function Docs(props: Props) {
           <div className="flex gap-4 items-center">
             <div>
               <p
-                className={`font-manrope text-[#2E3271] text-base font-semibold`}
+                className={`${manrope.className} text-[#2E3271] text-base font-semibold`}
               >
                 @kevan
               </p>
-              <p className={`font-manrope text-[#7c8db5b8] text-xs `}>
+              <p className={`${manrope.className} text-[#7c8db5b8] text-xs `}>
                 Premium
               </p>
             </div>
@@ -227,7 +204,7 @@ export default function Docs(props: Props) {
         >
           <h1
             className={`
-            font-karla
+            ${karla.className}
             tracking-[1px]
             font-bold
             text-xl
@@ -281,7 +258,7 @@ export default function Docs(props: Props) {
                     />
                     <p
                       className={`
-                    font-inter
+                    ${inter.className}
                     text-[18px]
                     font-semibold
                     text-[#1A1A1A]
@@ -309,7 +286,7 @@ export default function Docs(props: Props) {
         <section className="">
           <h1
             className={`
-            font-karla
+            ${karla.className}
             font-bold
             text-xl
             text-[#2E2E2E]
@@ -321,15 +298,17 @@ export default function Docs(props: Props) {
           >
             Files
           </h1>
-          {filesDetails?.map((v, i) => {
+
+          {filesDetails.map((v, i) => {
             const fileObj = v as FileObject;
             return (
               <div
                 key={i}
                 className={`flex gap-3 border-b
                  border-[#EBEFF2]
-                  text-[#242634] font-karla`}
+                  text-[#242634] ${karla.className}`}
               >
+                {i}
                 {fileObj.contentType.slice(0, 5) == "image" ? (
                   <InsertPhotoOutlinedIcon className="text-xl mt-4" />
                 ) : fileObj.contentType.slice(0, 5) == "video" ? (
