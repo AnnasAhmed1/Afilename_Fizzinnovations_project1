@@ -37,6 +37,13 @@ interface FileObject {
   title: string;
   contentType: string;
 }
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * You won't need it on your project.
+   */
+  window?: () => Window;
+}
 
 export default function Docs(props: Props) {
   const router = useRouter();
@@ -132,7 +139,7 @@ export default function Docs(props: Props) {
       console.log(error);
     }
   };
-
+const text="" as Props
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -146,6 +153,7 @@ export default function Docs(props: Props) {
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
+          props={text}
         />
       </Box>
       <main
