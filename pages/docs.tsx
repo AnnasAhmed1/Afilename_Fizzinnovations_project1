@@ -62,10 +62,14 @@ export default function Docs(props: Props) {
 
   const uploadRequest = async (filename?: any, contentType?: any) => {
     try {
-      handleInsertAction("files/upload", {
+      await handleInsertAction("files/upload", {
         filename,
         contentType,
-      }).then((response: any) => {
+      }).then(async (response: any) => {
+        await API({
+          method: "PUT",
+          url: response.data.url,
+        });
         console.log(response);
         getFiles();
         // getFilesDetails();
@@ -100,10 +104,6 @@ export default function Docs(props: Props) {
   const getFiles = async () => {
     try {
       handleFetchAction("/account/files").then((res: any) => {
-        API({
-          method: "PUT",
-          url:res.data.url,
-        })
         const response = res.data.fileIds;
         setFiles(response);
         getFilesDetails(response);
@@ -139,7 +139,7 @@ export default function Docs(props: Props) {
       console.log(error);
     }
   };
-const text="" as Props
+  const text = "" as Props;
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -153,7 +153,6 @@ const text="" as Props
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
-          props={text}
         />
       </Box>
       <main

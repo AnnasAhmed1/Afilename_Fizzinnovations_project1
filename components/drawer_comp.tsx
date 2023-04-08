@@ -34,19 +34,17 @@ interface Props {
 }
 
 export default function DrawerComp({
-  props,
   folders,
   handleFileChangeFunction,
   handleFolderChangeFunction,
   createFolder,
 }: {
-  props: Props;
+  
   folders: any;
   createFolder: any;
   handleFileChangeFunction: any;
   handleFolderChangeFunction: any;
 }) {
-  const { window } = props;
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerWidth = 240;
@@ -168,13 +166,12 @@ export default function DrawerComp({
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
+  
 
   return (
     <>
       <Drawer
-        container={container}
+        // container={container}
         variant="temporary"
         open={mobileOpen}
         onClose={handleDrawerToggle}
