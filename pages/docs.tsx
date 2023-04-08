@@ -18,6 +18,8 @@ import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import Image from "next/image";
+import axios from "axios";
+import { API } from "@/config/API";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -50,10 +52,6 @@ export default function Docs(props: Props) {
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
   }, []);
-
-  // useEffect(() => {
-  //   getFilesDetails();
-  // }, [files]);
 
   const uploadRequest = async (filename?: any, contentType?: any) => {
     try {
@@ -95,12 +93,13 @@ export default function Docs(props: Props) {
   const getFiles = async () => {
     try {
       handleFetchAction("/account/files").then((res: any) => {
+        API({
+          method: "PUT",
+          url:res.data.url,
+        })
         const response = res.data.fileIds;
         setFiles(response);
         getFilesDetails(response);
-        // newFun();
-        return response;
-        console.log("files", files);
       });
     } catch (error) {
       console.log(error);
@@ -238,11 +237,16 @@ export default function Docs(props: Props) {
                   cursor-pointer
                   rounded-lg
                   min-w-[150px]
+                  w-[150px]
+                  overflow-hidden
                   min-h-[185px]
                   max-h-[185px]
                   pt-[35px]
                   pb-[20px]
                   mx-auto
+                  text-clip/
+                  truncate
+                  text-ellipsis
                   "
                     onClick={() => {
                       router.push({
