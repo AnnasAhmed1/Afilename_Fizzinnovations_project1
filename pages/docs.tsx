@@ -319,7 +319,6 @@ export default function Docs(props: Props) {
                  border-[#EBEFF2]
                   text-[#242634] ${karla.className}`}
               >
-                {i}
                 {fileObj.contentType.slice(0, 5) == "image" ? (
                   <InsertPhotoOutlinedIcon className="text-xl mt-4" />
                 ) : fileObj.contentType.slice(0, 5) == "video" ? (
