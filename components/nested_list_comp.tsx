@@ -1,4 +1,6 @@
 import * as React from "react";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 import ListSubheader from "@mui/material/ListSubheader";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";

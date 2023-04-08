@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { Inter, Karla } from "next/font/google";
 import { P1 } from "./helper";
-
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 

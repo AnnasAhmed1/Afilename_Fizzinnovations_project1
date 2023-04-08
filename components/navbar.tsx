@@ -1,4 +1,6 @@
 import Image from "next/image";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";

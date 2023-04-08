@@ -21,6 +21,8 @@ import DriveFolderUploadSharpIcon from "@mui/icons-material/DriveFolderUploadSha
 import VideocamIcon from "@mui/icons-material/Videocam";
 import MusicVideoRoundedIcon from "@mui/icons-material/MusicVideoRounded";
 import SourceIcon from "@mui/icons-material/Source";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 
 import AddIcon from "@mui/icons-material/Add";
 

@@ -1,4 +1,6 @@
 import { Inter, Karla } from "next/font/google";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });

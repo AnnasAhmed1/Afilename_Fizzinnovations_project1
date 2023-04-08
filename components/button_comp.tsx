@@ -1,3 +1,5 @@
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 export default function ButtonComp({ text }: { text: string})  {
   return (
     <button

@@ -2,6 +2,8 @@ import { Inter, Karla } from "next/font/google";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import StopIcon from "@mui/icons-material/Stop";
 import Image from "next/image";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });

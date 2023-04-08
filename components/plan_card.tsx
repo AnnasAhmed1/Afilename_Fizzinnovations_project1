@@ -1,5 +1,7 @@
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import { Karla } from "next/font/google";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 
 const karla = Karla({ subsets: ["latin"] });
 export default function PlanCard({

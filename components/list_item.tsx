@@ -1,4 +1,6 @@
 import * as React from "react";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
