@@ -64,7 +64,10 @@ export default function Signup({
             label="Email"
             placeholder="email@example.com"
             required
-            className="w-full  mb-12"
+            sx={{
+              width: "100%",
+              marginBottom: "3rem",
+            }}
             onChange={(e) => {
               handleChange(e);
             }}
