@@ -34,7 +34,7 @@ interface MyObject {
 interface FileObject {
   title: string;
   contentType: string;
-  dateUploaded:any;
+  dateUploaded: any;
 }
 
 export default function Docs({ query }: { query: any }) {
@@ -262,7 +262,8 @@ export default function Docs({ query }: { query: any }) {
           </h1>
           {filesDetails?.map((v, i) => {
             const fileObj = v as FileObject;
-            const finalDate = dateCalc(v?.dateUploaded);
+            const finalDate = fileObj?.dateUploaded;
+            // const finalDate = dateCalc(v?.dateUploaded);
 
             // console.log(filesDetails);
             return (

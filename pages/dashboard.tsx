@@ -36,6 +36,7 @@ interface MyObject {
 interface FileObject {
   title: string;
   contentType: string;
+  dateUploaded:any
 }
 interface Props {
   /**
@@ -337,7 +338,7 @@ export default function Dashboard(props: Props) {
           {filesDetails.map((v, i) => {
             const fileObj = v as FileObject;
 
-            const finalDate = dateCalc(v.dateUploaded);
+            const finalDate = dateCalc(fileObj?.dateUploaded);
             console.log(finalDate);
             return (
               <div
