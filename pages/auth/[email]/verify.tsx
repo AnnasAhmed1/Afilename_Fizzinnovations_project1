@@ -12,6 +12,7 @@ function VerifyPage({ query }: { query: any }) {
   const router = useRouter();
   const { email, token } = router.query;
   const verifyLogin = async () => {
+    console.log(email, token, "verify check");
     email && token
       ? handleInsertAction("/account/verify", {
           email,
@@ -20,7 +21,7 @@ function VerifyPage({ query }: { query: any }) {
           .then(function (res: any) {
             Cookies.set("email", res.data.email);
             Cookies.set("apikey", res.data.apikey);
-            router.push("/docs");
+            router.push("/dashboard");
           })
           .catch((error) => {
             console.log(error);

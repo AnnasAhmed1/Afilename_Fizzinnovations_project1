@@ -45,7 +45,7 @@ interface Props {
   window?: () => Window;
 }
 
-export default function Docs(props: Props) {
+export default function Dashboard(props: Props) {
   const router = useRouter();
   interface FileDetails {
     name: string;
@@ -66,12 +66,15 @@ export default function Docs(props: Props) {
         filename,
         contentType,
       }).then(async (response: any) => {
+        console.log(response,"");
         await API({
           method: "PUT",
           url: response.data.url,
-        });
-        console.log(response);
-        getFiles();
+        })
+        .then((res)=>{
+          console.log(res,"put")
+          getFiles();
+        })
         // getFilesDetails();
       });
     } catch (error) {
