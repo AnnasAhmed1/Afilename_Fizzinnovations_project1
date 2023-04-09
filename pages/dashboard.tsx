@@ -66,15 +66,14 @@ export default function Dashboard(props: Props) {
         filename,
         contentType,
       }).then(async (response: any) => {
-        console.log(response,"");
+        console.log(response, "");
         await API({
           method: "PUT",
           url: response.data.url,
-        })
-        .then((res)=>{
-          console.log(res,"put")
+        }).then((res) => {
+          console.log(res, "put");
           getFiles();
-        })
+        });
         // getFilesDetails();
       });
     } catch (error) {
@@ -142,6 +141,28 @@ export default function Dashboard(props: Props) {
       console.log(error);
     }
   };
+
+  const dateCalc = (_date: any) => {
+    const apiDate = new Date(_date);
+
+    const currentDate = new Date();
+
+    const timeDiff = currentDate.getTime() - apiDate.getTime();
+    const secondsDiff = Math.floor(timeDiff / 1000);
+    const minutesDiff = Math.floor(secondsDiff / 60);
+    const hoursDiff = Math.floor(minutesDiff / 60);
+    const daysDiff = Math.floor(hoursDiff / 24);
+    if (secondsDiff < 60) {
+      return `${secondsDiff} seconds ago`;
+    } else if (minutesDiff < 60) {
+      return `${minutesDiff} minutes ago`;
+    } else if (hoursDiff < 24) {
+      return `${hoursDiff} hours ago`;
+    } else {
+      return `${daysDiff} days ago`;
+    }
+  };
+
   const text = "" as Props;
   return (
     <Box sx={{ display: "flex" }}>
@@ -315,6 +336,9 @@ export default function Dashboard(props: Props) {
 
           {filesDetails.map((v, i) => {
             const fileObj = v as FileObject;
+
+            const finalDate = dateCalc(v.dateUploaded);
+            console.log(finalDate);
             return (
               <div
                 key={i}
@@ -335,7 +359,7 @@ export default function Dashboard(props: Props) {
                   <p className="text-sm font-medium mb-[1px] ">
                     {fileObj.title}
                   </p>
-                  <p className="text-xs ">{/* {v.dateUploaded} */}3 days ago</p>
+                  <p className="text-xs ">{finalDate}</p>
                 </div>
                 <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
                   1.46MB

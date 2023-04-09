@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 export default function NestedListComp(props: { folders?: Array<Object> }) {
   const router = useRouter();
   const [open, setOpen] = React.useState(true);
+  const [refresh, setRefresh] = React.useState(true);
   interface FolderObject {
     name: string;
     _id: string;
@@ -64,10 +65,17 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
           return (
             <ListItemComp
               onClick={() => {
+                // setRefresh(!refresh);
+                // router.push({ pathname: "/" }),
                 router.push({
                   pathname: "/folder",
                   query: { id: folderObj._id, name: folderObj.name },
                 });
+                setTimeout(() => {
+                  router.reload();
+                }, 200);
+                // Reload the current page after navigating to the new page
+                // router.reload();
               }}
               key={i}
               text={folderObj.name}

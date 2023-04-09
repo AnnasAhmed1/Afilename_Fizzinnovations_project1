@@ -53,9 +53,9 @@ export default function Docs({ query }: { query: any }) {
     !Cookies.get("apikey") ? router.push("/") : getFolders();
   }, []);
 
-  //   useEffect(() => {
-  //     getFilesDetails();
-  //   }, [files]);
+  // useEffect(() => {
+  //   getFilesDetails();
+  // }, [files]);
   const uploadRequest = async (filename?: any, contentType?: any) => {
     try {
       await handleInsertAction("files/upload", {
@@ -63,21 +63,7 @@ export default function Docs({ query }: { query: any }) {
         contentType,
       })
         .then(async (response: any) => {
-          // console.log(response, "");
-          // console.log(response.data.url, "url put");
           uploadInFolder(response.data.fileId);
-
-          // await API({
-          //   method: "PUT",
-          //   url: response.data.url,
-          // })
-          //   .then((res) => {
-          //     console.log(res, "put");
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
-          // getFilesDetails();
         })
         .catch((err) => {
           console.log(err);
@@ -92,9 +78,7 @@ export default function Docs({ query }: { query: any }) {
         fileId: fileId,
       })
         .then((response: any) => {
-          // console.log(response.data);
           getFolders();
-          // getFilesDetails();
         })
         .catch((err) => {
           console.log(err);
@@ -113,13 +97,11 @@ export default function Docs({ query }: { query: any }) {
   };
 
   const createFolder = async (folderName: string) => {
-    // console.log(folderName);
     try {
       handleInsertAction("/folders/createfolder", {
         name: folderName,
       }).then((response: any) => {
         getFolders();
-        // console.log(response);
       });
     } catch (error) {
       console.log(error);
@@ -128,35 +110,16 @@ export default function Docs({ query }: { query: any }) {
 
   const getFiles = async (_folders: any) => {
     let folderIndex: number;
-    console.log(_folders, "folders");
     _folders?.map((v: any, i: any) => {
-      // console.log(v._id);
-      // console.log(id);
-      console.log(v._id == id);
-
       if (v._id == id) {
         folderIndex = i;
-        console.log(folders);
         setFiles(_folders[folderIndex]?.fileIds);
         getFilesDetails(_folders[folderIndex]?.fileIds);
-        console.log(folderIndex);
-
-        console.log(files, "files==>");
-        console.log(filesDetails, "filesDetails==>");
         return;
       } else {
-        console.log("annas");
+        console.log("not found");
       }
     });
-    // try {
-
-    //   handleFetchAction("/account/folders").then((response: any) => {
-    //     setFiles(response.data.fileIds);
-    //     console.log("files", files);
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const getFilesDetails = async (_files?: any) => {
@@ -177,37 +140,39 @@ export default function Docs({ query }: { query: any }) {
 
   const getFolders = async () => {
     try {
-      handleFetchAction("/account/folders").then((response: any) => {
-        // setFolders(response.data.folders);
-        setFolders(response.data.folders);
-        getFiles(response.data.folders);
-        console.log("folders", folders);
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
+      handleFetchAction("/account/folders")
+        .then((response: any) => {
+          setFolders(response.data.folders);
+          getFiles(response.data.folders);
+          console.log("folders", folders);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     } catch (error) {
       console.log(error);
     }
   };
-  // const getFolders = async () => {
-  //   try {
-  //     let arr = [];
-  //     await handleFetchAction("/account/folders").then(
-  //       async (response: any) => {
-  //         arr = await response.data.folders;
-  //         // console.log(arr);
-  //         console.log("arr", arr);
-  //         // folders.push()
-  //         setFolders([arr]);
-  //         console.log("folders", folders);
-  //         getFiles(response.data.folders);
-  //       }
-  //     );
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const dateCalc = (_date: any) => {
+    const apiDate = new Date(_date);
+
+    const currentDate = new Date();
+
+    const timeDiff = currentDate.getTime() - apiDate.getTime();
+    const secondsDiff = Math.floor(timeDiff / 1000);
+    const minutesDiff = Math.floor(secondsDiff / 60);
+    const hoursDiff = Math.floor(minutesDiff / 60);
+    const daysDiff = Math.floor(hoursDiff / 24);
+    if (secondsDiff < 60) {
+      return `${secondsDiff} seconds ago`;
+    } else if (minutesDiff < 60) {
+      return `${minutesDiff} minutes ago`;
+    } else if (hoursDiff < 24) {
+      return `${hoursDiff} hours ago`;
+    } else {
+      return `${daysDiff} days ago`;
+    }
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -296,6 +261,8 @@ export default function Docs({ query }: { query: any }) {
           </h1>
           {filesDetails?.map((v, i) => {
             const fileObj = v as FileObject;
+            const finalDate = dateCalc(v.dateUploaded);
+
             // console.log(filesDetails);
             return (
               <div
@@ -317,7 +284,7 @@ export default function Docs({ query }: { query: any }) {
                   <p className="text-sm font-medium mb-[1px] ">
                     {fileObj?.title}
                   </p>
-                  <p className="text-xs ">{/* {v.dateUploaded} */}3 days ago</p>
+                  <p className="text-xs ">{finalDate}</p>
                 </div>
                 <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
                   1.46MB

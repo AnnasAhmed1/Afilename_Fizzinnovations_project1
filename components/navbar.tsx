@@ -180,11 +180,11 @@ export default function Navbar() {
         >
           <P1 text="Creators" />
         </a>
-        <Link href="/docs" legacyBehavior>
+        {/* <Link href="" legacyBehavior> */}
           <a className="scroll-smooth cursor-pointer">
             <P1 text="Docs" />
           </a>
-        </Link>
+        {/* </Link> */}
       </div>
       <div
         className="
