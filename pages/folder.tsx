@@ -18,6 +18,7 @@ import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import { API } from "@/config/API";
+import FileList from "@/components/file_list";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -266,34 +267,7 @@ export default function Docs({ query }: { query: any }) {
             // const finalDate = dateCalc(v?.dateUploaded);
 
             // console.log(filesDetails);
-            return (
-              <div
-                key={i}
-                className={`flex gap-3 border-b
-                 border-[#EBEFF2]
-                  text-[#242634] ${karla.className}`}
-              >
-                {fileObj.contentType?.slice(0, 5) == "image" ? (
-                  <InsertPhotoOutlinedIcon className="text-xl mt-4" />
-                ) : fileObj.contentType?.slice(0, 5) == "video" ? (
-                  <VideoCameraBackIcon className="text-xl mt-4" />
-                ) : fileObj.contentType?.slice(0, 11) == "application" ? (
-                  <InsertDriveFileIcon className="text-xl mt-4" />
-                ) : (
-                  <FolderOutlinedIcon className="text-xl mt-4" />
-                )}
-                <div className={`my-4 flex-1`}>
-                  <p className="text-sm font-medium mb-[1px] ">
-                    {fileObj?.title}
-                  </p>
-                  <p className="text-xs ">{finalDate}</p>
-                </div>
-                <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
-                  1.46MB
-                </p>
-                <MoreVertIcon className="text-lg my-auto h-fit" />
-              </div>
-            );
+            return <FileList fileObj={fileObj}/>;
           })}
           {/*    {[
             { title: "Some video.mp4", contentType: "video" },

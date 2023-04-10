@@ -64,6 +64,7 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
           const folderObj = v as FolderObject;
           return (
             <ListItemComp
+             
               onClick={() => {
                 // setRefresh(!refresh);
                 // router.push({ pathname: "/" }),

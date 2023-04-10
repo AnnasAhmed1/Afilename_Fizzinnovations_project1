@@ -57,6 +57,7 @@ export default function ListItemComp(props: {
         <p
           style={{
             margin: "5px 0",
+            wordBreak: "break-all",
           }}
         >
           {text}

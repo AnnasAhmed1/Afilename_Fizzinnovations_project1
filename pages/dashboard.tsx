@@ -9,7 +9,11 @@ import { Inter, Karla, Manrope } from "next/font/google";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FolderIcon from "@mui/icons-material/Folder";
 import DrawerComp from "@/components/drawer_comp";
-import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
+import {
+  handleFetchAction,
+  handleInsertAction,
+  handleUpdateAction,
+} from "@/config/API_actions";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -20,6 +24,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import Image from "next/image";
 import axios from "axios";
 import { API } from "@/config/API";
+import FileList from "@/components/file_list";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -36,7 +41,7 @@ interface MyObject {
 interface FileObject {
   title: string;
   contentType: string;
-  dateUploaded:any
+  dateUploaded: any;
 }
 interface Props {
   /**
@@ -66,17 +71,22 @@ export default function Dashboard(props: Props) {
       await handleInsertAction("files/upload", {
         filename,
         contentType,
-      }).then(async (response: any) => {
-        console.log(response, "");
-        await API({
-          method: "PUT",
-          url: response.data.url,
-        }).then((res) => {
-          console.log(res, "put");
-          getFiles();
+      })
+        .then(async (response: any) => {
+          console.log(response.data.url, "response.data.url");
+          axios
+            .put(response.data.url, {})
+            .then((res) => {
+              console.log("success");
+              getFiles();
+            })
+            .catch((err) => {
+              console.log(err, "error put");
+            });
+        })
+        .catch((err) => {
+          console.log("upload post error", err);
         });
-        // getFilesDetails();
-      });
     } catch (error) {
       console.log(error);
     }
@@ -270,15 +280,15 @@ export default function Dashboard(props: Props) {
                   rounded-lg
                   min-w-[150px]
                   w-[150px]
-                  overflow-hidden
+                
                   min-h-[185px]
                   max-h-[185px]
                   pt-[35px]
                   pb-[20px]
                   mx-auto
-                  text-clip/
-                  truncate
-                  text-ellipsis
+
+                  
+
                   "
                     onClick={() => {
                       router.push({
@@ -299,10 +309,12 @@ export default function Dashboard(props: Props) {
                     font-semibold
                     text-[#1A1A1A]
                     mt-[10px]
-                    px-[28px]
+                    px-[10px]
+                    text-center
                     mx-6/
                     leading-[18px]
                     tracking-[0.01em]
+                    break-all
                    `}
                     >
                       {obj.name}
@@ -337,37 +349,8 @@ export default function Dashboard(props: Props) {
 
           {filesDetails.map((v, i) => {
             const fileObj = v as FileObject;
-
             const finalDate = dateCalc(fileObj?.dateUploaded);
-            console.log(finalDate);
-            return (
-              <div
-                key={i}
-                className={`flex gap-3 border-b
-                 border-[#EBEFF2]
-                  text-[#242634] ${karla.className}`}
-              >
-                {fileObj.contentType.slice(0, 5) == "image" ? (
-                  <InsertPhotoOutlinedIcon className="text-xl mt-4" />
-                ) : fileObj.contentType.slice(0, 5) == "video" ? (
-                  <VideoCameraBackIcon className="text-xl mt-4" />
-                ) : fileObj.contentType.slice(0, 11) == "application" ? (
-                  <InsertDriveFileIcon className="text-xl mt-4" />
-                ) : (
-                  <FolderOutlinedIcon className="text-xl mt-4" />
-                )}
-                <div className={`my-4 flex-1`}>
-                  <p className="text-sm font-medium mb-[1px] ">
-                    {fileObj.title}
-                  </p>
-                  <p className="text-xs ">{finalDate}</p>
-                </div>
-                <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
-                  1.46MB
-                </p>
-                <MoreVertIcon className="text-lg my-auto h-fit" />
-              </div>
-            );
+            return <FileList key={i} fileObj={fileObj} />;
           })}
         </section>
       </main>

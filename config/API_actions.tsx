@@ -14,7 +14,6 @@ export const handleFetchAction = (url: any) => {
     method: "GET",
     url,
     headers: {
-      "Content-Type": "application/json",
       "x-api-key": Cookies.get("apikey"),
     },
     signal,
@@ -69,7 +68,7 @@ export const handleInsertAction = (url: any, data: any) => {
  * @param {string} url - The endpoint URL.
  * @returns {Promise} - A promise that resolves with the response data on success, and rejects with an error on failure.
  */
-export const handleUpdateAction = (url: any,data: any) => {
+export const handleUpdateAction = (url: any, data: any) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await API({
@@ -77,7 +76,7 @@ export const handleUpdateAction = (url: any,data: any) => {
         url,
         data: JSON.stringify(data),
         headers: {
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
         },
       });
       resolve(response);

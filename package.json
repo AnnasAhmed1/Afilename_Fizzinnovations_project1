@@ -2,7 +2,7 @@
   "name": "afilename_fizzinnovations",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://dev.api.afilename.com",
+  "proxy":"https://dev.api.afilename.com",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
