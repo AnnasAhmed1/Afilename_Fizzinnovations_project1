@@ -130,7 +130,7 @@ export default function FileList({
               fontWeight: "500",
             }}
             onClick={() => {
-              handleDowunloadUrl();
+              handleDowunloadUrl(fileObj.fileId);
               handleMenuClose();
             }}
           >
@@ -149,7 +149,7 @@ export default function FileList({
               fontWeight: "500",
             }}
             onClick={() => {
-              handleCopyClick();
+              handleCopyClick(fileObj.fileId);
               handleMenuClose();
             }}
           >
