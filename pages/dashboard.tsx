@@ -74,8 +74,14 @@ export default function Dashboard(props: Props) {
       })
         .then(async (response: any) => {
           console.log(response.data.url, "response.data.url");
-          axios
-            .put(response.data.url, {})
+
+          await axios
+            .put(response.data.url, filename, {
+              headers: {
+                "Content-Type": contentType,
+              },
+            })
+
             .then((res) => {
               console.log("success");
               getFiles();
