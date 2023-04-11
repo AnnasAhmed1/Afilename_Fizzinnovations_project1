@@ -384,8 +384,8 @@ export default function Dashboard(props: Props) {
                 <FileList
                   key={i}
                   fileObj={fileObj}
-                  handleCopyClick={() => handleCopyClick(v?.fileId)}
-                  handleDowunloadUrl={() => handleDowunloadUrl(v?.fileId)}
+                  handleCopyClick={() => handleCopyClick(fileObj?.fileId)}
+                  handleDowunloadUrl={() => handleDowunloadUrl(fileObj?.fileId)}
                 />
               );
             })

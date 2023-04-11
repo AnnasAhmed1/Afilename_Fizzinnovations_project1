@@ -19,7 +19,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import { API } from "@/config/API";
 import FileList from "@/components/file_list";
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -37,6 +37,7 @@ interface FileObject {
   title: string;
   contentType: string;
   dateUploaded: any;
+  fileId: any;
 }
 
 export default function Docs({ query }: { query: any }) {
@@ -153,6 +154,26 @@ export default function Docs({ query }: { query: any }) {
       console.log(error);
     }
   };
+  const handleCopyClick = async (_fileId: any) => {
+    await handleFetchAction(`/files/downloadurl?file=${_fileId}`)
+      .then((response: any) => {
+        console.log(response);
+        navigator.clipboard.writeText(response.data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleDowunloadUrl = async (_fileId: any) => {
+    await handleFetchAction(`/files/download?file=${_fileId}`)
+      .then((response: any) => {
+        console.log(response);
+        // navigator.clipboard.writeText(response.data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const dateCalc = (_date: any) => {
     const apiDate = new Date(_date);
 
@@ -255,17 +276,10 @@ export default function Docs({ query }: { query: any }) {
             mt-10
             ml-[-10px]
           `}
-
->
-<button
-onClick={ ()=> router.push("/dashboard")}
-
->
-
-           <ArrowBackIosIcon 
-
-className="mr-[20px]/ text-lg"/>
-</button>
+          >
+            <button onClick={() => router.push("/dashboard")}>
+              <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
+            </button>
             <FolderCopyIcon className="mr-[20px] text-3xl " />
             {name}
           </h1>
@@ -275,10 +289,17 @@ className="mr-[20px]/ text-lg"/>
             // const finalDate = dateCalc(v?.dateUploaded);
 
             // console.log(filesDetails);
-            return <FileList fileObj={fileObj}/>;
+            return (
+              <FileList
+                key={i}
+                fileObj={fileObj}
+                handleCopyClick={() => handleCopyClick(fileObj?.fileId)}
+                handleDowunloadUrl={() => handleDowunloadUrl(fileObj?.fileId)}
+              />
+            );
           })}
           {/*    {[
-            { title: "Some video.mp4", contentType: "video" },
+            { title: "Some video.mp4", contentType: "video" },021 139700 do lc naeem
             { title: "Some Image.peg", contentType: "image" },
             { title: "animportantfile.docx", contentType: "application" },
             { title: "animportantfile.docx", contentType: "application" },
