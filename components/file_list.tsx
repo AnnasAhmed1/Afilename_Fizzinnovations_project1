@@ -17,10 +17,10 @@ import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import MenuIcon from "@mui/icons-material/Menu";
 
-import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
+import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
 import Image from "next/image";
 import axios from "axios";
 import { API } from "@/config/API";
@@ -54,7 +54,15 @@ const dateCalc = (_date: any) => {
   }
 };
 
-export default function FileList({fileObj}:{fileObj:any}) {
+export default function FileList({
+  fileObj,
+  handleCopyClick,
+  handleDowunloadUrl,
+}: {
+  fileObj: any;
+  handleCopyClick: any;
+  handleDowunloadUrl: any;
+}) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: any) => {
@@ -64,7 +72,6 @@ export default function FileList({fileObj}:{fileObj:any}) {
     setAnchorEl(null);
   };
   const finalDate = dateCalc(fileObj?.dateUploaded);
-
 
   return (
     <div
@@ -84,7 +91,9 @@ export default function FileList({fileObj}:{fileObj:any}) {
         <FolderOutlinedIcon className="text-xl mt-4 mb-auto" />
       )}
       <div className={`my-4 flex-1`}>
-        <p className="text-sm font-medium mb-[1px] break-. break-all ">{fileObj.title}</p>
+        <p className="text-sm font-medium mb-[1px] break-. break-all ">
+          {fileObj.title}
+        </p>
         <p className="text-xs ">{finalDate}</p>
       </div>
       <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
@@ -114,37 +123,57 @@ export default function FileList({fileObj}:{fileObj:any}) {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem sx={{
-            color:"#545454",
-            fontSize:"16px",
-            fontWeight:"500"
-          }} onClick={handleMenuClose}><DownloadForOfflineIcon 
-          sx={{
-            color:"#545454 !important",
-            marginRight:"5px"
-          }}
-          /> Download</MenuItem>
-          <MenuItem sx={{
-            color:"#545454",
-            fontSize:"16px",
-            fontWeight:"500",
-            
-          }} onClick={handleMenuClose}><ContentCopyRoundedIcon
-          sx={{
-            color:"#545454 !important",
-            marginRight:"5px"
-          }}
-          /> Copy Link</MenuItem>
-          <MenuItem sx={{
-            color:"#8A8A8A",
-            fontSize:"11px",
-            fontWeight:"500",
-          
-
-          }} onClick={handleMenuClose}> file ID: 610223232</MenuItem>
+          <MenuItem
+            sx={{
+              color: "#545454",
+              fontSize: "16px",
+              fontWeight: "500",
+            }}
+            onClick={() => {
+              handleDowunloadUrl();
+              handleMenuClose();
+            }}
+          >
+            <DownloadForOfflineIcon
+              sx={{
+                color: "#545454 !important",
+                marginRight: "5px",
+              }}
+            />{" "}
+            Download
+          </MenuItem>
+          <MenuItem
+            sx={{
+              color: "#545454",
+              fontSize: "16px",
+              fontWeight: "500",
+            }}
+            onClick={() => {
+              handleCopyClick();
+              handleMenuClose();
+            }}
+          >
+            <ContentCopyRoundedIcon
+              sx={{
+                color: "#545454 !important",
+                marginRight: "5px",
+              }}
+            />{" "}
+            Copy Link
+          </MenuItem>
+          <MenuItem
+            sx={{
+              color: "#8A8A8A",
+              fontSize: "11px",
+              fontWeight: "500",
+            }}
+            onClick={handleMenuClose}
+          >
+            {" "}
+            file ID: {fileObj.fileId}
+          </MenuItem>
         </Menu>
       </div>
-      
     </div>
   );
 }

@@ -19,6 +19,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import { API } from "@/config/API";
 import FileList from "@/components/file_list";
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -55,9 +56,6 @@ export default function Docs({ query }: { query: any }) {
     !Cookies.get("apikey") ? router.push("/") : getFolders();
   }, []);
 
-  // useEffect(() => {
-  //   getFilesDetails();
-  // }, [files]);
   const uploadRequest = async (filename?: any, contentType?: any) => {
     try {
       await handleInsertAction("files/upload", {
@@ -257,7 +255,17 @@ export default function Docs({ query }: { query: any }) {
             mt-10
             ml-[-10px]
           `}
-          >
+
+>
+<button
+onClick={ ()=> router.push("/dashboard")}
+
+>
+
+           <ArrowBackIosIcon 
+
+className="mr-[20px]/ text-lg"/>
+</button>
             <FolderCopyIcon className="mr-[20px] text-3xl " />
             {name}
           </h1>

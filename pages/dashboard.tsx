@@ -42,6 +42,7 @@ interface FileObject {
   title: string;
   contentType: string;
   dateUploaded: any;
+  fileId: any;
 }
 interface Props {
   /**
@@ -61,6 +62,7 @@ export default function Dashboard(props: Props) {
   const [arr, setArr] = useState<Array<any>>([]);
   const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
+  const [textToCopy, setTextToCopy] = useState("");
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
@@ -163,6 +165,26 @@ export default function Dashboard(props: Props) {
       console.log(error);
     }
   };
+  const handleCopyClick = async (_fileId: any) => {
+    await handleFetchAction(`/files/downloadurl?file=${_fileId}`)
+      .then((response: any) => {
+        console.log(response);
+        navigator.clipboard.writeText(response.data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleDowunloadUrl = async (_fileId: any) => {
+    await handleFetchAction(`/files/download?file=${_fileId}`)
+      .then((response: any) => {
+        console.log(response);
+        // navigator.clipboard.writeText(response.data.url);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const dateCalc = (_date: any) => {
     const apiDate = new Date(_date);
@@ -204,27 +226,26 @@ export default function Dashboard(props: Props) {
       <main
         className={`
         w-[calc(100%-240px)]
-      w-[80%]/  
-      pl-[3.5%] 
-      pr-[2%]
-      mt-[5%]
+        w-[80%]/  
+        pl-[3.5%] 
+        pr-[2%]
+        mt-[5%]
       `}
       >
         <section
           className="flex 
-        justify-between 
-        pr-[10%]
-        
-
-        "
+          justify-between 
+          pr-[10%]
+          "
         >
           <input
             type="text"
             className={`
-            w-[60%] 
-            mx-auto border
-             border-black py-0 
-             px-4 h-8
+              w-[60%] 
+              mx-auto border
+              border-black py-0 
+              px-4
+              h-8
              `}
             placeholder="search"
           />
@@ -246,13 +267,13 @@ export default function Dashboard(props: Props) {
         </section>
         <section
           className="
-        pl-[3%]
-        mb-8
-        border-b-[0.25px]
-        pt-[7%]
-        pb-[5%]
-        border-black
-        "
+          pl-[3%]
+          mb-8
+          border-b-[0.25px]
+          pt-[7%]
+          pb-[5%]
+          border-black
+         "
         >
           <h1
             className={`
@@ -285,22 +306,18 @@ export default function Dashboard(props: Props) {
                   <div
                     key={i}
                     className="border-2
-                  border-[rgba(0,0,0,0.06)]
-                  container
-                  cursor-pointer
-                  rounded-lg
-                  min-w-[150px]
-                  w-[150px]
-                
-                  min-h-[185px]
-                  max-h-[185px]
-                  pt-[35px]
-                  pb-[20px]
-                  mx-auto
-
-                  
-
-                  "
+                    border-[rgba(0,0,0,0.06)]
+                    container
+                    cursor-pointer
+                    rounded-lg
+                    min-w-[150px]
+                    w-[150px]
+                    min-h-[185px]
+                    max-h-[185px]
+                    pt-[35px]
+                    pb-[20px]
+                    mx-auto
+                    "
                     onClick={() => {
                       router.push({
                         pathname: "/folder",
@@ -357,12 +374,22 @@ export default function Dashboard(props: Props) {
           >
             Files
           </h1>
-
-          {filesDetails.map((v, i) => {
-            const fileObj = v as FileObject;
-            const finalDate = dateCalc(fileObj?.dateUploaded);
-            return <FileList key={i} fileObj={fileObj} />;
-          })}
+          {filesDetails.length == 0 ? (
+            <p className="my-4">No files yet</p>
+          ) : (
+            filesDetails.map((v, i) => {
+              const fileObj = v as FileObject;
+              const finalDate = dateCalc(fileObj?.dateUploaded);
+              return (
+                <FileList
+                  key={i}
+                  fileObj={fileObj}
+                  handleCopyClick={() => handleCopyClick(fileObj.fileId)}
+                  handleDowunloadUrl={() => handleDowunloadUrl(fileObj.fileId)}
+                />
+              );
+            })
+          )}
         </section>
       </main>
     </Box>
