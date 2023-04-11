@@ -66,7 +66,12 @@ export default function Dashboard(props: Props) {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
   }, []);
 
-  const uploadRequest = async (filename?: any, contentType?: any) => {
+  const uploadRequest = async (
+    file?: any,
+    filename?: any,
+    contentType?: any
+  ) => {
+    console;
     try {
       await handleInsertAction("files/upload", {
         filename,
@@ -76,7 +81,7 @@ export default function Dashboard(props: Props) {
           console.log(response.data.url, "response.data.url");
 
           await axios
-            .put(response.data.url, filename, {
+            .put(response.data.url, file, {
               headers: {
                 "Content-Type": contentType,
               },
@@ -100,7 +105,7 @@ export default function Dashboard(props: Props) {
 
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
-    uploadRequest(file?.name, file?.type);
+    uploadRequest(file, file?.name, file?.type);
   };
   const handleFolderChangeFunction = (e: any) => {
     setNewFolderName(e.target.value);
