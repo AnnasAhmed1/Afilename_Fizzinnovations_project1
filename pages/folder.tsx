@@ -203,24 +203,12 @@ export default function Docs({ query }: { query: any }) {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
-        >
-          <DrawerComp
-            folders={folders}
-            handleFileChangeFunction={handleFileChangeFunction}
-            createFolder={() => createFolder(newFolderName)}
-            handleFolderChangeFunction={handleFolderChangeFunction}
-          />
-        </Drawer>
+        <DrawerComp
+          folders={folders}
+          handleFileChangeFunction={handleFileChangeFunction}
+          createFolder={() => createFolder(newFolderName)}
+          handleFolderChangeFunction={handleFolderChangeFunction}
+        />
       </Box>
       <main
         className={`
@@ -242,7 +230,10 @@ export default function Docs({ query }: { query: any }) {
             className={`
             w-[60%] 
             mx-auto border
-             border-black py-0 
+             border-black
+             dark:border-white
+             dark:bg-[#ececec]
+             py-0 
              px-4 h-8
              `}
             placeholder="search"
@@ -250,11 +241,13 @@ export default function Docs({ query }: { query: any }) {
           <div className="flex gap-4 items-center">
             <div>
               <p
-                className={`${manrope.className} text-[#2E3271] text-base font-semibold`}
+                className={`${manrope.className} text-[#2E3271] dark:text-[#6a72e6] text-base font-semibold`}
               >
                 @kevan
               </p>
-              <p className={`${manrope.className} text-[#7c8db5b8] text-xs `}>
+              <p
+                className={`${manrope.className} text-[#7c8db5b8] dark:text-[#9daed7b8] text-xs `}
+              >
                 Premium
               </p>
             </div>
@@ -271,6 +264,7 @@ export default function Docs({ query }: { query: any }) {
             font-bold
             text-[32px]
             text-[#2E2E2E]
+            dark:text-[#ececec]
 
             mb-4
             mt-10
@@ -280,7 +274,7 @@ export default function Docs({ query }: { query: any }) {
             <button onClick={() => router.push("/dashboard")}>
               <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
             </button>
-            <FolderCopyIcon className="mr-[20px] text-3xl " />
+            <FolderCopyIcon className="ml-[5px] mr-[15px] text-3xl dark:text-[#ececec]" />
             {name}
           </h1>
           {filesDetails?.map((v, i) => {
@@ -317,7 +311,8 @@ export default function Docs({ query }: { query: any }) {
                 gap-3 
                 border-b 
                 border-[#EBEFF2] 
-                text-[#242634]  
+                text-[#242634]
+ dark:text-[#ffffff]  
                 ${karla.className}`}
               >
                 {fileObj.contentType.slice(0, 5) == "image" ? (

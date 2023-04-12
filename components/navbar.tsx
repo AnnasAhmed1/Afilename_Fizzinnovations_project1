@@ -15,6 +15,7 @@ import Login from "../pages/login";
 import { handleInsertAction } from "@/config/API_actions";
 import { API } from "@/config/API";
 import Cookies from "js-cookie";
+import { useTheme } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ const karla = Karla({ subsets: ["latin"] });
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { theme, setTheme } = useTheme();
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -116,6 +118,7 @@ export default function Navbar() {
           <MenuIcon
             className="
            text-black
+           dark:text-white
            "
           />
         </Button>
@@ -149,7 +152,11 @@ export default function Navbar() {
           sm:w-4
           "
         />
-        <h1 className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)] font-extrabold">
+        <h1
+          className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)]
+          dark:text-[rgba(255,255,255,0.75)]
+ font-extrabold"
+        >
           AFILENAME
         </h1>
       </div>
@@ -181,9 +188,9 @@ export default function Navbar() {
           <P1 text="Creators" />
         </a>
         {/* <Link href="" legacyBehavior> */}
-          <a className="scroll-smooth cursor-pointer">
-            <P1 text="Docs" />
-          </a>
+        <a className="scroll-smooth cursor-pointer">
+          <P1 text="Docs" />
+        </a>
         {/* </Link> */}
       </div>
       <div
@@ -198,7 +205,8 @@ export default function Navbar() {
           py-1.5
           md:p-1.5 
           sm:p-1 
-          border-black 
+          border-black
+          dark:border-white
           w-28 
           sm:w-14 
           md:w-24"
@@ -211,13 +219,15 @@ export default function Navbar() {
         <button
           className="border py-1.5
         border-transparent
-         bg-black 
+         bg-black
+         dark:bg-[#ECECEC] 
          md:p-1.5
          sm:p-1
          text-base 
           font-bold 
          ${inter.className}
-          text-white 
+          text-white
+          dark:text-black
           w-28
           md:w-24
           sm:w-14
@@ -228,6 +238,14 @@ export default function Navbar() {
           }}
         >
           Login
+        </button>
+        <button
+          onClick={() => {
+            console.log(theme);
+            setTheme(theme == "light" ? "dark" : "light");
+          }}
+        >
+          theme
         </button>
       </div>
     </nav>

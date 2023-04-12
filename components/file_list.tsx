@@ -79,7 +79,8 @@ export default function FileList({
       className={`flex gap-3 border-b
      border-[#EBEFF2]
      items-center
-      text-[#242634] ${karla.className}`}
+      text-[#242634]
+ dark:text-[#ffffff] ${karla.className}`}
     >
       {fileObj?.contentType?.slice(0, 5) == "image" ? (
         <InsertPhotoOutlinedIcon className="text-xl mt-4 mb-auto" />
@@ -112,7 +113,7 @@ export default function FileList({
           onClick={handleClick}
           className="w-fit min-w-0"
         >
-          <MoreVertIcon className="text-lg my-auto h-fit" />
+          <MoreVertIcon className="text-lg my-auto h-fit dark:text-white" />
         </Button>
         <Menu
           id="basic-menu"
@@ -122,53 +123,31 @@ export default function FileList({
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
+          PaperProps={{
+            className:
+              "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
+          }}
+          className="dark:bg-black//"
         >
           <MenuItem
-            sx={{
-              color: "#545454",
-              fontSize: "16px",
-              fontWeight: "500",
-            }}
             onClick={() => {
               handleDowunloadUrl();
               handleMenuClose();
             }}
           >
-            <DownloadForOfflineIcon
-              sx={{
-                color: "#545454 !important",
-                marginRight: "5px",
-              }}
-            />{" "}
+            <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ececec] mr-[5px]" />{" "}
             Download
           </MenuItem>
           <MenuItem
-            sx={{
-              color: "#545454",
-              fontSize: "16px",
-              fontWeight: "500",
-            }}
             onClick={() => {
               handleCopyClick();
               handleMenuClose();
             }}
           >
-            <ContentCopyRoundedIcon
-              sx={{
-                color: "#545454 !important",
-                marginRight: "5px",
-              }}
-            />{" "}
+            <ContentCopyRoundedIcon className=" text-[#545454] dark:text-[#ececec] mr-[5px]" />{" "}
             Copy Link
           </MenuItem>
-          <MenuItem
-            sx={{
-              color: "#8A8A8A",
-              fontSize: "11px",
-              fontWeight: "500",
-            }}
-            onClick={handleMenuClose}
-          >
+          <MenuItem onClick={handleMenuClose}>
             {" "}
             file ID: {fileObj.fileId}
           </MenuItem>

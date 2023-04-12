@@ -5,27 +5,27 @@ module.exports = {
     "./components/**/*.{js,jsx,ts,tsx}",
     "./pages/**/*.{js,jsx,ts,tsx}",
   ],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: "class", // or 'media' or 'class'
   theme: {
     fontFamily: {
-      'karla': ['Karla', 'ui-sans-serif', 'system-ui'],
-      'inter': ['Inter', 'ui-sans-serif', 'system-ui'],
-      'manrope': ['Manrope', 'ui-sans-serif', 'system-ui']
+      karla: ["Karla", "ui-sans-serif", "system-ui"],
+      inter: ["Inter", "ui-sans-serif", "system-ui"],
+      manrope: ["Manrope", "ui-sans-serif", "system-ui"],
     },
     extend: {
-
       scrollbar: {
-        width: '6px',
-        height: '6px',
-        track: '#f1f1f1',
-        thumb: '#888',
+        width: "6px",
+        height: "6px",
+        track: "#f1f1f1",
+        thumb: "#888",
       },
       fontSize: {
         14: "14px",
         11: "11px",
       },
       boxShadow: {
-        card: " 4px 4px 48px rgba(25, 39, 89, 0.16)",
+        card: " 4px 4px 20px rgba(25, 39, 89, 0.16)",
+        cardDark: "4px 4px 20px rgba(25, 39, 89, 0.36)",
       },
       height: {
         "90vh": "90vh",
@@ -51,7 +51,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [
-    require('tailwind-scrollbar'),
-  ],
+  plugins: [require("tailwind-scrollbar")],
 };

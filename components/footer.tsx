@@ -11,7 +11,9 @@ export default function Footer() {
     <>
       <nav
         className="
-      border-t border-black
+      border-t
+       border-black
+       dark:border-white
       flex
       items-center
       justify-center
@@ -38,7 +40,10 @@ export default function Footer() {
           "
             // className="w-4"
           />
-          <h1 className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)] font-extrabold">
+          <h1
+            className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)] 
+            dark:text-[rgba(255,255,255,0.75)]  font-extrabold"
+          >
             AFILENAME
           </h1>
         </div>

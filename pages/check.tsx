@@ -1,43 +1,36 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { useMemo, useCallback, useState } from "react";
+import { useDropzone } from "react-dropzone";
+export default function Check() {
+  const [files, setFiles] = useState([]);
+  const handleUpload = useCallback((acceptedFiles: any) => {
+    console.log(acceptedFiles);
+    // Do something with the uploaded files, e.g. send them to the server
+    setFiles(acceptedFiles);
+  }, []);
+  const Dropzone = () => {
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+      onDrop: handleUpload,
+    });
 
-export default function MyImageUploader() {
-  const [fileId, setFileId] = useState(null);
+    const style = useMemo(
+      () => ({
+        ...(isDragActive ? { borderColor: "green" } : {}),
+      }),
+      [isDragActive]
+    );
 
-  const handleImageLoad = (event: ChangeEvent<HTMLInputElement>) => {
-    const fileId = event.target.src.split("/").pop();
-    // setFileId(fileId);
-    console.log("id", event.target.id);
-    console.log("src", event.target.files);
-    console.log(event.target.src);
-    console.log(fileId);
+    return (
+      <div {...getRootProps({ style })}>
+        <input {...getInputProps()} />
+        <p>Drag and drop some files here, or click to select files</p>
+      </div>
+    );
   };
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
-    console.log(file);
-    console.log(file?.name)
-    console.log(file?.type)
-    // do something with the selected file
-  };
-
   return (
     <div>
-      {" "}
-      <div>
-        <button onClick={handleClick}>Choose File</button>
-        <input
-          ref={fileInputRef}
-          type="file"
-          style={{ display: "none" }}
-          onChange={handleFileChange}
-        />
-      </div>
+      <h1>Upload a folder</h1>
+      <Dropzone />
+      {/* render the uploaded files here */}
     </div>
   );
 }

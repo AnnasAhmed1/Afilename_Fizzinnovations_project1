@@ -27,6 +27,8 @@ export default function Signup({
         flex
         flex-col
         bg-white
+        dark:bg-[#121212]
+        dark:border-[#121212]
         pt-4
         pb-8
         rounded-[24px]
@@ -42,7 +44,8 @@ export default function Signup({
           text-4xl
          mb-2
           text-center 
-          text-[rgba(0,0,0,0.75)]
+          text-[rgba(0,0,0,0.75) 
+ 
           `}
         >
           Signup
@@ -63,10 +66,12 @@ export default function Signup({
             id="filled-textarea"
             label="Email"
             placeholder="email@example.com"
+            className="text-white  dark:bg-[#ececec]"
             required
             sx={{
               width: "100%",
               marginBottom: "3rem",
+              color:"white"
             }}
             onChange={(e) => {
               handleChange(e);
@@ -89,7 +94,10 @@ export default function Signup({
             // }}
           >
             Continue
-            <EastIcon sx={{color:"#ffffff !important"}} className="text-base ml-3" />
+            <EastIcon
+              sx={{ color: "#ffffff !important" }}
+              className="text-base ml-3"
+            />
           </button>
         </form>
         <h6

@@ -40,16 +40,12 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
             paddingRight: "10px",
           }}
         >
-          <SourceIcon
-            sx={{
-              fontSize: "16px",
-            }}
-          />
+          <SourceIcon className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base" />
         </ListItemIcon>
 
         <p
           className="
-        text-[rgba(0,0,0,0.85)]
+        text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)]
         ${karla.className}
         text-sm
         mr-auto
@@ -57,14 +53,17 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
         >
           Folders
         </p>
-        {open ? <ExpandLess /> : <ExpandMore />}
+        {open ? (
+          <ExpandLess className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+        ) : (
+          <ExpandMore className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+        )}
       </ListItemButton>
       <Collapse className="pl-[5px]" in={open} timeout="auto" unmountOnExit>
         {props.folders?.map((v, i) => {
           const folderObj = v as FolderObject;
           return (
             <ListItemComp
-             
               onClick={() => {
                 // setRefresh(!refresh);
                 // router.push({ pathname: "/" }),
@@ -82,12 +81,7 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
               text={folderObj.name}
               input={true}
               Icon={
-                <FolderCopyIcon
-                  sx={{
-                    fontSize: "16px",
-                    color: "rgba(0,0,0,0.85)",
-                  }}
-                />
+                <FolderCopyIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
               }
               handleFileChangeFunction={null}
             />

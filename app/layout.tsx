@@ -1,7 +1,9 @@
 // import './globals.css'
+"use client";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import Head from "next/head";
+import { ThemeProvider } from "next-themes";
 
 export const metadata = {
   title: "AFILENAME",
@@ -14,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <>
       <Head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -25,7 +27,8 @@ export default function RootLayout({
 
         {/* <link rel="shortcut icon" href="app/afilename_logo.svg" /> */}
       </Head>
-      <body>{children}</body>
-    </html>
+
+      <ThemeProvider attribute="class">{children}</ThemeProvider>
+    </>
   );
 }

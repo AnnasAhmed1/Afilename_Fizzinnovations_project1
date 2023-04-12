@@ -8,22 +8,28 @@ import Cookies from "js-cookie";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import { Inter, Karla } from "next/font/google";
+import { ThemeProvider, useTheme } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 
 export default function Main() {
+  // const { theme, setTheme } = useTheme();
+  const { systemTheme, theme, setTheme } = useTheme();
+  const currentTheme = theme === "system" ? systemTheme : theme;
+
   return (
     <div className="scroll-smooth ">
       <Navbar />
+
       <section className="flex flex-col items-center gap-28/ sm:gap-14/ px-[5%] sm:px-[4%]">
         <h1
-          className={`${karla.className}  text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] text-center`}
+          className={`${karla.className}  text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] dark:text-white text-center`}
         >
           Store whatever you want, when you want
         </h1>
         <p
-          className={`${karla.className} text-xl leading-10 sm:text-sm text-[#242634] text-center`}
+          className={`${karla.className} text-xl leading-10 sm:text-sm text-[#242634] dark:text-white text-center`}
         >
           Simple file sharing, storage, at a fair price.
           <br />
@@ -47,12 +53,14 @@ export default function Main() {
           <H1 text="Personal" />
 
           <p
-            className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634] pt-[10%] font-bold text-center`}
+            className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634]
+ dark:text-[#ffffff] pt-[10%] font-bold text-center`}
           >
             Personal Plans
           </p>
           <p
-            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]  font-bold text-center`}
+            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]
+ dark:text-[#ffffff]  font-bold text-center`}
           >
             For personal use only.
           </p>
@@ -166,13 +174,13 @@ export default function Main() {
             imagine.
           </p>
 
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#0066FF] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
+          <button className="text-white font-extrabold text-sm sm:text-xs my-10 bg-[#0066FF] block w-48 sm:w-40 mx-[auto] rounded-2xl  px-5 sm:px-4 py-1">
             Upload a Video Now
           </button>
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#5F5E5E] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
+          <button className="text-white font-extrabold text-sm sm:text-xs my-10 bg-[#5F5E5E] block w-48 sm:w-40 mx-[auto] rounded-2xl  px-5 sm:px-4 py-1">
             Upload a Music
           </button>
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#B1B3B6] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
+          <button className="text-white font-extrabold text-sm sm:text-xs my-10 bg-[#B1B3B6] block w-48 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
             Upload a Clip Now
           </button>
         </section>

@@ -41,15 +41,24 @@ export default function ListItemComp(props: {
   return (
     <>
       <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          fontSize: "14px",
-          color: "rgba(0, 0, 0, 0.85)",
-          gap: "10px",
-          paddingLeft: "5px",
-          cursor: "pointer",
-        }}
+        className="flex
+           items-center
+           text-sm
+           text-[rgba(0,0,0,0.85)] 
+           dark:text-[rgba(255,255,255,0.75)]
+           gap-[10px]
+           pl-[5px]
+           cursor-pointer"
+        // style={{
+        //   display: "flex",
+        //   alignItems: "center",
+        //   fontSize: "14px",
+        //   color: "rgba(0, 0, 0, 0.85)",
+
+        //   gap: "10px",
+        //   paddingLeft: "5px",
+        //   cursor: "pointer",
+        // }}
         onClick={input ? handleClick : onClick}
       >
         {Icon}
@@ -66,7 +75,10 @@ export default function ListItemComp(props: {
       {input ? (
         <input
           ref={fileInputRef}
-          type={filetype != "folder" ? "file" : text}
+          // type={filetype != "folder" ? "file" : text}
+          type={"file"}
+          // directory=""
+          // webkitdirectory=""
           accept={filetype}
           style={{ display: "none" }}
           onChange={handleFileChange}

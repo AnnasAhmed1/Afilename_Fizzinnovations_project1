@@ -29,6 +29,8 @@ const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
+import { useTheme } from "next-themes";
+
 
 interface Props {
   window?: () => Window;
@@ -63,6 +65,11 @@ export default function Dashboard(props: Props) {
   const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [textToCopy, setTextToCopy] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchFiles, setSearchFiles] = useState([]);
+  const [searchFilesDetails, setSearchFilesDetails] = useState([]);
+  const { theme, setTheme } = useTheme();
+  console.log(theme)
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
@@ -170,6 +177,7 @@ export default function Dashboard(props: Props) {
       .then((response: any) => {
         console.log(response);
         navigator.clipboard.writeText(response.data.url);
+        window.open(response.data.url);
       })
       .catch((err) => {
         console.log(err);
@@ -179,7 +187,6 @@ export default function Dashboard(props: Props) {
     await handleFetchAction(`/files/download?file=${_fileId}`)
       .then((response: any) => {
         console.log(response);
-        // navigator.clipboard.writeText(response.data.url);
       })
       .catch((err) => {
         console.log(err);
@@ -209,6 +216,7 @@ export default function Dashboard(props: Props) {
 
   const text = "" as Props;
   return (
+    
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <Box
@@ -243,11 +251,26 @@ export default function Dashboard(props: Props) {
             className={`
               w-[60%] 
               mx-auto border
-              border-black py-0 
+              border-black
+              py-0 
+              dark:border-white
+              dark:bg-[#ececec]
               px-4
               h-8
              `}
             placeholder="search"
+            onChange={async (e) => {
+              setSearchQuery(e.target.value);
+              console.log(e.target.value)
+              await handleFetchAction(`/account/search?q=${e.target.value}`)
+                .then((response: any) => {
+                  console.log(response);
+                  getFilesDetails(response.data.fileIds);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }}
           />
           <div className="flex gap-4 items-center">
             <div>
@@ -265,30 +288,34 @@ export default function Dashboard(props: Props) {
             </p>
           </div>
         </section>
-        <section
-          className="
+        {searchQuery.length == 0 ? (
+          <>
+            <section
+              className="
           pl-[3%]
           mb-8
           border-b-[0.25px]
           pt-[7%]
           pb-[5%]
           border-black
+          dark:border-white
          "
-        >
-          <h1
-            className={`
+            >
+              <h1
+                className={`
             ${karla.className}
             tracking-[1px]
             font-bold
             text-xl
             text-[#2E2E2E]
+            dark:text-[#ececec]
             my-4
           `}
-          >
-            Folders
-          </h1>
-          <div
-            className="
+              >
+                Folders
+              </h1>
+              <div
+                className="
             flex
             gap-6
             overflow-x-scroll
@@ -296,17 +323,19 @@ export default function Dashboard(props: Props) {
             scroll-m-0
             scroll-p-0
           "
-          >
-            {folders.length == 0 ? (
-              <p className="my-4">No folders yet</p>
-            ) : (
-              folders.map((v, i) => {
-                const obj = v as MyObject;
-                return (
-                  <div
-                    key={i}
-                    className="border-2
+              >
+                {folders.length == 0 ? (
+                  <p className="my-4">No folders yet</p>
+                ) : (
+                  folders.map((v, i) => {
+                    const obj = v as MyObject;
+                    return (
+                      <div
+                        key={i}
+                        className="border-2
                     border-[rgba(0,0,0,0.06)]
+                    dark:border-[rgba(255,255,255,0.56)]
+
                     container
                     cursor-pointer
                     rounded-lg
@@ -318,24 +347,25 @@ export default function Dashboard(props: Props) {
                     pb-[20px]
                     mx-auto
                     "
-                    onClick={() => {
-                      router.push({
-                        pathname: "/folder",
-                        query: { id: obj._id, name: obj.name },
-                      });
-                    }}
-                  >
-                    <Image
-                      src={require("../images/folder_icon.svg")}
-                      alt="folder icon"
-                      className="w-[100px] mx-auto"
-                    />
-                    <p
-                      className={`
+                        onClick={() => {
+                          router.push({
+                            pathname: "/folder",
+                            query: { id: obj._id, name: obj.name },
+                          });
+                        }}
+                      >
+                        <Image
+                          src={require("../images/folder_icon.svg")}
+                          alt="folder icon"
+                          className="w-[100px] mx-auto"
+                        />
+                        <p
+                          className={`
                     ${inter.className}
                     text-[18px]
                     font-semibold
                     text-[#1A1A1A]
+                    dark:text-[#ececec]
                     mt-[10px]
                     px-[10px]
                     text-center
@@ -344,53 +374,89 @@ export default function Dashboard(props: Props) {
                     tracking-[0.01em]
                     break-all
                    `}
-                    >
-                      {obj.name}
-                    </p>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </section>
-        {/* <hr
-        className="
-        border-[0.25px]
-        border-black
-        "
-        /> */}
-        <section className="">
-          <h1
-            className={`
+                        >
+                          {obj.name}
+                        </p>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </section>
+
+            <section className="">
+              <h1
+                className={`
             ${karla.className}
             font-bold
             text-xl
             text-[#2E2E2E]
+            dark:text-[#ececec]
             tracking-[1px]
             my-4
             pl-[1.5%]
            
           `}
-          >
-            Files
-          </h1>
-          {filesDetails.length == 0 ? (
-            <p className="my-4">No files yet</p>
-          ) : (
-            filesDetails.map((v, i) => {
-              const fileObj = v as FileObject;
-              const finalDate = dateCalc(fileObj?.dateUploaded);
-              return (
-                <FileList
-                  key={i}
-                  fileObj={fileObj}
-                  handleCopyClick={() => handleCopyClick(fileObj?.fileId)}
-                  handleDowunloadUrl={() => handleDowunloadUrl(fileObj?.fileId)}
-                />
-              );
-            })
-          )}
-        </section>
+              >
+                Files
+              </h1>
+              {filesDetails.length == 0 ? (
+                <p className="my-4">No files yet</p>
+              ) : (
+                filesDetails.map((v, i) => {
+                  const fileObj = v as FileObject;
+                  const finalDate = dateCalc(fileObj?.dateUploaded);
+                  return (
+                    <FileList
+                      key={i}
+                      fileObj={fileObj}
+                      handleCopyClick={() => handleCopyClick(fileObj?.fileId)}
+                      handleDowunloadUrl={() =>
+                        handleDowunloadUrl(fileObj?.fileId)
+                      }
+                    />
+                  );
+                })
+              )}
+            </section>
+          </>
+        ) : (
+          <section className="">
+            <h1
+              className={`
+            ${karla.className}
+            font-bold
+            text-xl
+            text-[#2E2E2E]
+            dark:text-[#ececec]
+            tracking-[1px]
+            my-4
+            pl-[1.5%]
+           
+          `}
+            >
+              Files
+            </h1>
+            {filesDetails.length == 0 ? (
+              <p className="my-4">No files yet</p>
+            ) : (
+              filesDetails.map((v, i) => {
+                const fileObj = v as FileObject;
+                const finalDate = dateCalc(fileObj?.dateUploaded);
+                return (
+                  <FileList
+                    key={i}
+                    fileObj={fileObj}
+                    handleCopyClick={() => handleCopyClick(fileObj?.fileId)}
+                    handleDowunloadUrl={() =>
+                      handleDowunloadUrl(fileObj?.fileId)
+                    }
+                  />
+                );
+              })
+            )}
+          </section>
+        )}
       </main>
     </Box>
   );
