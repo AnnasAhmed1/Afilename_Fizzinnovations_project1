@@ -246,6 +246,7 @@ export default function Dashboard(props: Props) {
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
+          files={filesDetails}
         />
       </Box>
       <main

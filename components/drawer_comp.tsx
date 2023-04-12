@@ -37,11 +37,13 @@ interface Props {
 
 export default function DrawerComp({
   folders,
+  files,
   handleFileChangeFunction,
   handleFolderChangeFunction,
   createFolder,
 }: {
   folders: any;
+  files: any;
   createFolder: any;
   handleFileChangeFunction: any;
   handleFolderChangeFunction: any;
@@ -96,7 +98,7 @@ export default function DrawerComp({
         <CreateNewFolderIcon
           sx={{
             fontSize: "16px",
-            coloe: "rgba(0,0,0,0.85)",
+            color: "rgba(0,0,0,0.85)",
           }}
         />
       ),
@@ -108,7 +110,7 @@ export default function DrawerComp({
         <AttachFileIcon
           sx={{
             fontSize: "16px",
-            coloe: "rgba(0,0,0,0.85)",
+            color: "rgba(0,0,0,0.85)",
           }}
         />
       ),
@@ -120,7 +122,7 @@ export default function DrawerComp({
         <DriveFolderUploadSharpIcon
           sx={{
             fontSize: "16px",
-            coloe: "rgba(0,0,0,0.85)",
+            color: "rgba(0,0,0,0.85)",
           }}
         />
       ),
@@ -132,7 +134,7 @@ export default function DrawerComp({
         <VideocamIcon
           sx={{
             fontSize: "16px",
-            coloe: "rgba(0,0,0,0.85)",
+            color: "rgba(0,0,0,0.85)",
           }}
         />
       ),
@@ -144,7 +146,7 @@ export default function DrawerComp({
         <MusicVideoRoundedIcon
           sx={{
             fontSize: "16px",
-            coloe: "rgba(0,0,0,0.85)",
+            color: "rgba(0,0,0,0.85)",
           }}
         />
       ),
@@ -152,17 +154,6 @@ export default function DrawerComp({
     },
   ];
 
-  const foldersList = [
-    "Files",
-    "Documents",
-    "Images",
-    "Views",
-    "Some Folder",
-    "Another folder.... ",
-    "Work",
-    "UI Design",
-    "Mockups",
-  ];
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
@@ -387,8 +378,22 @@ export default function DrawerComp({
               >
                 Recent
               </p>
-              {/* {open ? <ExpandLess /> : <ExpandMore />} */}
+              {open ? (
+                <ExpandLess className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+              ) : (
+                <ExpandMore className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+              )}
             </ListItemButton>
+            <Collapse
+              className="pl-[5px]"
+              in={open}
+              timeout="auto"
+              unmountOnExit
+            >
+              {files?.map((v: any, i: any) => {
+                return <ListItemComp key={i} text={v.title} input={true} />;
+              })}
+            </Collapse>
           </div>
           <button
             className={`

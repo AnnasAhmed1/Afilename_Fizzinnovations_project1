@@ -226,6 +226,7 @@ export default function Docs({ query }: { query: any }) {
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
+          files={filesDetails}
         />
       </Box>
       <main
