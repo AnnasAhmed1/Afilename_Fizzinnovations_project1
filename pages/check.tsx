@@ -1,36 +1,51 @@
-import { useMemo, useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
-export default function Check() {
-  const [files, setFiles] = useState([]);
-  const handleUpload = useCallback((acceptedFiles: any) => {
-    console.log(acceptedFiles);
-    // Do something with the uploaded files, e.g. send them to the server
-    setFiles(acceptedFiles);
-  }, []);
-  const Dropzone = () => {
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
-      onDrop: handleUpload,
+import { useState } from "react";
+
+export default function MyForm(): JSX.Element {
+  const [folder, setFolder] = useState<File | null>(null);
+
+  const handleFolderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    setFolder(file ?? null);
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const formData = new FormData();
+    if (folder) {
+      formData.append("folder", folder);
+    }
+
+    // Add any other form data to the request
+    formData.append("name", "My Folder");
+
+    // Send the form data to the server using fetch
+    const response = await fetch("/api/upload-folder", {
+      method: "POST",
+      body: formData,
     });
 
-    const style = useMemo(
-      () => ({
-        ...(isDragActive ? { borderColor: "green" } : {}),
-      }),
-      [isDragActive]
-    );
-
-    return (
-      <div {...getRootProps({ style })}>
-        <input {...getInputProps()} />
-        <p>Drag and drop some files here, or click to select files</p>
-      </div>
-    );
+    // Handle the response from the server
+    const data = await response.json();
+    console.log(data);
   };
+
   return (
-    <div>
-      <h1>Upload a folder</h1>
-      <Dropzone />
-      {/* render the uploaded files here */}
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="folder">Upload a folder:</label>
+      <input
+        type="file"
+        id="folder"
+        name="folder"
+        onChange={handleFolderChange}
+        directory
+        webkitdirectory
+        {...(process.browser &&
+          ({ webkitdirectory: true, directory: true } as any))}
+      />
+
+      <br />
+      <button type="submit">Upload</button>
+    </form>
   );
 }

@@ -32,6 +32,7 @@ const inter = Inter({ subsets: ["latin"] });
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { useTheme } from "next-themes";
+import { Button, Menu, MenuItem } from "@mui/material";
 
 interface Props {
   window?: () => Window;
@@ -70,6 +71,9 @@ export default function Dashboard(props: Props) {
   const [searchFiles, setSearchFiles] = useState([]);
   const [searchFilesDetails, setSearchFilesDetails] = useState([]);
   const { theme, setTheme } = useTheme();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
   console.log(theme);
 
   useEffect(() => {
@@ -297,7 +301,35 @@ export default function Dashboard(props: Props) {
               </p>
             </div>
             <p>
-              <KeyboardArrowDownIcon />
+              <Button
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={(event: any) => {
+                  setAnchorEl(event.currentTarget);
+                }}
+                className="w-fit min-w-0"
+              >
+                <KeyboardArrowDownIcon className="text-lg my-auto h-fit dark:text-white" />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => {
+                  setAnchorEl(null);
+                }}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+                PaperProps={{
+                  className:
+                    "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
+                }}
+              >
+                <MenuItem>Logout</MenuItem>
+              </Menu>
             </p>
           </div>
         </section>
