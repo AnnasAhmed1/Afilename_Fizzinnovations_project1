@@ -1,3 +1,20 @@
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+// import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+// import ListItemButton from "@mui/material/ListItemButton";
+// import ListItemIcon from "@mui/material/ListItemIcon";
+// import ListItemText from "@mui/material/ListItemText";
+import MailIcon from "@mui/icons-material/Mail";
+import MenuIcon from "@mui/icons-material/Menu";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Collapse,
@@ -9,7 +26,7 @@ import {
   TextField,
 } from "@mui/material";
 import Image from "next/image";
-import ListItemComp from "./list_item";
+import ListItemComp from "@/components/list_item";
 import NestedListComp from "@/components/nested_list_comp";
 import { useState } from "react";
 import { Inter, Karla, Manrope } from "next/font/google";
@@ -27,15 +44,14 @@ import "tailwindcss/tailwind.css";
 import AddIcon from "@mui/icons-material/Add";
 
 const karla = Karla({ subsets: ["latin"] });
+
+const drawerWidth = 240;
+
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
 }
 
-export default function DrawerComp({
+function DrawerContent({
   folders,
   files,
   handleFileChangeFunction,
@@ -51,6 +67,48 @@ export default function DrawerComp({
   const [mobileOpen, setMobileOpen] = useState(false);
   const drawerWidth = 240;
   const [open, setOpen] = useState(true);
+  const [recentOpen, setRecentOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
+
+  const optionsList = [
+    {
+      title: "New Folder",
+      icon: (
+        <CreateNewFolderIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+      ),
+      type: "any",
+    },
+    {
+      title: "Upload a File",
+      icon: (
+        <AttachFileIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+      ),
+      type: "any",
+    },
+    {
+      title: "Upload a Folder",
+      icon: (
+        <DriveFolderUploadSharpIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+      ),
+      type: "any",
+    },
+    {
+      title: "Upload a Video",
+      icon: (
+        <VideocamIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+      ),
+      type: "video/*",
+    },
+    {
+      title: "Upload Music",
+      icon: (
+        <MusicVideoRoundedIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+      ),
+      type: "audio/*",
+    },
+  ];
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -59,123 +117,9 @@ export default function DrawerComp({
   const handleClick = () => {
     setOpen(!open);
   };
-
-  // const uploadRequest = async (filename?: any, contentType?: any) => {
-  //   try {
-  //     handleInsertAction("files/upload", {
-  //       filename,
-  //       contentType,
-  //     }).then((response: any) => {
-  //       console.log(response);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const handleFileChangeFunction = (event: any) => {
-  //   const file = event.target.files[0];
-  //   uploadRequest(file?.name, file?.type);
-  // };
-
-  // const createFolder = async (folderName: string) => {
-  //   console.log(folderName);
-  //   try {
-  //     handleInsertAction("/folders/createfolder", {
-  //       name: folderName,
-  //     }).then((response: any) => {
-  //       console.log(response);
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  const optionsList = [
-    {
-      title: "New Folder",
-      icon: (
-        <CreateNewFolderIcon
-          sx={{
-            fontSize: "16px",
-            color: "rgba(0,0,0,0.85)",
-          }}
-        />
-      ),
-      type: "any",
-    },
-    {
-      title: "Upload a File",
-      icon: (
-        <AttachFileIcon
-          sx={{
-            fontSize: "16px",
-            color: "rgba(0,0,0,0.85)",
-          }}
-        />
-      ),
-      type: "any",
-    },
-    {
-      title: "Upload a Folder",
-      icon: (
-        <DriveFolderUploadSharpIcon
-          sx={{
-            fontSize: "16px",
-            color: "rgba(0,0,0,0.85)",
-          }}
-        />
-      ),
-      type: "any",
-    },
-    {
-      title: "Upload a Video",
-      icon: (
-        <VideocamIcon
-          sx={{
-            fontSize: "16px",
-            color: "rgba(0,0,0,0.85)",
-          }}
-        />
-      ),
-      type: "video/*",
-    },
-    {
-      title: "Upload Music",
-      icon: (
-        <MusicVideoRoundedIcon
-          sx={{
-            fontSize: "16px",
-            color: "rgba(0,0,0,0.85)",
-          }}
-        />
-      ),
-      type: "audio/*",
-    },
-  ];
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const handleOpen = () => setModalOpen(true);
-  const handleClose = () => setModalOpen(false);
-
   return (
     <>
-      <Drawer
-        className="scrollbar-thin"
-        variant="permanent"
-        sx={{
-          display: { sm: "block" },
-          "& .MuiDrawer-paper": {
-            boxSizing: "border-box",
-            width: drawerWidth,
-            margin: "0 10px 0 20px",
-            overflowX: "hidden",
-            scrollbarWidth: "0px",
-            backgroundColor: "transparent", // Remove the default background color
-          },
-        }}
-        open
-      >
+      <div>
         <Modal
           open={modalOpen}
           onClose={() => handleClose()}
@@ -184,28 +128,28 @@ export default function DrawerComp({
         >
           <div
             className="
-            flex
-            gap-4
-            flex-col
-            bg-white
-            py-[2%]
-            rounded-[24px]
-            w-[50%]
-            border-2
-            absolute
-            top-[20%]
-            right-[25%]
-            scrollbar-thin
-            "
+              flex
+              gap-4
+              flex-col
+              bg-white
+              py-[2%]
+              rounded-[24px]
+              w-[50%]
+              border-2
+              absolute
+              top-[20%]
+              right-[25%]
+              scrollbar-thin
+              "
           >
             <h3
               className={`
-              ${karla.className}
-               font-extrabold
-               text-4xl
-               text-center
-               text-[rgba(0,0,0,0.75)]
-                `}
+                ${karla.className}
+                 font-extrabold
+                 text-4xl
+                 text-center
+                 text-[rgba(0,0,0,0.75)]
+                  `}
             >
               Create Folder
             </h3>
@@ -219,228 +163,319 @@ export default function DrawerComp({
             />
             <button
               className={`
-            ${karla.className} block 
-            py-[15px] 
-            w-[50%] 
-            mx-auto 
-            font-base 
-            text-center
-             bg-[#0066FF] 
-             rounded-[5px]
-              text-white`}
-              onClick={createFolder}
+              ${karla.className} block 
+              py-[15px] 
+              w-[50%] 
+              mx-auto 
+              font-base 
+              text-center
+               bg-[#0066FF] 
+               rounded-[5px]
+                text-white`}
+              onClick={() => {
+                createFolder();
+                handleClose();
+              }}
             >
               Create Folder
             </button>
           </div>
         </Modal>
-        <div>
-          <div className="h-[62vh] overflow-y-scroll scrollbar-thin">
-            <div
-              className={`
-              flex  
-              items-center 
-              justify-center 
-              py-8 
-              gap-2  
-              sm:gap-1 
-              ${karla.className}`}
-            >
-              <Image
-                src={require("../images/logo.svg")}
-                alt="logo"
-                // width={30}
-                className="
-              w-5
-              md:w-3
-              sm:w-2
-              "
-              />
-              <h1
-                className="
-              text-3xl
-              md:text-2xl 
-              sm:text-lg 
-              text-[rgba(0,0,0,0.75)]
-              dark:text-[rgba(255,255,255,0.75)] 
-              font-extrabold"
-              >
-                AFILENAME
-              </h1>
-            </div>
-            <ListItemButton className="p-0 my-4" onClick={handleClick}>
-              <p
-                className="
-                mr-[auto]
-                flex
-                items-center
-                justify-center
-                content-center
-                text-center
-                bg-[#DEDEDE]
-                rounded-[5px]
-                gap-[6px]
-                text-black
-                px-3
-                py-[2px]
+        <div className="min-h-[60vh] overflow-y-scroll scrollbar-thin">
+          <div
+            className={`
+                flex  
+                items-center 
+                justify-center 
+                py-8 
+                gap-2  
+                sm:gap-1 
+                ${karla.className}`}
+          >
+            <Image
+              src={require("../images/logo.svg")}
+              alt="logo"
+              // width={30}
+              className="
+                w-5
+                md:w-3
+                sm:w-2
                 "
-              >
-                <AddIcon
-                  sx={{
-                    fontSize: "16px",
-                    coloe: "rgba(0,0,0,0.85)",
-                  }}
-                />
-                New
-              </p>
-              {open ? (
-                <ExpandLess className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
-              ) : (
-                <ExpandMore className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
-              )}
-            </ListItemButton>
-            <Collapse in={open} timeout="auto" unmountOnExit>
-              <div
-                className="
-              flex
-           items-center
-           text-sm
-           text-[rgba(0,0,0,0.85)] 
-           dark:text-[rgba(255,255,255,0.75)]
-           gap-[10px]
-           pl-[5px]
-           cursor-pointer"
-                // style={{
-                //   display: "flex",
-                //   alignItems: "center",
-                //   fontSize: "14px",
-                //   color: "rgba(0, 0, 0, 0.85)",
-                //   gap: "10px",
-                //   paddingLeft: "5px",
-                //   cursor: "pointer",
-                // }}
-                onClick={() => {
-                  handleOpen();
-                }}
-              >
-                {optionsList[0].icon}
-                <p
-                  style={{
-                    margin: "5px 0",
-                  }}
-                >
-                  {optionsList[0].title}
-                </p>
-              </div>
-              <hr />
-              <ListItemComp
-                text={optionsList[1].title}
-                Icon={optionsList[1].icon}
-                handleFileChangeFunction={handleFileChangeFunction}
-              />
-              <ListItemComp
-                text={optionsList[2].title}
-                Icon={optionsList[2].icon}
-                handleFileChangeFunction={handleFileChangeFunction}
-              />
-              <hr />
-              <ListItemComp
-                text={optionsList[3].title}
-                Icon={optionsList[3].icon}
-                handleFileChangeFunction={handleFileChangeFunction}
-                filetype={optionsList[3].type}
-              />
-              <ListItemComp
-                text={optionsList[4].title}
-                Icon={optionsList[4].icon}
-                handleFileChangeFunction={handleFileChangeFunction}
-                filetype={optionsList[4].type}
-              />
-            </Collapse>
-            <NestedListComp folders={folders} />
-            <ListItemButton className="p-0 my-4" onClick={handleClick}>
-              <ListItemIcon
+            />
+            <h1
+              className="
+                text-3xl
+                md:text-2xl 
+                sm:text-lg 
+                text-[rgba(0,0,0,0.75)]
+                dark:text-[rgba(255,255,255,0.75)] 
+                font-extrabold"
+            >
+              AFILENAME
+            </h1>
+          </div>
+          <ListItemButton className="p-0 my-4" onClick={handleClick}>
+            <p
+              className="
+                  mr-[auto]
+                  flex
+                  items-center
+                  justify-center
+                  content-center
+                  text-center
+                  bg-[#DEDEDE]
+                  rounded-[5px]
+                  gap-[6px]
+                  text-black
+                  px-3
+                  py-[2px]
+                  "
+            >
+              <AddIcon
                 sx={{
-                  minWidth: "auto",
-                  paddingRight: "10px",
+                  fontSize: "16px",
+                  coloe: "rgba(0,0,0,0.85)",
+                }}
+              />
+              New
+            </p>
+            {open ? (
+              <ExpandLess className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+            ) : (
+              <ExpandMore className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+            )}
+          </ListItemButton>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <div
+              className="
+                  flex
+                  items-center
+                  text-sm
+                  text-[rgba(0,0,0,0.85)] 
+                  dark:text-[rgba(255,255,255,0.75)]
+                  gap-[10px]
+                  pl-[5px]
+                  cursor-pointer"
+              onClick={() => {
+                handleOpen();
+              }}
+            >
+              {optionsList[0].icon}
+              <p
+                style={{
+                  margin: "5px 0",
                 }}
               >
-                <SourceIcon className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base" />
-              </ListItemIcon>
+                {optionsList[0].title}
+              </p>
+            </div>
+            <hr />
+            <ListItemComp
+              text={optionsList[1].title}
+              Icon={optionsList[1].icon}
+              handleFileChangeFunction={handleFileChangeFunction}
+            />
+            <ListItemComp
+              text={optionsList[2].title}
+              Icon={optionsList[2].icon}
+              handleFileChangeFunction={handleFileChangeFunction}
+            />
+            <hr />
+            <ListItemComp
+              text={optionsList[3].title}
+              Icon={optionsList[3].icon}
+              handleFileChangeFunction={handleFileChangeFunction}
+              filetype={optionsList[3].type}
+            />
+            <ListItemComp
+              text={optionsList[4].title}
+              Icon={optionsList[4].icon}
+              handleFileChangeFunction={handleFileChangeFunction}
+              filetype={optionsList[4].type}
+            />
+          </Collapse>
+          <NestedListComp folders={folders} />
+          <ListItemButton
+            className="p-0 my-4"
+            onClick={() => {
+              setRecentOpen(!recentOpen);
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: "auto",
+                paddingRight: "10px",
+              }}
+            >
+              <SourceIcon className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base" />
+            </ListItemIcon>
 
-              <p
-                className="
-              text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)]
+            <p
+              className="
+                text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)]
+                ${karla.className}
+                text-sm
+                mr-auto
+                "
+            >
+              Recent
+            </p>
+            {recentOpen ? (
+              <ExpandLess className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+            ) : (
+              <ExpandMore className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+            )}
+          </ListItemButton>
+          <Collapse
+            className="pl-[5px]"
+            in={recentOpen}
+            timeout="auto"
+            unmountOnExit
+          >
+            {files?.map((v: any, i: any) => {
+              return <ListItemComp key={i} text={v.title} input={true} />;
+            })}
+          </Collapse>
+        </div>
+        <button
+          className={`
               ${karla.className}
               text-sm
-              mr-auto
-              "
-              >
-                Recent
-              </p>
-              {open ? (
-                <ExpandLess className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
-              ) : (
-                <ExpandMore className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
-              )}
-            </ListItemButton>
-            <Collapse
-              className="pl-[5px]"
-              in={open}
-              timeout="auto"
-              unmountOnExit
-            >
-              {files?.map((v: any, i: any) => {
-                return <ListItemComp key={i} text={v.title} input={true} />;
-              })}
-            </Collapse>
-          </div>
-          <button
-            className={`
-            ${karla.className}
-            text-sm
-            text-white
-            bg-[#1890FF]
-            border
-            p-1
-            border-[#1890FF]
-            mx-auto/
-            flex
-            w-[90%]
-            justify-center
-            my-[40px]
-            mr-[10px]
-           `}
-          >
-            Upgrade Plan
-          </button>
-          <div
-            className={`${karla.className}
-              text-[10px]
-              text-[#7c8db5b8]
-              mx-[30px]/
-              pb-4
-              `}
-          >
-            <p>
-              Legal
-              <br />
-              Terms of Service - Privacy - DMCA - Creator Terms
-            </p>
+              text-white
+              bg-[#1890FF]
+              border
+              p-1
+              border-[#1890FF]
+              mx-auto/
+              flex
+              w-[90%]
+              justify-center
+              my-[40px]
+              mr-[10px]
+             `}
+        >
+          Upgrade Plan
+        </button>
+        <div
+          className={`${karla.className}
+                text-[10px]
+                text-[#7c8db5b8]
+                mx-[30px]/
+                pb-4
+                `}
+        >
+          <p>
+            Legal
             <br />
-            <br />
-            <p>
-              <span className="text-[#1890FF]">UI:</span>4.2023.15
-            </p>
-            <p>
-              <span className="text-[#1890FF]">App:</span>4.2023.15
-            </p>
-            <p>
-              <span className="text-[#1890FF]">Language:</span>English (US)
-            </p>
-          </div>
+            Terms of Service - Privacy - DMCA - Creator Terms
+          </p>
+          <br />
+          <br />
+          <p>
+            <span className="text-[#1890FF]">UI:</span>4.2023.15
+          </p>
+          <p>
+            <span className="text-[#1890FF]">App:</span>4.2023.15
+          </p>
+          <p>
+            <span className="text-[#1890FF]">Language:</span>English (US)
+          </p>
         </div>
-      </Drawer>
+      </div>
     </>
+  );
+}
+
+export default function ResponsiveDrawer({
+  folders,
+  files,
+  handleFileChangeFunction,
+  handleFolderChangeFunction,
+  createFolder,
+}: {
+  folders: any;
+  files: any;
+  createFolder: any;
+  handleFileChangeFunction: any;
+  handleFolderChangeFunction: any;
+}) {
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+  return (
+    <Box sx={{ display: "flex" }}>
+      {/* <CssBaseline /> */}
+      <IconButton
+        color="inherit"
+        aria-label="open drawer"
+        edge="start"
+        onClick={handleDrawerToggle}
+        sx={{ mr: 2, display: { sm: "none" } }}
+      >
+        <MenuIcon />
+      </IconButton>
+
+      <Box
+        component="nav"
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        aria-label="mailbox folders"
+      >
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+            className: "scrollbar-thin border-r border-[#717171]",
+          }}
+          sx={{
+            display: { xs: "block", sm: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+              padding: "0 10px 0 20px",
+              overflowX: "hidden",
+              backgroundColor: "transparent",
+            },
+          }}
+        >
+          <DrawerContent
+            folders={folders}
+            handleFileChangeFunction={handleFileChangeFunction}
+            createFolder={createFolder}
+            handleFolderChangeFunction={handleFolderChangeFunction}
+            files={files}
+          />
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          PaperProps={{
+            className: "scrollbar-thin border-r border-[#717171]",
+          }}
+          sx={{
+            display: { sm: "block" },
+
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+              padding: "0 10px 0 20px",
+              overflowX: "hidden",
+              backgroundColor: "transparent",
+            },
+          }}
+          open
+        >
+          <DrawerContent
+            folders={folders}
+            handleFileChangeFunction={handleFileChangeFunction}
+            createFolder={createFolder}
+            handleFolderChangeFunction={handleFolderChangeFunction}
+            files={files}
+          />
+        </Drawer>
+      </Box>
+    </Box>
   );
 }

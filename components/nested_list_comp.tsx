@@ -20,7 +20,7 @@ import SourceIcon from "@mui/icons-material/Source";
 import { useRouter } from "next/router";
 export default function NestedListComp(props: { folders?: Array<Object> }) {
   const router = useRouter();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [refresh, setRefresh] = React.useState(true);
   interface FolderObject {
     name: string;

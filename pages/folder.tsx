@@ -23,6 +23,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { useTheme } from "next-themes";
+import { Button, Menu, MenuItem } from "@mui/material";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -57,6 +58,8 @@ export default function Docs({ query }: { query: any }) {
   const [filesDetails, setFilesDetails] = useState<Array<object>>();
   const [folders, setFolders] = useState<Array<any>>([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : getFolders();
@@ -210,7 +213,7 @@ export default function Docs({ query }: { query: any }) {
         }}
       >
         {theme == "light" ? (
-          <DarkModeSharpIcon />
+          <DarkModeSharpIcon className="text-dark" />
         ) : (
           <LightModeSharpIcon className="text-white" />
         )}
@@ -271,7 +274,35 @@ export default function Docs({ query }: { query: any }) {
               </p>
             </div>
             <p>
-              <KeyboardArrowDownIcon />
+              <Button
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={(event: any) => {
+                  setAnchorEl(event.currentTarget);
+                }}
+                className="w-fit min-w-0"
+              >
+                <KeyboardArrowDownIcon className="text-lg my-auto h-fit dark:text-white" />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={() => {
+                  setAnchorEl(null);
+                }}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+                PaperProps={{
+                  className:
+                    "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
+                }}
+              >
+                <MenuItem>Logout</MenuItem>
+              </Menu>
             </p>
           </div>
         </section>

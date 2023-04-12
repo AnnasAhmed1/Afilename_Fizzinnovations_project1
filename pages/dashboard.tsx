@@ -230,7 +230,7 @@ export default function Dashboard(props: Props) {
         }}
       >
         {theme == "light" ? (
-          <DarkModeSharpIcon />
+          <DarkModeSharpIcon className="text-dark" />
         ) : (
           <LightModeSharpIcon className="text-white" />
         )}

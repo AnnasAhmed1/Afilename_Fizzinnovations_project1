@@ -247,7 +247,11 @@ export default function Navbar() {
             setTheme(theme == "light" ? "dark" : "light");
           }}
         >
-          {theme == "light" ? <DarkModeSharpIcon /> : <LightModeSharpIcon />}
+           {theme == "light" ? (
+          <DarkModeSharpIcon className="text-dark" />
+        ) : (
+          <LightModeSharpIcon className="text-white" />
+        )}
         </button>
       </div>
     </nav>
