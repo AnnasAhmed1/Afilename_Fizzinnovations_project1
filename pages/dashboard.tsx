@@ -29,8 +29,9 @@ const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
+import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
+import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { useTheme } from "next-themes";
-
 
 interface Props {
   window?: () => Window;
@@ -69,7 +70,7 @@ export default function Dashboard(props: Props) {
   const [searchFiles, setSearchFiles] = useState([]);
   const [searchFilesDetails, setSearchFilesDetails] = useState([]);
   const { theme, setTheme } = useTheme();
-  console.log(theme)
+  console.log(theme);
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
@@ -216,8 +217,20 @@ export default function Dashboard(props: Props) {
 
   const text = "" as Props;
   return (
-    
     <Box sx={{ display: "flex" }}>
+      <button
+        className="absolute top-2 right-3"
+        onClick={() => {
+          console.log(theme);
+          setTheme(theme == "light" ? "dark" : "light");
+        }}
+      >
+        {theme == "light" ? (
+          <DarkModeSharpIcon />
+        ) : (
+          <LightModeSharpIcon className="text-white" />
+        )}
+      </button>
       <CssBaseline />
       <Box
         component="nav"
@@ -261,7 +274,7 @@ export default function Dashboard(props: Props) {
             placeholder="search"
             onChange={async (e) => {
               setSearchQuery(e.target.value);
-              console.log(e.target.value)
+              console.log(e.target.value);
               await handleFetchAction(`/account/search?q=${e.target.value}`)
                 .then((response: any) => {
                   console.log(response);

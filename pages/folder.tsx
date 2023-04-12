@@ -20,6 +20,9 @@ import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import { API } from "@/config/API";
 import FileList from "@/components/file_list";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
+import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
+import { useTheme } from "next-themes";
 const drawerWidth = 240;
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -41,6 +44,8 @@ interface FileObject {
 }
 
 export default function Docs({ query }: { query: any }) {
+  const { theme, setTheme } = useTheme();
+
   const router = useRouter();
   const { id, name } = router.query;
   // name?.toString();
@@ -197,6 +202,19 @@ export default function Docs({ query }: { query: any }) {
 
   return (
     <Box sx={{ display: "flex" }}>
+      <button
+        className="absolute top-2 right-3"
+        onClick={() => {
+          console.log(theme);
+          setTheme(theme == "light" ? "dark" : "light");
+        }}
+      >
+        {theme == "light" ? (
+          <DarkModeSharpIcon />
+        ) : (
+          <LightModeSharpIcon className="text-white" />
+        )}
+      </button>
       <CssBaseline />
       <Box
         component="nav"

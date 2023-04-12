@@ -13,6 +13,8 @@ import { Box, Modal, Typography } from "@mui/material";
 import Signup from "../pages/signup";
 import Login from "../pages/login";
 import { handleInsertAction } from "@/config/API_actions";
+import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
+import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { API } from "@/config/API";
 import Cookies from "js-cookie";
 import { useTheme } from "next-themes";
@@ -245,7 +247,7 @@ export default function Navbar() {
             setTheme(theme == "light" ? "dark" : "light");
           }}
         >
-          theme
+          {theme == "light" ? <DarkModeSharpIcon /> : <LightModeSharpIcon />}
         </button>
       </div>
     </nav>
