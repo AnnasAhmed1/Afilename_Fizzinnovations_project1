@@ -48,6 +48,7 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
         text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)]
         ${karla.className}
         text-sm
+        sm:text-xs
         mr-auto
         "
         >

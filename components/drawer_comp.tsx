@@ -181,7 +181,7 @@ function DrawerContent({
             </button>
           </div>
         </Modal>
-        <div className="min-h-[60vh] overflow-y-scroll scrollbar-thin">
+        <div className="min-h-[60vh] sm:min-h-[65vh] overflow-y-scroll scrollbar-thin">
           <div
             className={`
                 flex  
@@ -227,8 +227,11 @@ function DrawerContent({
                   rounded-[5px]
                   gap-[6px]
                   text-black
+                  sm:text-sm
                   px-3
+                  sm:px-2
                   py-[2px]
+                  sm:py-0
                   "
             >
               <AddIcon
@@ -262,6 +265,7 @@ function DrawerContent({
             >
               {optionsList[0].icon}
               <p
+                className="sm:text-xs"
                 style={{
                   margin: "5px 0",
                 }}
@@ -315,6 +319,7 @@ function DrawerContent({
                 text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)]
                 ${karla.className}
                 text-sm
+                sm:text-xs
                 mr-auto
                 "
             >
@@ -341,8 +346,10 @@ function DrawerContent({
           className={`
               ${karla.className}
               text-sm
+              sm:text-xs
               text-white
               bg-[#1890FF]
+              
               border
               p-1
               border-[#1890FF]
@@ -351,7 +358,9 @@ function DrawerContent({
               w-[90%]
               justify-center
               my-[40px]
+              sm:my-[25px]
               mr-[10px]
+              sm:mr-[5px]
              `}
         >
           Upgrade Plan
@@ -359,6 +368,7 @@ function DrawerContent({
         <div
           className={`${karla.className}
                 text-[10px]
+                sm:text-[8px]
                 text-[#7c8db5b8]
                 mx-[30px]/
                 pb-4
@@ -452,15 +462,15 @@ export default function ResponsiveDrawer({
         <Drawer
           variant="permanent"
           PaperProps={{
-            className: "scrollbar-thin border-r border-[#717171]",
+            className:
+              "scrollbar-thin border-r pl-[20px] sm:pl-[15px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]",
           }}
           sx={{
-            display: { sm: "block" },
+            display: { xs: "none", sm: "block" },
 
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
-              padding: "0 10px 0 20px",
+              // padding: "0 10px 0 20px",
               overflowX: "hidden",
               backgroundColor: "transparent",
             },

@@ -252,6 +252,7 @@ export default function Dashboard(props: Props) {
       <main
         className={`
         w-[calc(100%-240px)]
+        sm:w-full
         w-[80%]/  
         pl-[3.5%] 
         pr-[2%]
@@ -364,35 +365,39 @@ export default function Dashboard(props: Props) {
                 className="
             flex
             gap-6
+            md:gap-4
             overflow-x-scroll
             scrollbar-thin
             scroll-m-0
             scroll-p-0
           "
               >
-                {folders.length == 0 ? (
+                {folders?.length == 0 ? (
                   <p className="my-4">No folders yet</p>
                 ) : (
-                  folders.map((v, i) => {
+                  folders?.map((v, i) => {
                     const obj = v as MyObject;
                     return (
                       <div
                         key={i}
                         className="border-2
-                    border-[rgba(0,0,0,0.06)]
-                    dark:border-[rgba(255,255,255,0.56)]
-
-                    container
-                    cursor-pointer
-                    rounded-lg
-                    min-w-[150px]
-                    w-[150px]
-                    min-h-[185px]
-                    max-h-[185px]
-                    pt-[35px]
-                    pb-[20px]
-                    mx-auto
-                    "
+                        border-[rgba(0,0,0,0.06)]
+                        dark:border-[rgba(255,255,255,0.56)]
+                        container
+                        cursor-pointer
+                        rounded-lg
+                        min-w-[150px]
+                        w-[150px]
+                        h-[185px]
+                        md:min-w-[120px]
+                        md:w-[120px]
+                        md:h-[145px]
+                        pt-[35px]
+                        pb-[20px]
+                        md:pt-[25px]
+                        md:pb-[10px]
+                        mx-auto
+                        "
                         onClick={() => {
                           router.push({
                             pathname: "/folder",
@@ -403,12 +408,13 @@ export default function Dashboard(props: Props) {
                         <Image
                           src={require("../images/folder_icon.svg")}
                           alt="folder icon"
-                          className="w-[100px] mx-auto"
+                          className="w-[100px] md:w-[80px] mx-auto"
                         />
                         <p
                           className={`
                     ${inter.className}
                     text-[18px]
+                    md:text-base
                     font-semibold
                     text-[#1A1A1A]
                     dark:text-[#ececec]

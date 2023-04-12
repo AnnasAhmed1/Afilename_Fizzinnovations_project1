@@ -64,6 +64,7 @@ export default function ListItemComp(props: {
         {Icon}
 
         <p
+        className="sm:text-xs"
           style={{
             margin: "5px 0",
             wordBreak: "break-all",
