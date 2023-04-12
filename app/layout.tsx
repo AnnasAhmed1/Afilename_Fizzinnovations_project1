@@ -5,10 +5,6 @@ import "tailwindcss/tailwind.css";
 import Head from "next/head";
 import { ThemeProvider } from "next-themes";
 
-export const metadata = {
-  title: "AFILENAME",
-  description: "AFILENAME",
-};
 
 export default function RootLayout({
   children,
