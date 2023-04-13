@@ -34,6 +34,8 @@ export default function Login() {
       className="
         flex
         gap-4
+        md:gap-3
+        sm:gap-2
         flex-col
         bg-white
         dark:bg-[#121212]
@@ -41,15 +43,21 @@ export default function Login() {
         py-[2%]
         rounded-[24px]
         w-[50%]
-        md:[60%]
-        sm:[85%]
+        md:w-[70%]
+        sm:w-[80%]
         border-2
         absolute
         top-[20%]
-        right-[25%]"
+        right-[25%]
+        md:right-[15%]
+        sm:right-[10%]
+        "
     >
       <h3
-        className={`${karla.className} font-extrabold text-4xl text-center text-[rgba(0,0,0,0.75) 
+        className={`${karla.className} font-extrabold 
+        md:text-3xl
+        sm:text-2xl
+        text-4xl text-center text-[rgba(0,0,0,0.75) 
   `}
       >
         Verify Login

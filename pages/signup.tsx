@@ -33,17 +33,23 @@ export default function Signup({
         pb-8
         rounded-[24px]
         w-[50%]
-        md:[60%]
-        sm:[85%]
+        md:w-[70%]
+        sm:w-[80%]
         border-2
         absolute
         top-[20%]
-        right-[25%]"
+        right-[25%]
+        md:right-[15%]
+        sm:right-[10%]
+        
+        "
       >
         <h3
           className={`
           ${karla.className} font-extrabold 
           text-4xl
+          md:text-3xl
+          sm:text-2xl
          mb-2
           text-center 
           text-[rgba(0,0,0,0.75) 
@@ -64,6 +70,8 @@ export default function Signup({
           md:px-8
           sm:px-6
           mt-12
+          md:mt-10
+          sm:mt-8
           "
         >
           <TextField
@@ -75,7 +83,13 @@ export default function Signup({
             sx={{
               width: "100%",
               marginBottom: "3rem",
-              color:"white"
+              color: "white",
+              "@media (min-width: 768px, max-width: 1023px)": {
+                marginBottom: "2.5rem",
+              },
+              "@media (max-width: 767px)": {
+                marginBottom: "2rem",
+              },
             }}
             onChange={(e) => {
               handleChange(e);
@@ -84,7 +98,9 @@ export default function Signup({
           <button
             className={`${mavenPro.className}
             block 
-            py-[15px] 
+            py-[15px]
+            md:py-[10px] 
+            sm:py-[10px] 
             w-[65%] 
             mx-auto 
             font-base 
@@ -108,6 +124,8 @@ export default function Signup({
           className={`
           ${karla.className} 
           pt-10
+          md:pt-8
+          sm:pt-6
           font-light ß
           text-[13px] 
           text-center`}
