@@ -243,15 +243,16 @@ export default function Navbar() {
         </button>
         <button
           onClick={() => {
-            console.log(theme);
             setTheme(theme == "light" ? "dark" : "light");
           }}
         >
-           {theme == "light" ? (
-          <DarkModeSharpIcon className="text-dark" />
-        ) : (
-          <LightModeSharpIcon className="text-white" />
-        )}
+          {theme == "light" ? (
+            <DarkModeSharpIcon className="text-dark" />
+          ) : theme == "dark" ? (
+            <LightModeSharpIcon className="text-white" />
+          ) : (
+            <DarkModeSharpIcon />
+          )}
         </button>
       </div>
     </nav>

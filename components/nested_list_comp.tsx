@@ -33,7 +33,11 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
 
   return (
     <>
-      <ListItemButton className="p-0 my-4" onClick={handleClick}>
+      <ListItemButton style={{
+        padding:0,
+        marginTop:"1rem",
+        marginBottom:"1rem",
+      }} className="p-0 my-4" onClick={handleClick}>
         <ListItemIcon
           sx={{
             minWidth: "auto",

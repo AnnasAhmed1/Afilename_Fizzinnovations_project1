@@ -212,10 +212,12 @@ export default function Docs({ query }: { query: any }) {
           setTheme(theme == "light" ? "dark" : "light");
         }}
       >
-        {theme == "light" ? (
+           {theme == "light" ? (
           <DarkModeSharpIcon className="text-dark" />
-        ) : (
+        ) : theme == "dark" ?  (
           <LightModeSharpIcon className="text-white" />
+        ):(
+          <DarkModeSharpIcon />
         )}
       </button>
       <CssBaseline />

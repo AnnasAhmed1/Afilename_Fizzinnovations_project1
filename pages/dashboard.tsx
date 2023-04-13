@@ -231,8 +231,10 @@ export default function Dashboard(props: Props) {
       >
         {theme == "light" ? (
           <DarkModeSharpIcon className="text-dark" />
-        ) : (
+        ) : theme == "dark" ? (
           <LightModeSharpIcon className="text-white" />
+        ) : (
+          <DarkModeSharpIcon />
         )}
       </button>
       <CssBaseline />

@@ -300,6 +300,11 @@ function DrawerContent({
           </Collapse>
           <NestedListComp folders={folders} />
           <ListItemButton
+            style={{
+              padding: 0,
+              marginTop: "1rem",
+              marginBottom: "1rem",
+            }}
             className="p-0 my-4"
             onClick={() => {
               setRecentOpen(!recentOpen);
@@ -473,7 +478,6 @@ export default function ResponsiveDrawer({
 
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              // padding: "0 10px 0 20px",
               overflowX: "hidden",
               backgroundColor: "transparent",
             },
