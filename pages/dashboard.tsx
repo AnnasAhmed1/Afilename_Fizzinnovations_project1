@@ -33,7 +33,8 @@ import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
-
+import ProgressBar from "@/components/progressbar";
+import CloseIcon from "@mui/icons-material/Close";
 interface Props {
   window?: () => Window;
 }
@@ -73,8 +74,8 @@ export default function Dashboard(props: Props) {
   const { theme, setTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
-  console.log(theme);
+  const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
@@ -83,24 +84,24 @@ export default function Dashboard(props: Props) {
   const uploadRequest = async (
     file?: any,
     filename?: any,
-    contentType?: any
+    contentType?: any,
+    onUploadProgress?: any
   ) => {
-    console;
     try {
       await handleInsertAction("files/upload", {
         filename,
         contentType,
       })
         .then(async (response: any) => {
-          console.log(response.data.url, "response.data.url");
-
+          // console.log(file);
+          // setUploadingFiles([...file]),
           await axios
             .put(response.data.url, file, {
               headers: {
                 "Content-Type": contentType,
               },
+              // onUploadProgress,
             })
-
             .then((res) => {
               console.log("success");
               getFiles();
@@ -119,7 +120,14 @@ export default function Dashboard(props: Props) {
 
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
-    uploadRequest(file, file?.name, file?.type);
+    const updateProgress = (event: any) => {
+      const percentage = Math.round((100 * event.loaded) / event.total);
+      console.log(percentage);
+      // const percentage = (event.loaded / event.total) * 100;
+      setUploadProgress(percentage);
+    };
+    console.log("update progress", updateProgress);
+    uploadRequest(file, file?.name, file?.type, updateProgress);
   };
   const handleFolderChangeFunction = (e: any) => {
     setNewFolderName(e.target.value);
@@ -171,7 +179,6 @@ export default function Dashboard(props: Props) {
     try {
       handleFetchAction("/account/folders").then((response: any) => {
         setFolders(response.data.folders);
-        console.log("folders", folders);
       });
     } catch (error) {
       console.log(error);
@@ -238,6 +245,7 @@ export default function Dashboard(props: Props) {
         )}
       </button>
       <CssBaseline />
+
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -363,16 +371,32 @@ export default function Dashboard(props: Props) {
               >
                 Folders
               </h1>
+              {/* <div>
+                <p>File 1.jpeg</p>
+                <ProgressBar progress={uploadProgress} />
+                <p>{uploadProgress}%</p>
+                <CloseIcon />
+              </div>
+              {uploadingFiles?.map((v, i) => {
+                return (
+                  <div>
+                    <p>File 1.jpeg</p>
+                    <ProgressBar progress={uploadProgress} />
+                    <p>{uploadProgress}%</p>
+                    <CloseIcon />
+                  </div>
+                );
+              })} */}
               <div
                 className="
-            flex
-            gap-6
-            md:gap-4
-            overflow-x-scroll
-            scrollbar-thin
-            scroll-m-0
-            scroll-p-0
-          "
+                flex
+                gap-6
+                md:gap-4
+                overflow-x-scroll
+                scrollbar-thin
+                scroll-m-0
+                scroll-p-0
+              "
               >
                 {folders?.length == 0 ? (
                   <p className="my-4">No folders yet</p>
@@ -419,20 +443,20 @@ export default function Dashboard(props: Props) {
                         />
                         <p
                           className={`
-                    ${inter.className}
-                    text-[18px]
-                    md:text-base
-                    font-semibold
-                    text-[#1A1A1A]
-                    dark:text-[#ececec]
-                    mt-[10px]
-                    px-[10px]
-                    text-center
-                    mx-6/
-                    leading-[18px]
-                    tracking-[0.01em]
-                    break-all
-                   `}
+                          ${inter.className}
+                          text-[18px]
+                          md:text-base
+                          font-semibold
+                          text-[#1A1A1A]
+                          dark:text-[#ececec]
+                          mt-[10px]
+                          px-[10px]
+                          text-center
+                          mx-6/
+                          leading-[18px]
+                          tracking-[0.01em]
+                          break-all
+                        `}
                         >
                           {obj.name}
                         </p>
@@ -446,16 +470,15 @@ export default function Dashboard(props: Props) {
             <section className="">
               <h1
                 className={`
-            ${karla.className}
-            font-bold
-            text-xl
-            text-[#2E2E2E]
-            dark:text-[#ececec]
-            tracking-[1px]
-            my-4
-            pl-[1.5%]
-           
-          `}
+                ${karla.className}
+                font-bold
+                text-xl
+                text-[#2E2E2E]
+                dark:text-[#ececec]
+                tracking-[1px]
+                my-4
+                pl-[1.5%]
+              `}
               >
                 Files
               </h1>

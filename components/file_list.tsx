@@ -65,6 +65,7 @@ export default function FileList({
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const router = useRouter();
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -131,7 +132,8 @@ export default function FileList({
         >
           <MenuItem
             onClick={() => {
-              handleDowunloadUrl();
+              // handleDowunloadUrl();
+              router.push(`files/${fileObj.fileId}`);
               handleMenuClose();
             }}
           >

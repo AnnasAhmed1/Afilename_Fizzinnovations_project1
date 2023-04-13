@@ -1,51 +1,36 @@
-import { useState } from "react";
+import ProgressBar from "@/components/progressbar";
+import React, { useState } from "react";
+// import ProgressBar from '../components/ProgressBar';
 
-export default function MyForm(): JSX.Element {
-  const [folder, setFolder] = useState<File | null>(null);
-
-  const handleFolderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    setFolder(file ?? null);
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+const UploadPage = () => {
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileUpload = async (file: any) => {
+    const xhr = new XMLHttpRequest();
     const formData = new FormData();
-    if (folder) {
-      formData.append("folder", folder);
-    }
+    formData.append("file", file);
 
-    // Add any other form data to the request
-    formData.append("name", "My Folder");
-
-    // Send the form data to the server using fetch
-    const response = await fetch("/api/upload-folder", {
-      method: "POST",
-      body: formData,
+    xhr.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        const progress = (event.loaded / event.total) * 100;
+        setUploadProgress(progress);
+      }
     });
 
-    // Handle the response from the server
-    const data = await response.json();
-    console.log(data);
+    xhr.open("POST", "/api/upload");
+    xhr.send(formData);
+  };
+
+  const handleFileUpload = async (event: any) => {
+    const file = event.target.files[0];
+    await fileUpload(file);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="folder">Upload a folder:</label>
-      <input
-        type="file"
-        id="folder"
-        name="folder"
-        onChange={handleFolderChange}
-        directory
-        webkitdirectory
-        {...(process.browser &&
-          ({ webkitdirectory: true, directory: true } as any))}
-      />
-
-      <br />
-      <button type="submit">Upload</button>
-    </form>
+    <div>
+      <input type="file" onChange={handleFileUpload} />
+      <ProgressBar progress={uploadProgress} />
+    </div>
   );
-}
+};
+
+export default UploadPage;

@@ -105,13 +105,10 @@ export default function Signup({
             mx-auto 
             font-base 
             text-center
-             bg-[#0066FF] 
-             rounded-[5px]
-              text-white`}
+            bg-[#0066FF] 
+            rounded-[5px]
+          text-white`}
             type={"submit"}
-            // onClick={() => {
-            //   handleSubmit(email);
-            // }}
           >
             Continue
             <EastIcon
