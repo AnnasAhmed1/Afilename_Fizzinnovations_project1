@@ -41,6 +41,8 @@ export default function Login() {
         py-[2%]
         rounded-[24px]
         w-[50%]
+        md:[60%]
+        sm:[85%]
         border-2
         absolute
         top-[20%]

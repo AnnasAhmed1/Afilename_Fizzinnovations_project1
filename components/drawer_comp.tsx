@@ -1,27 +1,13 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
-// import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-// import ListItemButton from "@mui/material/ListItemButton";
-// import ListItemIcon from "@mui/material/ListItemIcon";
-// import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import {
   Collapse,
   Drawer,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
   Modal,
   TextField,
 } from "@mui/material";
@@ -30,7 +16,6 @@ import ListItemComp from "@/components/list_item";
 import NestedListComp from "@/components/nested_list_comp";
 import { useState } from "react";
 import { Inter, Karla, Manrope } from "next/font/google";
-import { handleInsertAction } from "@/config/API_actions";
 // ICONS
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import AttachFileIcon from "@mui/icons-material/AttachFile";

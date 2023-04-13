@@ -392,10 +392,15 @@ export default function Dashboard(props: Props) {
                         md:min-w-[120px]
                         md:w-[120px]
                         md:h-[145px]
-                        pt-[35px]
-                        pb-[20px]
                         md:pt-[25px]
                         md:pb-[10px]
+                        sm:min-w-[120px]
+                        sm:w-[120px]
+                        sm:h-[145px]
+                        sm:pt-[25px]
+                        sm:pb-[10px]
+                        pt-[35px]
+                        pb-[20px]
                         mx-auto
                         "
                         onClick={() => {

@@ -33,6 +33,8 @@ export default function Signup({
         pb-8
         rounded-[24px]
         w-[50%]
+        md:[60%]
+        sm:[85%]
         border-2
         absolute
         top-[20%]
@@ -59,6 +61,8 @@ export default function Signup({
           className="
           w-full
           px-12
+          md:px-8
+          sm:px-6
           mt-12
           "
         >
