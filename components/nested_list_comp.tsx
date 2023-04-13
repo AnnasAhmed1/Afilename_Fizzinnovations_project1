@@ -40,7 +40,7 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
             paddingRight: "10px",
           }}
         >
-          <SourceIcon className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base" />
+          <SourceIcon style={{fontSize:"16px"}} className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base" />
         </ListItemIcon>
 
         <p
@@ -82,7 +82,7 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
               text={folderObj.name}
               input={true}
               Icon={
-                <FolderCopyIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+                <FolderCopyIcon style={{fontSize:"16px"}} className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
               }
               handleFileChangeFunction={null}
             />

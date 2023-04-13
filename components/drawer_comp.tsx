@@ -1,4 +1,6 @@
 import * as React from "react";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -23,8 +25,6 @@ import DriveFolderUploadSharpIcon from "@mui/icons-material/DriveFolderUploadSha
 import VideocamIcon from "@mui/icons-material/Videocam";
 import MusicVideoRoundedIcon from "@mui/icons-material/MusicVideoRounded";
 import SourceIcon from "@mui/icons-material/Source";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -61,35 +61,50 @@ function DrawerContent({
     {
       title: "New Folder",
       icon: (
-        <CreateNewFolderIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+        <CreateNewFolderIcon
+          style={{ fontSize: "16px" }}
+          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+        />
       ),
       type: "any",
     },
     {
       title: "Upload a File",
       icon: (
-        <AttachFileIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+        <AttachFileIcon
+          style={{ fontSize: "16px" }}
+          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+        />
       ),
       type: "any",
     },
     {
       title: "Upload a Folder",
       icon: (
-        <DriveFolderUploadSharpIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+        <DriveFolderUploadSharpIcon
+          style={{ fontSize: "16px" }}
+          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+        />
       ),
       type: "any",
     },
     {
       title: "Upload a Video",
       icon: (
-        <VideocamIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+        <VideocamIcon
+          style={{ fontSize: "16px" }}
+          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+        />
       ),
       type: "video/*",
     },
     {
       title: "Upload Music",
       icon: (
-        <MusicVideoRoundedIcon className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+        <MusicVideoRoundedIcon
+          style={{ fontSize: "16px" }}
+          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+        />
       ),
       type: "audio/*",
     },
@@ -296,7 +311,10 @@ function DrawerContent({
                 paddingRight: "10px",
               }}
             >
-              <SourceIcon className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base" />
+              <SourceIcon
+                style={{ fontSize: "16px" }}
+                className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base"
+              />
             </ListItemIcon>
 
             <p
