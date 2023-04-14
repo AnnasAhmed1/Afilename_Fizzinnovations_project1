@@ -66,6 +66,7 @@ export default function FileList({
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [copied, setCopied] = useState(false);
+
   const handleCopyClick = async (_fileId: any) => {
     await handleFetchAction(`/files/downloadurl?file=${_fileId}`)
       .then((response: any) => {
@@ -103,6 +104,38 @@ export default function FileList({
       return (bytes / 1073741824).toFixed(2) + "GB";
     }
   }
+  const handleDownload = async (_fileId: any) => {
+    // window.open(
+    //   `https://dev.api.afilename.com/files/downloadurl?file=${_fileId}`,
+    //   "_blank"
+    // );
+
+    // return;
+    await API({
+      method: "GET",
+      url: `files/download?file=${_fileId}`,
+      responseType: "blob",
+    })
+      .then((response) => {
+        const url = URL.createObjectURL(response.data);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = "";
+        downloadLink.click();
+        // console.log(url);
+        // const downloadLink = document.createElement("a");
+        // downloadLink.href = url;
+        // // downloadLink.download = "filename.ext";
+        // downloadLink.click();
+        // window.open(url, "_self",);
+        // fileDownloadd
+        // setDownloadUrl(url);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    handleMenuClose();
+  };
 
   return (
     <div
@@ -160,12 +193,14 @@ export default function FileList({
           <MenuItem
             onClick={() => {
               // handleDowunloadUrl();
-              router.push(`files/${fileObj.fileId}`);
-              handleMenuClose();
+              handleDownload(fileObj.fileId);
+              // router.push(`files/${fileObj.fileId}`);
             }}
           >
-            <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ececec] mr-[5px]" />{" "}
-            Download
+            <a href="">
+              <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ececec] mr-[5px]" />{" "}
+              Download
+            </a>
           </MenuItem>
           <MenuItem
             onClick={

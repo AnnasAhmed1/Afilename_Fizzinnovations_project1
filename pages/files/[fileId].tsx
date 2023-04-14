@@ -41,14 +41,9 @@ function FilePage({ query }: { query: any }) {
       responseType: "blob",
     })
       .then((response) => {
-        //   console.log(url);
         const url = URL.createObjectURL(response.data);
-        // url ? window.open(url, "_blank") : null;
         setDownloadUrl(url);
-        // const downloadLink = document.createElement("a");
-        // downloadLink.href = url;
-        // downloadLink.click();
-        // window.open(url, "_blank");
+     ;
       })
       .catch((error) => {
         console.log(error);
@@ -62,7 +57,7 @@ function FilePage({ query }: { query: any }) {
     <div>
       {/* <button onClick={handleDownload}>Download File</button> */}
       {downloadUrl && (
-        <a href={downloadUrl} download>
+        <a target="_blank" href={downloadUrl} download>
           Click here to download
         </a>
       )}

@@ -97,7 +97,7 @@ export default function Dashboard(props: Props) {
         contentType,
       })
         .then(async (response: any) => {
-          uploadingFiles.push(file);
+          uploadingFiles.push({ file: file, uploadProgress: uploadProgress });
           setUploadingFiles([...uploadingFiles]),
             await axios
               .put(response.data.url, file, {
@@ -108,6 +108,9 @@ export default function Dashboard(props: Props) {
               })
               .then((res) => {
                 console.log("success");
+                setTimeout(() => {
+                  setUploadingFiles([]);
+                }, 1000);
                 getFiles();
               })
               .catch((err) => {
@@ -127,7 +130,6 @@ export default function Dashboard(props: Props) {
     const updateProgress = (event: any) => {
       const percentage = Math.round((100 * event.loaded) / event.total);
       console.log(percentage);
-      // const percentage = (event.loaded / event.total) * 100;
       setUploadProgress(percentage);
     };
     console.log("update progress", updateProgress);
@@ -373,66 +375,65 @@ export default function Dashboard(props: Props) {
                   <CloseIcon />
                   </p>
                 </div> */}
-                {/* <div className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
-                  <h1
-                    className={`
-                    text-[18px]
-                    font-bold
-                    
-                    text-[#1A1A1A]
-                    dark:text-[#ececec]
-                    text-center
-                    40
-
-                    `}
-                  >
-                    Uploading 12 Files (25 GB)...
-                  </h1> */}
-                  {
-                    // ["annas", "siraj", "waqas","annas", "siraj", "waqas",]
-                    // uploadingFiles?.map((v, i) => {
-                    //   return (
-                    //     <div
-                    //       key={i}
-                    //       className={`
-                    //       ${karla.className}
-                    //       flex
-                    //       gap-1
-                    //       items-center
-                    //       `}
-                    //     >
-                    //       <p
-                    //         className="
-                    //         text-[10px]
-                    //         w-[85px]
-                    //         // /min-w-[20px]
-                    //         // /max-w-[20px]
-                    //         "
-                    //       >
-                    //         {v.name?.slice(0, 12)}
-                    //       </p>
-                    //       <ProgressBar progress={uploadProgress} />
-                    //       <p
-                    //         className="
-                    //          text-[11px]
+                {uploadingFiles?.length > 0 ? (
+                  <div className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+                    <h1
+                      className={`
+                      text-[18px]
+                      font-bold
+                      text-[#1A1A1A]
+                      dark:text-[#ececec]
+                      text-center
+                      `}
+                    >
+                      {`Uploading ${uploadingFiles?.length} Files...`}
+                    </h1>
+                    {
+                      // ["annas", "siraj", "waqas","annas", "siraj", "waqas",]
+                      uploadingFiles?.map((v, i) => {
+                        return (
+                          <div
+                            key={i}
+                            className={`
+                            ${karla.className}
+                            flex
+                            gap-1
+                            items-center
+                            `}
+                          >
+                            <p
+                              className="
+                              text-[10px]
+                              w-[85px]
+                              // /min-w-[20px]
+                              // /max-w-[20px]
+                              "
+                            >
+                              {v.file.name?.slice(0, 12)}
+                            </p>
+                            <ProgressBar progress={uploadProgress} />
+                            <p
+                              className="
+                             text-[11px]
                            
-                    //       "
-                    //       >
-                    //         {uploadProgress}%
-                    //       </p>
-                    //       <p>
-                    //         <CloseIcon
-                    //           style={{
-                    //             fontSize: "15px",
-                    //             backgroundColor: "white",
-                    //           }}
-                    //         />
-                    //       </p>
-                    //     </div>
-                    //   );
-                    // })
-                  }
-                {/* </div> */}
+                          "
+                            >
+                              {uploadProgress}%
+                            </p>
+                            <p>
+                              <CloseIcon
+                                style={{
+                                  fontSize: "15px",
+                                  backgroundColor: "white",
+                                }}
+                              />
+                            </p>
+                          </div>
+                        );
+                      })
+                    }
+                  </div>
+                ) : null}
                 <div
                   className="
                     flex
