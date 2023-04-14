@@ -261,19 +261,19 @@ export default function Dashboard(props: Props) {
 
         <main
           className={`
-        w-[calc(100%-240px)]
-        sm:w-full
-        w-[80%]/  
-        pl-[3.5%] 
-        pr-[2%]
-        mt-[5%]
-      `}
+          w-[calc(100%-240px)]
+          sm:w-full
+          w-[80%]/  
+          pl-[3.5%] 
+          pr-[2%]
+          mt-[5%]
+        `}
         >
           <section
             className="flex 
-          justify-between 
-          pr-[10%]
-          "
+            justify-between 
+            pr-[10%]
+            "
           >
             <input
               type="text"
@@ -390,17 +390,17 @@ export default function Dashboard(props: Props) {
                       Uploading 12 Files (25 GB)...
                     </h1>
                   {
-                    // uploadingFiles?
-
-                    ["annas", "siraj", "waqas","annas", "siraj", "waqas",].map((v, i) => {
+                    
+                    // ["annas", "siraj", "waqas","annas", "siraj", "waqas",]
+                    uploadingFiles?.map((v, i) => {
                       return (
                         <div
                           className={`
-                    ${karla.className}
-                    flex
-                    gap-1
-                    items-center
-                    `}
+                          ${karla.className}
+                          flex
+                          gap-1
+                          items-center
+                          `}
                         >
                           <p
                             className="
@@ -412,7 +412,7 @@ export default function Dashboard(props: Props) {
                           <ProgressBar progress={uploadProgress} />
                           <p
                             className="
-                          text-[11px]
+                             text-[11px]
                           "
                           >
                             {uploadProgress}%
@@ -430,14 +430,14 @@ export default function Dashboard(props: Props) {
                 </div>
                 <div
                   className="
-                flex
-                gap-6
-                md:gap-4
-                overflow-x-scroll
-                scrollbar-thin
-                scroll-m-0
-                scroll-p-0
-               "
+                    flex
+                    gap-6
+                    md:gap-4
+                    overflow-x-scroll
+                    scrollbar-thin
+                    scroll-m-0
+                    scroll-p-0
+                  "
                 >
                   {folders?.length == 0 ? (
                     <p className="my-4">No folders yet</p>
@@ -448,28 +448,28 @@ export default function Dashboard(props: Props) {
                         <div
                           key={i}
                           className="border-2
-                        border-[rgba(0,0,0,0.06)]
-                        dark:border-[rgba(255,255,255,0.56)]
-                        container
-                        cursor-pointer
-                        rounded-lg
-                        min-w-[150px]
-                        w-[150px]
-                        h-[185px]
-                        md:min-w-[120px]
-                        md:w-[120px]
-                        md:h-[145px]
-                        md:pt-[25px]
-                        md:pb-[10px]
-                        sm:min-w-[120px]
-                        sm:w-[120px]
-                        sm:h-[145px]
-                        sm:pt-[25px]
-                        sm:pb-[10px]
-                        pt-[35px]
-                        pb-[20px]
-                        mx-auto
-                        "
+                          border-[rgba(0,0,0,0.06)]
+                          dark:border-[rgba(255,255,255,0.56)]
+                          container
+                          cursor-pointer
+                          rounded-lg
+                          min-w-[150px]
+                          w-[150px]
+                          h-[185px]
+                          md:min-w-[120px]
+                          md:w-[120px]
+                          md:h-[145px]
+                          md:pt-[25px]
+                          md:pb-[10px]
+                          sm:min-w-[120px]
+                          sm:w-[120px]
+                          sm:h-[145px]
+                          sm:pt-[25px]
+                          sm:pb-[10px]
+                          pt-[35px]
+                          pb-[20px]
+                          mx-auto
+                          "
                           onClick={() => {
                             router.push({
                               pathname: "/folder",
@@ -484,20 +484,20 @@ export default function Dashboard(props: Props) {
                           />
                           <p
                             className={`
-                          ${inter.className}
-                          text-[18px]
-                          md:text-base
-                          font-semibold
-                          text-[#1A1A1A]
-                          dark:text-[#ececec]
-                          mt-[10px]
-                          px-[10px]
-                          text-center
-                          mx-6/
-                          leading-[18px]
-                          tracking-[0.01em]
-                          break-all
-                        `}
+                            ${inter.className}
+                            text-[18px]
+                            md:text-base
+                            font-semibold
+                            text-[#1A1A1A]
+                            dark:text-[#ececec]
+                            mt-[10px]
+                            px-[10px]
+                            text-center
+                            mx-6/
+                            leading-[18px]
+                            tracking-[0.01em]
+                            break-all
+                          `}
                           >
                             {obj.name}
                           </p>
@@ -511,15 +511,15 @@ export default function Dashboard(props: Props) {
               <section className="">
                 <h1
                   className={`
-                ${karla.className}
-                font-bold
-                text-xl
-                text-[#2E2E2E]
-                dark:text-[#ececec]
-                tracking-[1px]
-                my-4
-                pl-[1.5%]
-              `}
+                  ${karla.className}
+                  font-bold
+                  text-xl
+                  text-[#2E2E2E]
+                  dark:text-[#ececec]
+                  tracking-[1px]
+                  my-4
+                  pl-[1.5%]
+                `}
                 >
                   Files
                 </h1>
