@@ -9,7 +9,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RootLayout>
       <>
-        <ToastContainer position="top-center" />
+        {/* <ToastContainer position="top-center" /> */}
         <Component />
       </>
     </RootLayout>

@@ -80,8 +80,6 @@ export default function Dashboard(props: Props) {
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
   const [uploadProgress, setUploadProgress] = useState(0);
   const email = Cookies.get("email")?.split("@")[0] as string;
-  // const email = "annasahmed1609";
-  // console.log(typeof email);
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
@@ -99,8 +97,6 @@ export default function Dashboard(props: Props) {
         contentType,
       })
         .then(async (response: any) => {
-          console.log(file);
-          console.log(typeof file);
           uploadingFiles.push(file);
           setUploadingFiles([...uploadingFiles]),
             await axios
@@ -231,7 +227,6 @@ export default function Dashboard(props: Props) {
         <button
           className="absolute top-2 right-3"
           onClick={() => {
-            console.log(theme);
             setTheme(theme == "light" ? "dark" : "light");
           }}
         >
@@ -369,65 +364,75 @@ export default function Dashboard(props: Props) {
                 >
                   Folders
                 </h1>
-                <div>
+                {/* <div>
                   <p>File 1.jpeg</p>
                   <ProgressBar progress={uploadProgress} />
                   <p>{uploadProgress}%</p>
+                  <p>
+
                   <CloseIcon />
-                </div>
-                <div className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
-                    <h1
+                  </p>
+                </div> */}
+                {/* <div className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+                  <h1
                     className={`
                     text-[18px]
                     font-bold
-                    ${inter.className}
+                    
                     text-[#1A1A1A]
                     dark:text-[#ececec]
                     text-center
+                    40
 
                     `}
-                    >
-                      Uploading 12 Files (25 GB)...
-                    </h1>
+                  >
+                    Uploading 12 Files (25 GB)...
+                  </h1> */}
                   {
-                    
                     // ["annas", "siraj", "waqas","annas", "siraj", "waqas",]
-                    uploadingFiles?.map((v, i) => {
-                      return (
-                        <div
-                          className={`
-                          ${karla.className}
-                          flex
-                          gap-1
-                          items-center
-                          `}
-                        >
-                          <p
-                            className="
-                          text-[10px]
-                          "
-                          >
-                            {v.name?.slice(0, 15)}
-                          </p>
-                          <ProgressBar progress={uploadProgress} />
-                          <p
-                            className="
-                             text-[11px]
-                          "
-                          >
-                            {uploadProgress}%
-                          </p>
-                          <CloseIcon
-                            style={{
-                              fontSize: "15px",
-                              backgroundColor:"white"
-                            }}
-                          />
-                        </div>
-                      );
-                    })
+                    // uploadingFiles?.map((v, i) => {
+                    //   return (
+                    //     <div
+                    //       key={i}
+                    //       className={`
+                    //       ${karla.className}
+                    //       flex
+                    //       gap-1
+                    //       items-center
+                    //       `}
+                    //     >
+                    //       <p
+                    //         className="
+                    //         text-[10px]
+                    //         w-[85px]
+                    //         // /min-w-[20px]
+                    //         // /max-w-[20px]
+                    //         "
+                    //       >
+                    //         {v.name?.slice(0, 12)}
+                    //       </p>
+                    //       <ProgressBar progress={uploadProgress} />
+                    //       <p
+                    //         className="
+                    //          text-[11px]
+                           
+                    //       "
+                    //       >
+                    //         {uploadProgress}%
+                    //       </p>
+                    //       <p>
+                    //         <CloseIcon
+                    //           style={{
+                    //             fontSize: "15px",
+                    //             backgroundColor: "white",
+                    //           }}
+                    //         />
+                    //       </p>
+                    //     </div>
+                    //   );
+                    // })
                   }
-                </div>
+                {/* </div> */}
                 <div
                   className="
                     flex

@@ -1,36 +1,47 @@
-import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState } from "react";
 
-function App() {
-  function handleCopyClick(_fileId: any) {
-    navigator.clipboard.writeText(_fileId);
-
-    toast.success("Code copied to clipboard!", {
-      position: "top-center",
-      autoClose: 3000,
-    });
-
-    // setTimeout(() => {
-    //   setCopied(false);
-    // }, 3000);
-  }
+const ProgressBar = ({ progress }: { progress: any }) => {
   return (
-    <div>
-      {/* <ToastContainer position="top-center" autoClose={3000} /> */}
-      <div className="relative">
-        <pre>
-          <code>Annas</code>
-        </pre>
-        <button
-          className="absolute top-0 right-0 p-1 text-gray-500 hover:text-gray-900"
-          onClick={() => handleCopyClick("annas")}
-        >
-          Text
-        </button>
+    <div className="relative pt-1">
+      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+        <div
+          style={{ width: `${progress}%` }}
+          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+        ></div>
       </div>
     </div>
   );
-}
+};
 
-export default App;
+const UploadPage = () => {
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const fileUpload = async (file: any) => {
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append("file", file);
+
+    xhr.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        const progress = (event.loaded / event.total) * 100;
+        setUploadProgress(progress);
+      }
+    });
+
+    // xhr.open("POST", "/api/upload");
+    // xhr.send(formData);
+  };
+
+  const handleFileUpload = async (event: any) => {
+    const file = event.target.files[0];
+    await fileUpload(file);
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleFileUpload} />
+      <ProgressBar progress={uploadProgress} />
+    </div>
+  );
+};
+
+export default UploadPage;
