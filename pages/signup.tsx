@@ -10,9 +10,12 @@ const karla = Karla({ subsets: ["latin"] });
 const mavenPro = Maven_Pro({ subsets: ["latin"] });
 
 export default function Signup({
+  heading,
   handleChange,
   handleSubmit,
+  
 }: {
+  heading:string,
   handleSubmit: any;
   handleChange: any;
 }) {
@@ -50,13 +53,12 @@ export default function Signup({
           text-4xl
           md:text-3xl
           sm:text-2xl
-         mb-2
+          mb-2
           text-center 
           text-[rgba(0,0,0,0.75) 
- 
           `}
         >
-          Signup
+          {heading}
         </h3>
         <hr />
         <form

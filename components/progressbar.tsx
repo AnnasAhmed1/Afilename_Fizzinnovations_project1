@@ -1,15 +1,16 @@
-import React from 'react';
+import React from "react";
+import "../styles/globals.css";
+import "tailwindcss/tailwind.css";
 
-const ProgressBar = ({ progress }:{progress:any}) => {
+const ProgressBar = ({ progress }: { progress: any }) => {
   return (
-    <div className="relative pt-1">
-      <div className="overflow-hidden h-2 mb-4 text-xs flex rounded bg-blue-200">
+    <div className="relative flex-1 ">
+      <div className="overflow-hidden h-2 text-xs flex rounded bg-[#D3D0D0]">
         <div
           style={{ width: `${progress}%` }}
-          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-500"
+          className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-[#1890FF]"
         ></div>
       </div>
-     
     </div>
   );
 };

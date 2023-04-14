@@ -1,36 +1,36 @@
-import ProgressBar from "@/components/progressbar";
-import React, { useState } from "react";
-// import ProgressBar from '../components/ProgressBar';
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const UploadPage = () => {
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const fileUpload = async (file: any) => {
-    const xhr = new XMLHttpRequest();
-    const formData = new FormData();
-    formData.append("file", file);
+function App() {
+  function handleCopyClick(_fileId: any) {
+    navigator.clipboard.writeText(_fileId);
 
-    xhr.upload.addEventListener("progress", (event) => {
-      if (event.lengthComputable) {
-        const progress = (event.loaded / event.total) * 100;
-        setUploadProgress(progress);
-      }
+    toast.success("Code copied to clipboard!", {
+      position: "top-center",
+      autoClose: 3000,
     });
 
-    xhr.open("POST", "/api/upload");
-    xhr.send(formData);
-  };
-
-  const handleFileUpload = async (event: any) => {
-    const file = event.target.files[0];
-    await fileUpload(file);
-  };
-
+    // setTimeout(() => {
+    //   setCopied(false);
+    // }, 3000);
+  }
   return (
     <div>
-      <input type="file" onChange={handleFileUpload} />
-      <ProgressBar progress={uploadProgress} />
+      {/* <ToastContainer position="top-center" autoClose={3000} /> */}
+      <div className="relative">
+        <pre>
+          <code>Annas</code>
+        </pre>
+        <button
+          className="absolute top-0 right-0 p-1 text-gray-500 hover:text-gray-900"
+          onClick={() => handleCopyClick("annas")}
+        >
+          Text
+        </button>
+      </div>
     </div>
   );
-};
+}
 
-export default UploadPage;
+export default App;

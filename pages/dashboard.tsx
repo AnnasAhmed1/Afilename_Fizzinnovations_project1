@@ -35,6 +35,8 @@ import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
 import ProgressBar from "@/components/progressbar";
 import CloseIcon from "@mui/icons-material/Close";
+import { toast, ToastContainer } from "react-toastify";
+import { UploadFile } from "@mui/icons-material";
 interface Props {
   window?: () => Window;
 }
@@ -59,9 +61,9 @@ interface Props {
 
 export default function Dashboard(props: Props) {
   const router = useRouter();
-  interface FileDetails {
-    name: string;
-  }
+  // interface FileDetails {
+  //   name: string;
+  // }
   const [files, setFiles] = useState([]);
   const [filesDetails, setFilesDetails] = useState<Array<any>>([]);
   const [arr, setArr] = useState<Array<any>>([]);
@@ -73,9 +75,13 @@ export default function Dashboard(props: Props) {
   const [searchFilesDetails, setSearchFilesDetails] = useState([]);
   const { theme, setTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [copied, setCopied] = useState(false);
   const open = Boolean(anchorEl);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const email = Cookies.get("email")?.split("@")[0] as string;
+  // const email = "annasahmed1609";
+  // console.log(typeof email);
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
@@ -93,22 +99,24 @@ export default function Dashboard(props: Props) {
         contentType,
       })
         .then(async (response: any) => {
-          // console.log(file);
-          // setUploadingFiles([...file]),
-          await axios
-            .put(response.data.url, file, {
-              headers: {
-                "Content-Type": contentType,
-              },
-              // onUploadProgress,
-            })
-            .then((res) => {
-              console.log("success");
-              getFiles();
-            })
-            .catch((err) => {
-              console.log(err, "error put");
-            });
+          console.log(file);
+          console.log(typeof file);
+          uploadingFiles.push(file);
+          setUploadingFiles([...uploadingFiles]),
+            await axios
+              .put(response.data.url, file, {
+                headers: {
+                  "Content-Type": contentType,
+                },
+                onUploadProgress,
+              })
+              .then((res) => {
+                console.log("success");
+                getFiles();
+              })
+              .catch((err) => {
+                console.log(err, "error put");
+              });
         })
         .catch((err) => {
           console.log("upload post error", err);
@@ -184,17 +192,7 @@ export default function Dashboard(props: Props) {
       console.log(error);
     }
   };
-  const handleCopyClick = async (_fileId: any) => {
-    await handleFetchAction(`/files/downloadurl?file=${_fileId}`)
-      .then((response: any) => {
-        console.log(response);
-        navigator.clipboard.writeText(response.data.url);
-        window.open(response.data.url);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   const handleDowunloadUrl = async (_fileId: any) => {
     await handleFetchAction(`/files/download?file=${_fileId}`)
       .then((response: any) => {
@@ -228,39 +226,41 @@ export default function Dashboard(props: Props) {
 
   const text = "" as Props;
   return (
-    <Box sx={{ display: "flex" }}>
-      <button
-        className="absolute top-2 right-3"
-        onClick={() => {
-          console.log(theme);
-          setTheme(theme == "light" ? "dark" : "light");
-        }}
-      >
-        {theme == "light" ? (
-          <DarkModeSharpIcon className="text-dark" />
-        ) : theme == "dark" ? (
-          <LightModeSharpIcon className="text-white" />
-        ) : (
-          <DarkModeSharpIcon />
-        )}
-      </button>
-      <CssBaseline />
+    <>
+      <Box sx={{ display: "flex" }}>
+        <button
+          className="absolute top-2 right-3"
+          onClick={() => {
+            console.log(theme);
+            setTheme(theme == "light" ? "dark" : "light");
+          }}
+        >
+          {theme == "light" ? (
+            <DarkModeSharpIcon className="text-dark" />
+          ) : theme == "dark" ? (
+            <LightModeSharpIcon className="text-white" />
+          ) : (
+            <DarkModeSharpIcon />
+          )}
+        </button>
+        <CssBaseline />
 
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        <DrawerComp
-          folders={folders}
-          handleFileChangeFunction={handleFileChangeFunction}
-          createFolder={() => createFolder(newFolderName)}
-          handleFolderChangeFunction={handleFolderChangeFunction}
-          files={filesDetails}
-        />
-      </Box>
-      <main
-        className={`
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
+          <DrawerComp
+            folders={folders}
+            handleFileChangeFunction={handleFileChangeFunction}
+            createFolder={() => createFolder(newFolderName)}
+            handleFolderChangeFunction={handleFolderChangeFunction}
+            files={filesDetails}
+          />
+        </Box>
+
+        <main
+          className={`
         w-[calc(100%-240px)]
         sm:w-full
         w-[80%]/  
@@ -268,16 +268,16 @@ export default function Dashboard(props: Props) {
         pr-[2%]
         mt-[5%]
       `}
-      >
-        <section
-          className="flex 
+        >
+          <section
+            className="flex 
           justify-between 
           pr-[10%]
           "
-        >
-          <input
-            type="text"
-            className={`
+          >
+            <input
+              type="text"
+              className={`
               w-[60%] 
               mx-auto border
               border-black
@@ -287,108 +287,149 @@ export default function Dashboard(props: Props) {
               px-4
               h-8
              `}
-            placeholder="search"
-            onChange={async (e) => {
-              setSearchQuery(e.target.value);
-              console.log(e.target.value);
-              await handleFetchAction(`/account/search?q=${e.target.value}`)
-                .then((response: any) => {
-                  console.log(response);
-                  getFilesDetails(response.data.fileIds);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            }}
-          />
-          <div className="flex gap-4 items-center">
-            <div>
-              <p
-                className={`${manrope.className} text-[#2E3271] text-base font-semibold`}
-              >
-                @kevan
-              </p>
-              <p className={`${manrope.className} text-[#7c8db5b8] text-xs `}>
-                Premium
+              placeholder="search"
+              onChange={async (e) => {
+                setSearchQuery(e.target.value);
+                console.log(e.target.value);
+                await handleFetchAction(`/account/search?q=${e.target.value}`)
+                  .then((response: any) => {
+                    console.log(response);
+                    getFilesDetails(response.data.fileIds);
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              }}
+            />
+            <div className="flex gap-4 items-center">
+              <div>
+                <div className={` text-[#2E3271] text-base font-semibold`}>
+                  {email}
+                </div>
+                <p className={`${manrope.className} text-[#7c8db5b8] text-xs `}>
+                  Premium
+                </p>
+              </div>
+              <p>
+                <Button
+                  id="basic-button"
+                  aria-controls={open ? "basic-menu" : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? "true" : undefined}
+                  onClick={(event: any) => {
+                    setAnchorEl(event.currentTarget);
+                  }}
+                  className="w-fit min-w-0"
+                >
+                  <KeyboardArrowDownIcon className="text-lg my-auto h-fit dark:text-white" />
+                </Button>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={() => {
+                    setAnchorEl(null);
+                  }}
+                  MenuListProps={{
+                    "aria-labelledby": "basic-button",
+                  }}
+                  PaperProps={{
+                    className:
+                      "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
+                  }}
+                >
+                  <MenuItem>Logout</MenuItem>
+                </Menu>
               </p>
             </div>
-            <p>
-              <Button
-                id="basic-button"
-                aria-controls={open ? "basic-menu" : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? "true" : undefined}
-                onClick={(event: any) => {
-                  setAnchorEl(event.currentTarget);
-                }}
-                className="w-fit min-w-0"
-              >
-                <KeyboardArrowDownIcon className="text-lg my-auto h-fit dark:text-white" />
-              </Button>
-              <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={() => {
-                  setAnchorEl(null);
-                }}
-                MenuListProps={{
-                  "aria-labelledby": "basic-button",
-                }}
-                PaperProps={{
-                  className:
-                    "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
-                }}
-              >
-                <MenuItem>Logout</MenuItem>
-              </Menu>
-            </p>
-          </div>
-        </section>
-        {searchQuery.length == 0 ? (
-          <>
-            <section
-              className="
-          pl-[3%]
-          mb-8
-          border-b-[0.25px]
-          pt-[7%]
-          pb-[5%]
-          border-black
-          dark:border-white
-         "
-            >
-              <h1
-                className={`
-            ${karla.className}
-            tracking-[1px]
-            font-bold
-            text-xl
-            text-[#2E2E2E]
-            dark:text-[#ececec]
-            my-4
-          `}
-              >
-                Folders
-              </h1>
-              {/* <div>
-                <p>File 1.jpeg</p>
-                <ProgressBar progress={uploadProgress} />
-                <p>{uploadProgress}%</p>
-                <CloseIcon />
-              </div>
-              {uploadingFiles?.map((v, i) => {
-                return (
-                  <div>
-                    <p>File 1.jpeg</p>
-                    <ProgressBar progress={uploadProgress} />
-                    <p>{uploadProgress}%</p>
-                    <CloseIcon />
-                  </div>
-                );
-              })} */}
-              <div
+          </section>
+          {searchQuery.length == 0 ? (
+            <>
+              <section
                 className="
+                pl-[3%]
+                mb-8
+                border-b-[0.25px]
+                pt-[7%]
+                pb-[5%]
+                border-black
+                dark:border-white
+              "
+              >
+                <h1
+                  className={`
+                ${karla.className}
+                  tracking-[1px]
+                  font-bold
+                  text-xl
+                  text-[#2E2E2E]
+                  dark:text-[#ececec]
+                  my-4
+                `}
+                >
+                  Folders
+                </h1>
+                <div>
+                  <p>File 1.jpeg</p>
+                  <ProgressBar progress={uploadProgress} />
+                  <p>{uploadProgress}%</p>
+                  <CloseIcon />
+                </div>
+                <div className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+                    <h1
+                    className={`
+                    text-[18px]
+                    font-bold
+                    ${inter.className}
+                    text-[#1A1A1A]
+                    dark:text-[#ececec]
+                    text-center
+
+                    `}
+                    >
+                      Uploading 12 Files (25 GB)...
+                    </h1>
+                  {
+                    // uploadingFiles?
+
+                    ["annas", "siraj", "waqas","annas", "siraj", "waqas",].map((v, i) => {
+                      return (
+                        <div
+                          className={`
+                    ${karla.className}
+                    flex
+                    gap-1
+                    items-center
+                    `}
+                        >
+                          <p
+                            className="
+                          text-[10px]
+                          "
+                          >
+                            {v.name?.slice(0, 15)}
+                          </p>
+                          <ProgressBar progress={uploadProgress} />
+                          <p
+                            className="
+                          text-[11px]
+                          "
+                          >
+                            {uploadProgress}%
+                          </p>
+                          <CloseIcon
+                            style={{
+                              fontSize: "15px",
+                              backgroundColor:"white"
+                            }}
+                          />
+                        </div>
+                      );
+                    })
+                  }
+                </div>
+                <div
+                  className="
                 flex
                 gap-6
                 md:gap-4
@@ -396,17 +437,17 @@ export default function Dashboard(props: Props) {
                 scrollbar-thin
                 scroll-m-0
                 scroll-p-0
-              "
-              >
-                {folders?.length == 0 ? (
-                  <p className="my-4">No folders yet</p>
-                ) : (
-                  folders?.map((v, i) => {
-                    const obj = v as MyObject;
-                    return (
-                      <div
-                        key={i}
-                        className="border-2
+               "
+                >
+                  {folders?.length == 0 ? (
+                    <p className="my-4">No folders yet</p>
+                  ) : (
+                    folders?.map((v, i) => {
+                      const obj = v as MyObject;
+                      return (
+                        <div
+                          key={i}
+                          className="border-2
                         border-[rgba(0,0,0,0.06)]
                         dark:border-[rgba(255,255,255,0.56)]
                         container
@@ -429,20 +470,20 @@ export default function Dashboard(props: Props) {
                         pb-[20px]
                         mx-auto
                         "
-                        onClick={() => {
-                          router.push({
-                            pathname: "/folder",
-                            query: { id: obj._id, name: obj.name },
-                          });
-                        }}
-                      >
-                        <Image
-                          src={require("../images/folder_icon.svg")}
-                          alt="folder icon"
-                          className="w-[100px] md:w-[80px] mx-auto"
-                        />
-                        <p
-                          className={`
+                          onClick={() => {
+                            router.push({
+                              pathname: "/folder",
+                              query: { id: obj._id, name: obj.name },
+                            });
+                          }}
+                        >
+                          <Image
+                            src={require("../images/folder_icon.svg")}
+                            alt="folder icon"
+                            className="w-[100px] md:w-[80px] mx-auto"
+                          />
+                          <p
+                            className={`
                           ${inter.className}
                           text-[18px]
                           md:text-base
@@ -457,16 +498,51 @@ export default function Dashboard(props: Props) {
                           tracking-[0.01em]
                           break-all
                         `}
-                        >
-                          {obj.name}
-                        </p>
-                      </div>
+                          >
+                            {obj.name}
+                          </p>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+              </section>
+
+              <section className="">
+                <h1
+                  className={`
+                ${karla.className}
+                font-bold
+                text-xl
+                text-[#2E2E2E]
+                dark:text-[#ececec]
+                tracking-[1px]
+                my-4
+                pl-[1.5%]
+              `}
+                >
+                  Files
+                </h1>
+                {filesDetails.length == 0 ? (
+                  <p className="my-4">No files yet</p>
+                ) : (
+                  filesDetails.map((v, i) => {
+                    const fileObj = v as FileObject;
+                    const finalDate = dateCalc(fileObj?.dateUploaded);
+                    return (
+                      <FileList
+                        key={i}
+                        fileObj={fileObj}
+                        handleDowunloadUrl={() =>
+                          handleDowunloadUrl(fileObj?.fileId)
+                        }
+                      />
                     );
                   })
                 )}
-              </div>
-            </section>
-
+              </section>
+            </>
+          ) : (
             <section className="">
               <h1
                 className={`
@@ -492,7 +568,6 @@ export default function Dashboard(props: Props) {
                     <FileList
                       key={i}
                       fileObj={fileObj}
-                      handleCopyClick={() => handleCopyClick(fileObj?.fileId)}
                       handleDowunloadUrl={() =>
                         handleDowunloadUrl(fileObj?.fileId)
                       }
@@ -501,45 +576,9 @@ export default function Dashboard(props: Props) {
                 })
               )}
             </section>
-          </>
-        ) : (
-          <section className="">
-            <h1
-              className={`
-            ${karla.className}
-            font-bold
-            text-xl
-            text-[#2E2E2E]
-            dark:text-[#ececec]
-            tracking-[1px]
-            my-4
-            pl-[1.5%]
-           
-          `}
-            >
-              Files
-            </h1>
-            {filesDetails.length == 0 ? (
-              <p className="my-4">No files yet</p>
-            ) : (
-              filesDetails.map((v, i) => {
-                const fileObj = v as FileObject;
-                const finalDate = dateCalc(fileObj?.dateUploaded);
-                return (
-                  <FileList
-                    key={i}
-                    fileObj={fileObj}
-                    handleCopyClick={() => handleCopyClick(fileObj?.fileId)}
-                    handleDowunloadUrl={() =>
-                      handleDowunloadUrl(fileObj?.fileId)
-                    }
-                  />
-                );
-              })
-            )}
-          </section>
-        )}
-      </main>
-    </Box>
+          )}
+        </main>
+      </Box>
+    </>
   );
 }

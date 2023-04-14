@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import Drawer from "@mui/material/Drawer";
 import { Inter, Karla, Manrope } from "next/font/google";
+import { toast } from "react-toastify";
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FolderIcon from "@mui/icons-material/Folder";
@@ -25,6 +26,7 @@ import Image from "next/image";
 import axios from "axios";
 import { API } from "@/config/API";
 import { Button, Menu, MenuItem } from "@mui/material";
+import { ToastContainer } from "react-toastify";
 
 const karla = Karla({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
@@ -56,16 +58,32 @@ const dateCalc = (_date: any) => {
 
 export default function FileList({
   fileObj,
-  handleCopyClick,
   handleDowunloadUrl,
 }: {
   fileObj: any;
-  handleCopyClick: any;
   handleDowunloadUrl: any;
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const [copied, setCopied] = useState(false);
+  const handleCopyClick = async (_fileId: any) => {
+    await handleFetchAction(`/files/downloadurl?file=${_fileId}`)
+      .then((response: any) => {
+        console.log(response);
+        navigator.clipboard.writeText(response.data.url);
+        toast.success("download URL copied to clipboard!", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+        handleMenuClose();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const router = useRouter();
+
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -74,15 +92,28 @@ export default function FileList({
   };
   const finalDate = dateCalc(fileObj?.dateUploaded);
 
+  function formatBytes(bytes: number): string {
+    if (bytes < 1024) {
+      return bytes + "B";
+    } else if (bytes < 1048576) {
+      return (bytes / 1024).toFixed(2) + "KB";
+    } else if (bytes < 1073741824) {
+      return (bytes / 1048576).toFixed(2) + "MB";
+    } else {
+      return (bytes / 1073741824).toFixed(2) + "GB";
+    }
+  }
+
   return (
     <div
       //   key={i}
       className={`flex gap-3 border-b
      border-[#EBEFF2]
-     items-center
+       items-center
       text-[#242634]
- dark:text-[#ffffff] ${karla.className}`}
+       dark:text-[#ffffff] ${karla.className}`}
     >
+      {/* <ToastContainer position="top-center" autoClose={3000} /> */}
       {fileObj?.contentType?.slice(0, 5) == "image" ? (
         <InsertPhotoOutlinedIcon className="text-xl mt-4 mb-auto" />
       ) : fileObj?.contentType?.slice(0, 5) == "video" ? (
@@ -99,13 +130,9 @@ export default function FileList({
         <p className="text-xs ">{finalDate}</p>
       </div>
       <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
-        1.46MB
+        {formatBytes(fileObj.usage)}
       </p>
-      <div
-        className="
-    
-      "
-      >
+      <div className="">
         <Button
           id="basic-button"
           aria-controls={open ? "basic-menu" : undefined}
@@ -141,16 +168,26 @@ export default function FileList({
             Download
           </MenuItem>
           <MenuItem
-            onClick={() => {
-              handleCopyClick();
-              handleMenuClose();
-            }}
+            onClick={
+              () => {
+                handleCopyClick(fileObj?.fileId);
+              }
+              // handleCopyClick();
+              // handleMenuClose();
+            }
           >
             <ContentCopyRoundedIcon className=" text-[#545454] dark:text-[#ececec] mr-[5px]" />{" "}
             Copy Link
           </MenuItem>
-          <MenuItem onClick={handleMenuClose}>
-            {" "}
+          <MenuItem
+            onClick={() => {
+              toast.success("file ID copied to clipboard!", {
+                position: "top-center",
+                autoClose: 2000,
+              });
+              handleMenuClose();
+            }}
+          >
             file ID: {fileObj.fileId}
           </MenuItem>
         </Menu>

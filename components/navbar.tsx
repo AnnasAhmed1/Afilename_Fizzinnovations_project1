@@ -39,6 +39,7 @@ export default function Navbar() {
   }
   const [ref, setRef] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [heading, setHeading] = useState("Signup");
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
   const [verifyModalOpen, setVerifyModalOpen] = useState(false);
@@ -69,12 +70,12 @@ export default function Navbar() {
   return (
     <nav
       className="
-    flex 
-    justify-between 
-    items-center 
-    px-[2%] 
-    pt-4 
-    pb-[7%]/"
+      flex 
+      justify-between 
+      items-center 
+      px-[2%] 
+      pt-4 
+      pb-[7%]/"
     >
       <Modal
         open={modalOpen}
@@ -87,6 +88,7 @@ export default function Navbar() {
           <Signup
             handleChange={handleChange}
             handleSubmit={() => handleSubmit(email)}
+            heading={heading}
           />
         </Box>
       </Modal>
@@ -213,6 +215,7 @@ export default function Navbar() {
           sm:w-14 
           md:w-24"
           onClick={() => {
+            setHeading("Signup");
             handleModalOpen();
           }}
         >
@@ -236,6 +239,7 @@ export default function Navbar() {
           sm:text-xs
           "
           onClick={() => {
+            setHeading("Login");
             handleModalOpen();
           }}
         >

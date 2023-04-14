@@ -9,6 +9,7 @@ import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import { Inter, Karla } from "next/font/google";
 import { ThemeProvider, useTheme } from "next-themes";
+import { toast } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -54,13 +55,13 @@ export default function Main() {
 
           <p
             className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634]
- dark:text-[#ffffff] pt-[10%] font-bold text-center`}
+         dark:text-[#ffffff] pt-[10%] font-bold text-center`}
           >
             Personal Plans
           </p>
           <p
             className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]
- dark:text-[#ffffff]  font-bold text-center`}
+       dark:text-[#ffffff]  font-bold text-center`}
           >
             For personal use only.
           </p>
