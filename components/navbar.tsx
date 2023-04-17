@@ -8,15 +8,12 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Inter, Karla } from "next/font/google";
 import { P1 } from "./helper";
-import Link from "next/link";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import Signup from "../pages/signup";
 import Login from "../pages/login";
 import { handleInsertAction } from "@/config/API_actions";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
-import { API } from "@/config/API";
-import Cookies from "js-cookie";
 import { useTheme } from "next-themes";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,7 +34,6 @@ export default function Navbar() {
     const element = document.querySelector(`#${id}`);
     element?.scrollIntoView({ behavior: "smooth" });
   }
-  const [ref, setRef] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [heading, setHeading] = useState("Signup");
   const handleModalOpen = () => setModalOpen(true);
@@ -75,7 +71,7 @@ export default function Navbar() {
       items-center 
       px-[2%] 
       pt-4 
-      pb-[7%]/"
+      "
     >
       <Modal
         open={modalOpen}
@@ -106,10 +102,10 @@ export default function Navbar() {
       </Modal>
       <div
         className="
-      hidden
-      md:block
-      sm:block
-      "
+        hidden
+        md:block
+        sm:block
+        "
       >
         <Button
           id="basic-button"
@@ -159,7 +155,7 @@ export default function Navbar() {
         <h1
           className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)]
           dark:text-[rgba(255,255,255,0.75)]
- font-extrabold"
+           font-extrabold"
         >
           AFILENAME
         </h1>
@@ -191,18 +187,16 @@ export default function Navbar() {
         >
           <P1 text="Creators" />
         </a>
-        {/* <Link href="" legacyBehavior> */}
         <a className="scroll-smooth cursor-pointer">
           <P1 text="Docs" />
         </a>
-        {/* </Link> */}
       </div>
       <div
         className="
         flex
         gap-4
         sm:gap-1.5
-    "
+        "
       >
         <button
           className="border 

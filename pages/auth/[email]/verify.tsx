@@ -1,8 +1,6 @@
 import Cookies from "js-cookie";
-import { base_url } from "@/config/API";
-import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CircularProgress } from "@mui/material";
 import "../../../styles/globals.css";
 import "tailwindcss/tailwind.css";

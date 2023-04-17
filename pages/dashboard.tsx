@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import { Inter, Karla, Manrope } from "next/font/google";
-// ICONS
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import DrawerComp from "@/components/drawer_comp";
+import { Karla, Manrope } from "next/font/google";
 import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import axios from "axios";
-import FileList from "@/components/file_list";
-const manrope = Manrope({ subsets: ["latin"] });
-const karla = Karla({ subsets: ["latin"] });
-import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
-import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
 import ProgressBar from "@/components/progressbar";
+import DrawerComp from "@/components/drawer_comp";
+import Image from "next/image";
+import axios from "axios";
+import FileList from "@/components/file_list";
+
+// ICONS
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
+import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import CloseIcon from "@mui/icons-material/Close";
 
+const manrope = Manrope({ subsets: ["latin"] });
+const karla = Karla({ subsets: ["latin"] });
 interface MyObject {
   name: string;
   _id: string;
@@ -38,8 +39,6 @@ export default function Dashboard() {
   const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchFiles, setSearchFiles] = useState([]);
-  const [searchFilesDetails, setSearchFilesDetails] = useState([]);
   const { theme, setTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -63,11 +62,9 @@ export default function Dashboard() {
         filename,
         contentType,
       });
-
       const fileIndex = uploadingFiles.length;
       setUploadingFiles([...uploadingFiles, file]);
       setUploadingProgress([...uploadingProgress, 0]);
-
       await axios.put(response.data.url, file, {
         headers: {
           "Content-Type": contentType,
@@ -112,7 +109,7 @@ export default function Dashboard() {
     try {
       handleInsertAction("/folders/createfolder", {
         name: folderName,
-      }).then((response: any) => {
+      }).then(() => {
         getFolders();
       });
     } catch (error) {
@@ -162,27 +159,6 @@ export default function Dashboard() {
     await handleFetchAction(`/files/download?file=${_fileId}`).catch((err) => {
       console.log(err);
     });
-  };
-
-  const dateCalc = (_date: any) => {
-    const apiDate = new Date(_date);
-
-    const currentDate = new Date();
-
-    const timeDiff = currentDate.getTime() - apiDate.getTime();
-    const secondsDiff = Math.floor(timeDiff / 1000);
-    const minutesDiff = Math.floor(secondsDiff / 60);
-    const hoursDiff = Math.floor(minutesDiff / 60);
-    const daysDiff = Math.floor(hoursDiff / 24);
-    if (secondsDiff < 60) {
-      return `${secondsDiff} seconds ago`;
-    } else if (minutesDiff < 60) {
-      return `${minutesDiff} minutes ago`;
-    } else if (hoursDiff < 24) {
-      return `${hoursDiff} hours ago`;
-    } else {
-      return `${daysDiff} days ago`;
-    }
   };
 
   return (
@@ -260,7 +236,7 @@ export default function Dashboard() {
                 });
             }}
           />
-          <div className="pl-4 flex gap-4 md:gap-3 sm:gap-2 items-center">
+          <div className="pl-4 flex gap-4 md:gap-2 sm:gap-0 items-center">
             <div>
               <div
                 className={` text-[#5073d2] text-base sm:text-sm font-semibold`}
@@ -460,9 +436,6 @@ export default function Dashboard() {
                     <FileList
                       key={i}
                       fileObj={fileObj}
-                      handleDowunloadUrl={() =>
-                        handleDowunloadUrl(fileObj?.fileId)
-                      }
                     />
                   );
                 })
@@ -494,9 +467,6 @@ export default function Dashboard() {
                   <FileList
                     key={i}
                     fileObj={fileObj}
-                    handleDowunloadUrl={() =>
-                      handleDowunloadUrl(fileObj?.fileId)
-                    }
                   />
                 );
               })

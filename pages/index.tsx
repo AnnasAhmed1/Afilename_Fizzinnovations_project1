@@ -4,25 +4,16 @@ import Footer from "@/components/footer";
 import { H1 } from "@/components/helper";
 import Navbar from "@/components/navbar";
 import PlanCard from "@/components/plan_card";
-import Cookies from "js-cookie";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import { Inter, Karla } from "next/font/google";
-import { ThemeProvider, useTheme } from "next-themes";
-import { toast } from "react-toastify";
+import { Karla } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 
 export default function Main() {
-  // const { theme, setTheme } = useTheme();
-  const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === "system" ? systemTheme : theme;
-
   return (
-    <div className="scroll-smooth ">
+    <div>
       <Navbar />
-
       <section className="flex flex-col items-center gap-28/ sm:gap-14/ px-[5%] sm:px-[4%]">
         <h1
           className={`${karla.className}  text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] dark:text-white text-center`}
@@ -52,7 +43,6 @@ export default function Main() {
         </section>
         <section id="personal" className="">
           <H1 text="Personal" />
-
           <p
             className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634]
          dark:text-[#ffffff] pt-[10%] font-bold text-center`}
@@ -131,10 +121,6 @@ export default function Main() {
               price="0.99"
               price1="0.30"
               button={true}
-              subtext={false}
-              plan="The Bundled Plan includes"
-              buttonText="Get with a bundle"
-              bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
               services={[
                 { title: "No hidden fees", icon: "tick" },
                 { title: "No transfer fees", icon: "tick" },
@@ -148,10 +134,6 @@ export default function Main() {
               price="2.69"
               price1="2.69"
               button={false}
-              subtext={false}
-              plan="The Bundled Plan includes"
-              buttonText="Get with a bundle"
-              bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
               services={[
                 { title: "Encyption", icon: "tick" },
                 { title: "Limited API", icon: "stop" },

@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Karla, Maven_Pro } from "next/font/google";
 import EastIcon from "@mui/icons-material/East";
-import { Modal, TextField } from "@mui/material";
-import Login from "./login";
-import { handleInsertAction } from "@/config/API_actions";
+import { TextField } from "@mui/material";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 const karla = Karla({ subsets: ["latin"] });
@@ -43,7 +41,6 @@ export default function Signup({
         right-[25%]
         md:right-[15%]
         sm:right-[10%]
-        
         "
       >
         <h3
@@ -108,7 +105,7 @@ export default function Signup({
             text-center
             bg-[#0066FF] 
             rounded-[5px]
-          text-white`}
+           text-white`}
             type={"submit"}
           >
             Continue

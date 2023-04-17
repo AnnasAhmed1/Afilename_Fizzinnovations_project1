@@ -1,11 +1,10 @@
-import { Inter, Karla } from "next/font/google";
+import { Karla } from "next/font/google";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import StopIcon from "@mui/icons-material/Stop";
 import Image from "next/image";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 
-const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 interface MyObject {
   title: string;
@@ -17,10 +16,6 @@ export default function BusinessPlanCard({
   price,
   price1,
   button,
-  subtext,
-  plan,
-  buttonText,
-  bottomText,
   services,
 }: {
   name: string;
@@ -28,10 +23,6 @@ export default function BusinessPlanCard({
   price: string;
   price1: string;
   button: boolean;
-  subtext: boolean;
-  plan: string;
-  buttonText: string;
-  bottomText: string;
   services: Array<object>;
 }) {
   return (
@@ -47,8 +38,7 @@ export default function BusinessPlanCard({
        pb-[4%]
        shadow-card 
        dark:shadow-cardDark
-       pt-5 /h-[73vh]
-       /sm:h-[65vh]
+       pt-5
        overflow-hidden
        rounded-2xl
        relative"
@@ -66,7 +56,7 @@ export default function BusinessPlanCard({
         <hr className="w-full" />
         <div
           className={`${karla.className} text-center font-bold text-[#242634]
- dark:text-[#ffffff]`}
+         dark:text-[#ffffff]`}
         >
           <p className="text-4xl sm:text-3xl">${price}</p>
           <p className="text-base sm:text-sm">

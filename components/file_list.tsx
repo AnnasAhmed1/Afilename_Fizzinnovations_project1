@@ -45,10 +45,8 @@ const dateCalc = (_date: any) => {
 
 export default function FileList({
   fileObj,
-  handleDowunloadUrl,
 }: {
   fileObj: any;
-  handleDowunloadUrl: any;
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

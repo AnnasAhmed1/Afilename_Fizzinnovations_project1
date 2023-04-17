@@ -17,7 +17,7 @@ import Image from "next/image";
 import ListItemComp from "@/components/list_item";
 import NestedListComp from "@/components/nested_list_comp";
 import { useState } from "react";
-import { Inter, Karla, Manrope } from "next/font/google";
+import { Karla } from "next/font/google";
 // ICONS
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -25,17 +25,11 @@ import DriveFolderUploadSharpIcon from "@mui/icons-material/DriveFolderUploadSha
 import VideocamIcon from "@mui/icons-material/Videocam";
 import MusicVideoRoundedIcon from "@mui/icons-material/MusicVideoRounded";
 import SourceIcon from "@mui/icons-material/Source";
-
 import AddIcon from "@mui/icons-material/Add";
-import { useTheme } from "next-themes";
 
 const karla = Karla({ subsets: ["latin"] });
 
 const drawerWidth = 240;
-
-interface Props {
-  window?: () => Window;
-}
 
 function DrawerContent({
   folders,
@@ -50,8 +44,6 @@ function DrawerContent({
   handleFileChangeFunction: any;
   handleFolderChangeFunction: any;
 }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const drawerWidth = 240;
   const [open, setOpen] = useState(true);
   const [recentOpen, setRecentOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -111,10 +103,6 @@ function DrawerContent({
     },
   ];
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   const handleClick = () => {
     setOpen(!open);
   };
@@ -169,14 +157,14 @@ function DrawerContent({
                 handleClose();
               }}
               className="
-          w-full
-          px-12
-          md:px-8
-          sm:px-6
-          mt-12
-          md:mt-10
-          sm:mt-8
-          "
+              w-full
+              px-12
+              md:px-8
+              sm:px-6
+              mt-12
+              md:mt-10
+              sm:mt-8
+              "
             >
               <TextField
                 id="filled-textarea"
@@ -231,7 +219,6 @@ function DrawerContent({
             <Image
               src={require("../images/logo.svg")}
               alt="logo"
-              // width={30}
               className="
                 w-5
                 md:w-4
@@ -392,7 +379,6 @@ function DrawerContent({
               sm:text-xs
               text-white
               bg-[#1890FF]
-              
               border
               p-1
               border-[#1890FF]
@@ -453,14 +439,12 @@ export default function ResponsiveDrawer({
   handleFolderChangeFunction: any;
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const { theme } = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
   return (
     <Box sx={{ display: "flex" }}>
-      {/* <CssBaseline /> */}
       <IconButton
         color="inherit"
         aria-label="open drawer"
@@ -490,7 +474,6 @@ export default function ResponsiveDrawer({
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: "40%",
-
               overflowX: "hidden",
             },
           }}
@@ -512,7 +495,6 @@ export default function ResponsiveDrawer({
           className="scrollbar-thin border-r pl-[20px] sm:pl-[15px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]"
           sx={{
             display: { xs: "none", sm: "block" },
-
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               overflowX: "hidden",

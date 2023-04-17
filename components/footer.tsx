@@ -62,15 +62,6 @@ export default function Footer() {
           Contact Us
         </p>
       </nav>
-      {/* <div
-        className={`hidden md:flex sm:flex flex-wrap items-center justify-center sm:gap-4 md:gap-6`}
-      >
-        <p className={`${inter.className} text-2xl font-bold`}>Legal</p>
-        <P1 text="Terms" />
-        <P1 text="Privacy Policy" />
-        <P1 text="Refund Policy" />
-        <P1 text="DMCA Policy" />
-      </div> */}
     </>
   );
 }

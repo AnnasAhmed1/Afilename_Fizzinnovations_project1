@@ -3,25 +3,24 @@ import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Inter, Karla, Manrope } from "next/font/google";
+import { Karla, Manrope } from "next/font/google";
 import { useRouter } from "next/router";
+import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
+import { useTheme } from "next-themes";
+import { Button, Menu, MenuItem } from "@mui/material";
+import axios from "axios";
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DrawerComp from "@/components/drawer_comp";
-import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
 import Cookies from "js-cookie";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import FileList from "@/components/file_list";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
-import { useTheme } from "next-themes";
-import { Button, Menu, MenuItem } from "@mui/material";
-import axios from "axios";
-const drawerWidth = 240;
+
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
-const inter = Inter({ subsets: ["latin"] });
 
 interface FileObject {
   title: string;
@@ -332,7 +331,6 @@ export default function Folder({ query }: { query: any }) {
               <FileList
                 key={i}
                 fileObj={fileObj}
-                handleDowunloadUrl={() => handleDowunloadUrl(fileObj?.fileId)}
               />
             );
           })}
