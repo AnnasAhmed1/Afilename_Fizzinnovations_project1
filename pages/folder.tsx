@@ -36,6 +36,7 @@ export default function Folder({ query }: { query: any }) {
   const { id, name } = router.query;
   const [files, setFiles] = useState<Array<any>>([]);
   const [filesDetails, setFilesDetails] = useState<Array<object>>();
+  const [searchQuery, setSearchQuery] = useState("");
   const [folders, setFolders] = useState<Array<any>>([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -70,13 +71,16 @@ export default function Folder({ query }: { query: any }) {
             "Content-Type": contentType,
           },
           onUploadProgress: (progressEvent) => {
-            const progress = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            const newProgress = [...uploadingProgress];
-            newProgress[fileIndex] = progress;
-            setUploadingProgress(newProgress);
-            console.log(newProgress);
+            const totalLength = progressEvent?.total;
+            if (totalLength) {
+              const progress = Math.round(
+                (progressEvent.loaded * 100) / totalLength
+              );
+              const newProgress = [...uploadingProgress];
+              newProgress[fileIndex] = progress;
+              setUploadingProgress(newProgress);
+              console.log(newProgress);
+            }
           },
         })
         .then(async () => {

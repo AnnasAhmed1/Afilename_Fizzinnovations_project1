@@ -20,7 +20,6 @@ import { Button, Menu, MenuItem } from "@mui/material";
 import ProgressBar from "@/components/progressbar";
 import CloseIcon from "@mui/icons-material/Close";
 
-
 interface MyObject {
   name: string;
   _id: string;
@@ -57,7 +56,7 @@ export default function Dashboard() {
   const uploadRequest = async (
     file?: any,
     filename?: any,
-    contentType?: any,
+    contentType?: any
   ) => {
     try {
       const response: any = await handleInsertAction("files/upload", {
@@ -74,13 +73,16 @@ export default function Dashboard() {
           "Content-Type": contentType,
         },
         onUploadProgress: (progressEvent) => {
-          const progress = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          const newProgress = [...uploadingProgress];
-          newProgress[fileIndex] = progress;
-          setUploadingProgress(newProgress);
-          console.log(newProgress);
+          const totalLength = progressEvent?.total;
+          if (totalLength) {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / totalLength
+            );
+            const newProgress = [...uploadingProgress];
+            newProgress[fileIndex] = progress;
+            setUploadingProgress(newProgress);
+            console.log(newProgress);
+          }
         },
       });
 
@@ -157,10 +159,9 @@ export default function Dashboard() {
   };
 
   const handleDowunloadUrl = async (_fileId: any) => {
-    await handleFetchAction(`/files/download?file=${_fileId}`)
-           .catch((err) => {
-        console.log(err);
-      });
+    await handleFetchAction(`/files/download?file=${_fileId}`).catch((err) => {
+      console.log(err);
+    });
   };
 
   const dateCalc = (_date: any) => {
@@ -200,9 +201,7 @@ export default function Dashboard() {
           <DarkModeSharpIcon />
         )}
       </button>
-      <div
-        className="w-[240px] md:w-[200px] sm:w-[200px] xs:w-[0px]"
-      >
+      <div className="w-[240px] md:w-[200px] sm:w-[200px] xs:w-[0px]">
         <DrawerComp
           folders={folders}
           handleFileChangeFunction={handleFileChangeFunction}
