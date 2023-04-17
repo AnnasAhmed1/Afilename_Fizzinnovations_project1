@@ -1,32 +1,19 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Drawer from "@mui/material/Drawer";
-import { Inter, Karla, Manrope } from "next/font/google";
+import { Inter, Karla } from "next/font/google";
 import { toast } from "react-toastify";
-// ICONS
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import FolderIcon from "@mui/icons-material/Folder";
-import DrawerComp from "@/components/drawer_comp";
-import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { API } from "@/config/API";
+import { Button, Menu, MenuItem } from "@mui/material";
+// ICONS
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
 import VideoCameraBackIcon from "@mui/icons-material/VideoCameraBack";
 import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
-import MenuIcon from "@mui/icons-material/Menu";
-
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
-import Image from "next/image";
-import axios from "axios";
-import { API } from "@/config/API";
-import { Button, Menu, MenuItem } from "@mui/material";
-import { ToastContainer } from "react-toastify";
 
 const karla = Karla({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
@@ -65,25 +52,17 @@ export default function FileList({
 }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const [copied, setCopied] = useState(false);
 
   const handleCopyClick = async (_fileId: any) => {
-    await handleFetchAction(`/files/downloadurl?file=${_fileId}`)
-      .then((response: any) => {
-        console.log(response);
-        navigator.clipboard.writeText(response.data.url);
-        toast.success("download URL copied to clipboard!", {
-          position: "top-center",
-          autoClose: 2000,
-        });
-        handleMenuClose();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const authUrl = new URL(`/files/${_fileId}`, window.location.origin);
+    navigator.clipboard.writeText(authUrl.href);
+    toast.success("download URL copied to clipboard!", {
+      position: "top-center",
+      autoClose: 2000,
+    });
+    handleMenuClose();
+    return;
   };
-
-  const router = useRouter();
 
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -105,12 +84,6 @@ export default function FileList({
     }
   }
   const handleDownload = async (_fileId: any) => {
-    // window.open(
-    //   `https://dev.api.afilename.com/files/downloadurl?file=${_fileId}`,
-    //   "_blank"
-    // );
-
-    // return;
     await API({
       method: "GET",
       url: `files/download?file=${_fileId}`,
@@ -122,14 +95,6 @@ export default function FileList({
         downloadLink.href = url;
         downloadLink.download = "";
         downloadLink.click();
-        // console.log(url);
-        // const downloadLink = document.createElement("a");
-        // downloadLink.href = url;
-        // // downloadLink.download = "filename.ext";
-        // downloadLink.click();
-        // window.open(url, "_self",);
-        // fileDownloadd
-        // setDownloadUrl(url);
       })
       .catch((error) => {
         console.log(error);
@@ -140,13 +105,16 @@ export default function FileList({
   return (
     <div
       //   key={i}
-      className={`flex gap-3 border-b
-     border-[#EBEFF2]
-       items-center
-      text-[#242634]
-       dark:text-[#ffffff] ${karla.className}`}
+      className={`
+        flex
+        gap-3
+        border-b
+        border-[#EBEFF2]
+        items-center
+        text-[#242634]
+        dark:text-[#ffffff]
+        $karla.className`}
     >
-      {/* <ToastContainer position="top-center" autoClose={3000} /> */}
       {fileObj?.contentType?.slice(0, 5) == "image" ? (
         <InsertPhotoOutlinedIcon className="text-xl mt-4 mb-auto" />
       ) : fileObj?.contentType?.slice(0, 5) == "video" ? (
@@ -157,12 +125,23 @@ export default function FileList({
         <FolderOutlinedIcon className="text-xl mt-4 mb-auto" />
       )}
       <div className={`my-4 flex-1`}>
-        <p className="text-sm font-medium mb-[1px] break-. break-all ">
+        <p className="text-sm sm:text-[12px] font-medium mb-[1px] break-. break-all ">
           {fileObj.title}
         </p>
-        <p className="text-xs ">{finalDate}</p>
+        <p className="text-xs sm:text-[10px] ">{finalDate}</p>
       </div>
-      <p className="text-[11px] font-bold border h-fit py-[3px] px-[5px] my-auto border-[#EBEFF2]">
+      <p
+      className="
+        text-[11px]
+        sm-text-[9px]
+        font-bold
+        border
+        h-fit
+        py-[3px]
+        px-[5px]
+        my-auto
+        border-[#EBEFF2]
+      ">
         {formatBytes(fileObj.usage)}
       </p>
       <div className="">
@@ -174,7 +153,7 @@ export default function FileList({
           onClick={handleClick}
           className="w-fit min-w-0"
         >
-          <MoreVertIcon className="text-lg my-auto h-fit dark:text-white" />
+          <MoreVertIcon className="text-lg  my-auto h-fit dark:text-white" />
         </Button>
         <Menu
           id="basic-menu"
@@ -186,32 +165,24 @@ export default function FileList({
           }}
           PaperProps={{
             className:
-              "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
+              "dark:bg-[#252525] sm:text-[12px] md:text-[12px] dark:text-white text-[#545454]  text-base font-medium",
           }}
           className="dark:bg-black//"
         >
           <MenuItem
             onClick={() => {
-              // handleDowunloadUrl();
               handleDownload(fileObj.fileId);
-              // router.push(`files/${fileObj.fileId}`);
             }}
           >
-            <a href="">
-              <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ececec] mr-[5px]" />{" "}
+              <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />{" "}
               Download
-            </a>
           </MenuItem>
           <MenuItem
-            onClick={
-              () => {
-                handleCopyClick(fileObj?.fileId);
-              }
-              // handleCopyClick();
-              // handleMenuClose();
-            }
+            onClick={() => {
+              handleCopyClick(fileObj?.fileId);
+            }}
           >
-            <ContentCopyRoundedIcon className=" text-[#545454] dark:text-[#ececec] mr-[5px]" />{" "}
+            <ContentCopyRoundedIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />{" "}
             Copy Link
           </MenuItem>
           <MenuItem

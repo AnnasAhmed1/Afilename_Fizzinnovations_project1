@@ -13,9 +13,8 @@ export default function Signup({
   heading,
   handleChange,
   handleSubmit,
-  
 }: {
-  heading:string,
+  heading: string;
   handleSubmit: any;
   handleChange: any;
 }) {
@@ -80,7 +79,7 @@ export default function Signup({
             id="filled-textarea"
             label="Email"
             placeholder="email@example.com"
-            className="text-white  dark:bg-[#ececec]"
+            className="text-white  dark:bg-[#ffffff]"
             required
             sx={{
               width: "100%",

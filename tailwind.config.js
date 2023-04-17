@@ -32,6 +32,8 @@ module.exports = {
         "80vh": "80vh",
       },
       screens: {
+
+        xs: { max: "600px" },
         sm: { max: "767px" },
         // => @media (min-width: 640px and max-width: 767px) { ... }
 

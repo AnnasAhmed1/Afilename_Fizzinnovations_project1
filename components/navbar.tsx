@@ -225,7 +225,7 @@ export default function Navbar() {
           className="border py-1.5
         border-transparent
          bg-black
-         dark:bg-[#ECECEC] 
+         dark:bg-[#ffffff] 
          md:p-1.5
          sm:p-1
          text-base 

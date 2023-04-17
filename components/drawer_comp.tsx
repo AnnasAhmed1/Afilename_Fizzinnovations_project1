@@ -27,6 +27,7 @@ import MusicVideoRoundedIcon from "@mui/icons-material/MusicVideoRounded";
 import SourceIcon from "@mui/icons-material/Source";
 
 import AddIcon from "@mui/icons-material/Add";
+import { useTheme } from "next-themes";
 
 const karla = Karla({ subsets: ["latin"] });
 
@@ -119,7 +120,7 @@ function DrawerContent({
   };
   return (
     <>
-      <div>
+      <div className="bg-white dark:bg-[#121212] h-full pr-[7px] pl-[14px]">
         <Modal
           open={modalOpen}
           onClose={() => handleClose()}
@@ -128,60 +129,95 @@ function DrawerContent({
         >
           <div
             className="
-              flex
-              gap-4
-              flex-col
-              bg-white
-              py-[2%]
-              rounded-[24px]
-              w-[50%]
-              border-2
-              absolute
-              top-[20%]
-              right-[25%]
-              scrollbar-thin
+            flex
+            flex-col
+            bg-white
+            dark:bg-[#121212]
+            dark:border-[#121212]
+            pt-4
+            pb-8
+            rounded-[24px]
+            w-[50%]
+            md:w-[70%]
+            sm:w-[80%]
+            border-2
+            absolute
+            top-[20%]
+            right-[25%]
+            md:right-[15%]
+            sm:right-[10%]
               "
           >
             <h3
               className={`
-                ${karla.className}
-                 font-extrabold
-                 text-4xl
-                 text-center
-                 text-[rgba(0,0,0,0.75)]
+              ${karla.className} font-extrabold 
+              text-4xl
+              md:text-3xl
+              sm:text-2xl
+              mb-2
+              text-center 
+              text-[rgba(0,0,0,0.75) 
                   `}
             >
               Create Folder
             </h3>
             <hr />
-            <TextField
-              id="filled-textarea"
-              label="Enter Folder Name"
-              placeholder="Folder Name"
-              className="mx-12 my-[5%]"
-              onChange={handleFolderChangeFunction}
-            />
-            <button
-              className={`
-              ${karla.className} block 
-              py-[15px] 
-              w-[50%] 
-              mx-auto 
-              font-base 
-              text-center
-               bg-[#0066FF] 
-               rounded-[5px]
-                text-white`}
-              onClick={() => {
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
                 createFolder();
                 handleClose();
               }}
+              className="
+          w-full
+          px-12
+          md:px-8
+          sm:px-6
+          mt-12
+          md:mt-10
+          sm:mt-8
+          "
             >
-              Create Folder
-            </button>
+              <TextField
+                id="filled-textarea"
+                label="Email"
+                placeholder="email@example.com"
+                className="text-white  dark:bg-[#ffffff]"
+                required
+                sx={{
+                  width: "100%",
+                  marginBottom: "3rem",
+                  color: "white",
+                  "@media (min-width: 768px, max-width: 1023px)": {
+                    marginBottom: "2.5rem",
+                  },
+                  "@media (max-width: 767px)": {
+                    marginBottom: "2rem",
+                  },
+                }}
+                onChange={handleFolderChangeFunction}
+              />
+              <button
+                className={`${karla.className}
+               block 
+               py-[15px]
+               md:py-[10px] 
+               sm:py-[10px] 
+               w-[65%] 
+               mx-auto 
+               font-base 
+               text-center
+               bg-[#0066FF] 
+               rounded-[5px]
+             text-white`}
+                type={"submit"}
+              >
+                Create Folder
+              </button>
+            </form>
           </div>
         </Modal>
-        <div className="min-h-[60vh] sm:min-h-[65vh] overflow-y-scroll scrollbar-thin">
+        <div className="min-h-[60vh] sm:min-h-[68vh]  overflow-y-scroll scrollbar-thin">
           <div
             className={`
                 flex  
@@ -198,15 +234,14 @@ function DrawerContent({
               // width={30}
               className="
                 w-5
-                md:w-3
-                sm:w-2
+                md:w-4
+                sm:w-4
                 "
             />
             <h1
               className="
                 text-3xl
-                md:text-2xl 
-                sm:text-lg 
+                sm:text-2xl 
                 text-[rgba(0,0,0,0.75)]
                 dark:text-[rgba(255,255,255,0.75)] 
                 font-extrabold"
@@ -418,6 +453,7 @@ export default function ResponsiveDrawer({
   handleFolderChangeFunction: any;
 }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const { theme } = useTheme();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -430,9 +466,9 @@ export default function ResponsiveDrawer({
         aria-label="open drawer"
         edge="start"
         onClick={handleDrawerToggle}
-        sx={{ mr: 2, display: { sm: "none" } }}
+        sx={{ margin: "35px 20px 0px ", display: { sm: "none" } }}
       >
-        <MenuIcon />
+        <MenuIcon className="dark:text-white" />
       </IconButton>
 
       <Box
@@ -446,16 +482,16 @@ export default function ResponsiveDrawer({
           onClose={handleDrawerToggle}
           ModalProps={{
             keepMounted: true,
-            className: "scrollbar-thin border-r border-[#717171]",
+            className: "scrollbar-thin border-r border-[#717171]  ",
           }}
+          className="bg-[#ffffff] dark:bg-black "
           sx={{
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
-              padding: "0 10px 0 20px",
+              width: "40%",
+
               overflowX: "hidden",
-              backgroundColor: "transparent",
             },
           }}
         >
@@ -473,6 +509,7 @@ export default function ResponsiveDrawer({
             className:
               "scrollbar-thin border-r pl-[20px] sm:pl-[15px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]",
           }}
+          className="scrollbar-thin border-r pl-[20px] sm:pl-[15px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]"
           sx={{
             display: { xs: "none", sm: "block" },
 

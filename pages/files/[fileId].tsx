@@ -1,5 +1,6 @@
 import { API } from "@/config/API";
 import { handleFetchAction } from "@/config/API_actions";
+import { CircularProgress } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -7,33 +8,24 @@ import { useEffect, useState } from "react";
 function FilePage({ query }: { query: any }) {
   const router = useRouter();
   const { fileId } = router.query;
-  //   const handleDowunloadUrl = async (_fileId: any) => {
-  //     await handleFetchAction(`/files/download?file=${_fileId}`)
-  //       .then(async (response: any) => {
-  //         const blob = await response.blob();
-  //         const url = URL.createObjectURL(blob);
-  //         console.log(response);
-  //         console.log(blob);
-  //         console.log(url);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   };
 
-  //   useEffect(() => {
-  //     handleDowunloadUrl(fileId);
-  //   }, []);
-
-  //   return (
-  //     <div>
-  //       <h1>File page for fileId: {fileId}</h1>
-  //       {/* Display file data here */}
-  //     </div>
-  //   );
   const [downloadUrl, setDownloadUrl] = useState("");
 
   const handleDownload = async () => {
+    await handleFetchAction(`/files/downloadurl?file=${fileId}`)
+      .then((response: any) => {
+        console.log(response);
+        // const url = URL.createObjectURL(response.data.url);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = response.data.url;
+        downloadLink.download = "";
+        downloadLink.click();
+        console.log(URL.revokeObjectURL(response.data.url));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return;
     console.log("check");
     await API({
       method: "GET",
@@ -43,7 +35,6 @@ function FilePage({ query }: { query: any }) {
       .then((response) => {
         const url = URL.createObjectURL(response.data);
         setDownloadUrl(url);
-     ;
       })
       .catch((error) => {
         console.log(error);
@@ -54,13 +45,15 @@ function FilePage({ query }: { query: any }) {
     handleDownload();
   }, []);
   return (
-    <div>
-      {/* <button onClick={handleDownload}>Download File</button> */}
-      {downloadUrl && (
-        <a target="_blank" href={downloadUrl} download>
-          Click here to download
-        </a>
-      )}
+    <div
+      className="
+    flex
+    justify-center
+    items-center
+    h-screen
+  "
+    >
+      <CircularProgress size={"70px"} />
     </div>
   );
 }

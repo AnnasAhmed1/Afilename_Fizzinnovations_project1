@@ -43,7 +43,11 @@ export const handleFetchAction = (url: any) => {
  * @param {Object} data - The data to be sent in the request body.
  * @returns {Promise} - A promise that resolves with the response data on success, and rejects with an error on failure.
  */
-export const handleInsertAction = (url: any, data: any) => {
+export const handleInsertAction = (
+  url: any,
+  data: any,
+  
+) => {
   console.log(url, data);
   return new Promise(async (resolve, reject) => {
     try {
