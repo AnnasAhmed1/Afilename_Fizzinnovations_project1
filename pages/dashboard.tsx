@@ -18,6 +18,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import CloseIcon from "@mui/icons-material/Close";
+import { toast } from "react-toastify";
 
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -57,6 +58,21 @@ export default function Dashboard() {
     filename?: any,
     contentType?: any
   ) => {
+    if (file.size == 0) {
+      toast.error("cannot upload empty file", {
+        position: "top-center",
+        autoClose: 300,
+      });
+      return;
+    } else {
+      if (file.size / 1073741824 > 5) {
+        toast.error("Connot upload file larger than 5 GB", {
+          position: "top-center",
+          autoClose: 300,
+        });
+        return;
+      }
+    }
     try {
       const response: any = await handleInsertAction("files/upload", {
         filename,
@@ -94,6 +110,7 @@ export default function Dashboard() {
   };
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
+    console.log(file);
     const updateProgress = (event: any) => {
       const percentage = Math.round((100 * event.loaded) / event.total);
       setUploadProgress(percentage);
