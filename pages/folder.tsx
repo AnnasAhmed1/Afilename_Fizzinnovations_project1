@@ -41,15 +41,15 @@ export default function Folder({ query }: { query: any }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
   const [uploadingProgress, setUploadingProgress] = useState<Array<any>>([]);
-  
+  const [email, setEmail] = useState<string>();
+
   const open = Boolean(anchorEl);
-  const email = Cookies.get("email")?.split("@")[0] as string;
 
   useEffect(() => {
-    !Cookies.get("apikey") ? router.push("/") : getFolders();
+    !Cookies.get("apikey")
+      ? router.push("/")
+      : (getFolders(), setEmail(Cookies.get("email")?.split("@")[0]));
   }, []);
-
-
 
   const uploadRequest = async (
     file?: any,

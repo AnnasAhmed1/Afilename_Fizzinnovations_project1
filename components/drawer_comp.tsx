@@ -328,9 +328,7 @@ function DrawerContent({
               marginBottom: "1rem",
             }}
             className="p-0 my-4"
-            onClick={() => {
-              setRecentOpen(!recentOpen);
-            }}
+            onClick={() => {}}
           >
             <ListItemIcon
               sx={{
@@ -355,22 +353,7 @@ function DrawerContent({
             >
               Recent
             </p>
-            {recentOpen ? (
-              <ExpandLess className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
-            ) : (
-              <ExpandMore className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
-            )}
           </ListItemButton>
-          <Collapse
-            className="pl-[5px]"
-            in={recentOpen}
-            timeout="auto"
-            unmountOnExit
-          >
-            {files?.map((v: any, i: any) => {
-              return <ListItemComp key={i} text={v.title} input={true} />;
-            })}
-          </Collapse>
         </div>
         <button
           className={`

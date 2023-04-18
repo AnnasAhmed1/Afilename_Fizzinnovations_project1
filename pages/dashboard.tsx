@@ -49,66 +49,19 @@ export default function Dashboard() {
   const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
   const [uploadProgress, setUploadProgress] = useState<number[]>([]);
   const [currentUpload, setCurrentUpload] = useState(null);
-
-  const email = Cookies.get("email")?.split("@")[0] as string;
+  const [email, setEmail] = useState<string>();
 
   useEffect(() => {
-    !Cookies.get("apikey") ? router.push("/") : (getFolders(), getFiles());
+    !Cookies.get("apikey")
+      ? router.push("/")
+      : (getFolders(),
+        getFiles(),
+        setEmail(Cookies.get("email")?.split("@")[0]));
   }, []);
-
-  const uploadRequest = async (
-    file?: any,
-    filename?: any,
-    contentType?: any
-  ) => {
-    if (file?.size == 0) {
-      toast.error("cannot upload empty file", {
-        position: "top-center",
-        autoClose: 300,
-      });
-      return;
-    } else {
-      if (file?.size / 1073741824 > 5) {
-        toast.error("Connot upload file larger than 5 GB", {
-          position: "top-center",
-          autoClose: 300,
-        });
-        return;
-      }
-    }
-    try {
-      const response: any = await handleInsertAction("files/upload", {
-        filename,
-        contentType,
-      });
-      setCurrentUpload(file);
-      uploadingFiles.push(file);
-      setUploadingFiles([...uploadingFiles]);
-      const onUploadProgress = (progressEvent: any) => {
-        const progress = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total
-        );
-        setUploadingProgress(progress);
-      };
-      await axios.put(response.data.url, file, {
-        headers: {
-          "Content-Type": contentType,
-        },
-        onUploadProgress,
-      });
-      console.log("success");
-      getFiles();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setCurrentUpload(null);
-    }
-  };
 
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
     console.log(file);
-    // uploadRequest(file, file?.name, file?.type);
     uploadingFiles.push(file);
     setUploadingFiles([...uploadingFiles]);
   };
@@ -230,11 +183,9 @@ export default function Dashboard() {
           />
           <div className="pl-4 md:pl-2 sm:pl-1 flex gap-4 md:gap-1 sm:gap-0 items-center">
             <div>
-              <div
-                className={` text-[#5073d2] text-base sm:text-xs font-semibold`}
-              >
+              <p className=" text-[#5073d2] text-base sm:text-xs font-semibold">
                 {email}
-              </div>
+              </p>
               <p
                 className={`${manrope.className} text-[#7c8db5b8] text-xs sm:text-[10px] `}
               >
@@ -295,7 +246,7 @@ export default function Dashboard() {
                 pl-[3%]
                 mb-8
                 border-b-[0.25px]
-                pt-[7%]
+                pt-[5%]
                 pb-[5%]
                 border-black
                 dark:border-white
@@ -334,7 +285,7 @@ export default function Dashboard() {
                       <FileUpload
                         key={index}
                         file={file}
-                        onFinishUpload={(uploadingProgress :any) => {
+                        onFinishUpload={(uploadingProgress: any) => {
                           console.log(uploadingFiles, "==> before");
                           setTimeout(() => {
                             // if (uploadingFiles.length == 1) {

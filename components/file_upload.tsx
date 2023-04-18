@@ -35,7 +35,7 @@ const FileUpload = ({
       }
     }
     try {
-      let percent = 10;
+      let percent = 0;
       const response: any = await handleInsertAction("files/upload", {
         filename,
         contentType,
