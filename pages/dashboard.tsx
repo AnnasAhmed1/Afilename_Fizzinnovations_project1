@@ -17,8 +17,8 @@ import FileList from "@/components/file_list";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
-import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
+import FileUpload from "@/components/file_upload";
 
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -44,8 +44,11 @@ export default function Dashboard() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [uploadingProgress, setUploadingProgress] = useState<Array<any>>([]);
+  const [uploadingProgress, setUploadingProgress] = useState<number>();
+  const [progress, setProgress] = useState<number[]>([]);
+  const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
+  const [uploadProgress, setUploadProgress] = useState<number[]>([]);
+  const [currentUpload, setCurrentUpload] = useState(null);
 
   const email = Cookies.get("email")?.split("@")[0] as string;
 
@@ -58,14 +61,14 @@ export default function Dashboard() {
     filename?: any,
     contentType?: any
   ) => {
-    if (file.size == 0) {
+    if (file?.size == 0) {
       toast.error("cannot upload empty file", {
         position: "top-center",
         autoClose: 300,
       });
       return;
     } else {
-      if (file.size / 1073741824 > 5) {
+      if (file?.size / 1073741824 > 5) {
         toast.error("Connot upload file larger than 5 GB", {
           position: "top-center",
           autoClose: 300,
@@ -78,44 +81,36 @@ export default function Dashboard() {
         filename,
         contentType,
       });
-      const fileIndex = uploadingFiles.length;
-      setUploadingFiles([...uploadingFiles, file]);
-      setUploadingProgress([...uploadingProgress, 0]);
+      setCurrentUpload(file);
+      uploadingFiles.push(file);
+      setUploadingFiles([...uploadingFiles]);
+      const onUploadProgress = (progressEvent: any) => {
+        const progress = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total
+        );
+        setUploadingProgress(progress);
+      };
       await axios.put(response.data.url, file, {
         headers: {
           "Content-Type": contentType,
         },
-        onUploadProgress: (progressEvent) => {
-          const totalLength = progressEvent?.total;
-          if (totalLength) {
-            const progress = Math.round(
-              (progressEvent.loaded * 100) / totalLength
-            );
-            const newProgress = [...uploadingProgress];
-            newProgress[fileIndex] = progress;
-            setUploadingProgress(newProgress);
-            console.log(newProgress);
-          }
-        },
+        onUploadProgress,
       });
-
-      const newProgress = [...uploadingProgress];
-      newProgress[fileIndex] = 100;
-      setUploadingProgress(newProgress);
       console.log("success");
       getFiles();
     } catch (error) {
       console.log(error);
+    } finally {
+      setCurrentUpload(null);
     }
   };
+
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
     console.log(file);
-    const updateProgress = (event: any) => {
-      const percentage = Math.round((100 * event.loaded) / event.total);
-      setUploadProgress(percentage);
-    };
-    uploadRequest(file, file?.name, file?.type);
+    // uploadRequest(file, file?.name, file?.type);
+    uploadingFiles.push(file);
+    setUploadingFiles([...uploadingFiles]);
   };
   const handleFolderChangeFunction = (e: any) => {
     setNewFolderName(e.target.value);
@@ -170,12 +165,6 @@ export default function Dashboard() {
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const handleDowunloadUrl = async (_fileId: any) => {
-    await handleFetchAction(`/files/download?file=${_fileId}`).catch((err) => {
-      console.log(err);
-    });
   };
 
   return (
@@ -329,26 +318,39 @@ export default function Dashboard() {
                 <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
                   <h1
                     className={`
-                      text-[18px]
-                      font-bold
-                      text-[#1A1A1A]
-                      dark:text-[#ffffff]
-                      text-center
-                      `}
+                    text-[18px]
+                    font-bold
+                    text-[#1A1A1A]
+                    dark:text-[#ffffff]
+                    text-center
+                  `}
                   >
                     {`Uploading ${uploadingFiles?.length} Files...`}
                   </h1>
-                  {uploadingFiles.map((v, i) => (
-                    <section key={i} className="flex items-center gap-1">
-                      <ProgressBar progress={uploadingProgress[i]} />
-                      <p className="text-xs">{uploadingProgress[i]}%</p>
-                      <p>
-                        <CloseIcon
-                          style={{ fontSize: "15px", backgroundColor: "white" }}
-                        />
-                      </p>
-                    </section>
-                  ))}
+
+                  {uploadingFiles.map((file, index) => {
+                    console.log(file?.name, "==>uploading file name");
+                    return (
+                      <FileUpload
+                        key={index}
+                        file={file}
+                        onFinishUpload={(uploadingProgress :any) => {
+                          console.log(uploadingFiles, "==> before");
+                          setTimeout(() => {
+                            // if (uploadingFiles.length == 1) {
+                            //   setUploadingFiles([]);
+                            //   return;
+                            // }
+                            uploadingFiles.splice(index, 1);
+                            setUploadingFiles([...uploadingFiles]);
+                            console.log(uploadingProgress, "==> before");
+                            console.log(uploadingFiles, "==> after");
+                          }, 1000);
+                          getFiles();
+                        }}
+                      />
+                    );
+                  })}
                 </main>
               ) : null}
               <div
