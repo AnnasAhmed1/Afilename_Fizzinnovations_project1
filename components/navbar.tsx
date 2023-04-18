@@ -47,20 +47,18 @@ export default function Navbar() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setEmail(e.target.value);
-    console.log(email);
   };
   const handleSubmit = async (email: string) => {
     await handleInsertAction("/account/signin/", {
       email: email,
     })
       .then((res: any) => {
-        console.log(email);
-        console.log(res.data);
         handleModalClose();
         handleVerifyModalOpen();
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.response?.data?.error);
+       
       });
   };
   return (
@@ -201,12 +199,12 @@ export default function Navbar() {
         <button
           className="border 
           py-1.5
-          md:p-1.5 
-          sm:p-1 
+          md:p-1
+          sm:p-0 
           border-black
           dark:border-white
           w-28 
-          sm:w-14 
+          sm:w-12 
           md:w-24"
           onClick={() => {
             setHeading("Signup");
@@ -221,7 +219,7 @@ export default function Navbar() {
          bg-black
          dark:bg-[#ffffff] 
          md:p-1.5
-         sm:p-1
+         sm:p-0
          text-base 
           font-bold 
          ${inter.className}
@@ -229,7 +227,7 @@ export default function Navbar() {
           dark:text-black
           w-28
           md:w-24
-          sm:w-14
+          sm:w-12
           sm:text-xs
           "
           onClick={() => {

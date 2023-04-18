@@ -41,13 +41,15 @@ export default function Folder({ query }: { query: any }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
   const [uploadingProgress, setUploadingProgress] = useState<Array<any>>([]);
-
+  
   const open = Boolean(anchorEl);
   const email = Cookies.get("email")?.split("@")[0] as string;
 
   useEffect(() => {
     !Cookies.get("apikey") ? router.push("/") : getFolders();
   }, []);
+
+
 
   const uploadRequest = async (
     file?: any,
@@ -140,8 +142,6 @@ export default function Folder({ query }: { query: any }) {
         setFiles(_folders[folderIndex]?.fileIds);
         getFilesDetails(_folders[folderIndex]?.fileIds);
         return;
-      } else {
-        console.log("not found");
       }
     });
   };
@@ -184,21 +184,6 @@ export default function Folder({ query }: { query: any }) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <button
-        className="absolute top-2 right-3"
-        onClick={() => {
-          console.log(theme);
-          setTheme(theme == "light" ? "dark" : "light");
-        }}
-      >
-        {theme == "light" ? (
-          <DarkModeSharpIcon className="text-dark" />
-        ) : theme == "dark" ? (
-          <LightModeSharpIcon className="text-white" />
-        ) : (
-          <DarkModeSharpIcon />
-        )}
-      </button>
       <CssBaseline />
       <div className="w-[240px] md:w-[200px] sm:w-[200px] xs:w-[0px]">
         <DrawerComp
@@ -261,13 +246,13 @@ export default function Folder({ query }: { query: any }) {
           />
           <div className="pl-4 flex gap-4 md:gap-3 sm:gap-2 items-center">
             <div>
-              <div
+              <p
                 className={` text-[#5073d2] text-base sm:text-sm font-semibold`}
               >
                 {email}
-              </div>
+              </p>
               <p
-                className={`${manrope.className} text-[#7c8db5b8] text-xs sm:text-[11px] `}
+                className={`{manrope.className} text-[#7c8db5b8] text-xs sm:text-[11px] `}
               >
                 Premium
               </p>
@@ -304,6 +289,19 @@ export default function Folder({ query }: { query: any }) {
               </Menu>
             </p>
           </div>
+          <button
+            onClick={() => {
+              setTheme(theme == "light" ? "dark" : "light");
+            }}
+          >
+            {theme == "light" ? (
+              <DarkModeSharpIcon className="text-dark" />
+            ) : theme == "dark" ? (
+              <LightModeSharpIcon className="text-white" />
+            ) : (
+              <DarkModeSharpIcon />
+            )}
+          </button>
         </section>
 
         <section className=" pl-[2%]">
@@ -327,12 +325,7 @@ export default function Folder({ query }: { query: any }) {
           </h1>
           {filesDetails?.map((v, i) => {
             const fileObj = v as FileObject;
-            return (
-              <FileList
-                key={i}
-                fileObj={fileObj}
-              />
-            );
+            return <FileList key={i} fileObj={fileObj} />;
           })}
         </section>
       </main>

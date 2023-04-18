@@ -168,8 +168,8 @@ function DrawerContent({
             >
               <TextField
                 id="filled-textarea"
-                label="Email"
-                placeholder="email@example.com"
+                label="Folder Name"
+                placeholder="enter folder name"
                 className="text-white  dark:bg-[#ffffff]"
                 required
                 sx={{
@@ -450,11 +450,10 @@ export default function ResponsiveDrawer({
         aria-label="open drawer"
         edge="start"
         onClick={handleDrawerToggle}
-        sx={{ margin: "35px 20px 0px ", display: { sm: "none" } }}
+        sx={{ margin: "24px 20px 0px ", display: { sm: "none" } }}
       >
         <MenuIcon className="dark:text-white" />
       </IconButton>
-
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -490,7 +489,7 @@ export default function ResponsiveDrawer({
           variant="permanent"
           PaperProps={{
             className:
-              "scrollbar-thin border-r pl-[20px] sm:pl-[15px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]",
+              "scrollbar-thin border-r pl-[20px] sm:pl-[8px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]",
           }}
           className="scrollbar-thin border-r pl-[20px] sm:pl-[15px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]"
           sx={{

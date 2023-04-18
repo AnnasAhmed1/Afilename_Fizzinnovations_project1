@@ -163,20 +163,6 @@ export default function Dashboard() {
 
   return (
     <div style={{ display: "flex" }}>
-      <button
-        className="absolute top-2 right-3"
-        onClick={() => {
-          setTheme(theme == "light" ? "dark" : "light");
-        }}
-      >
-        {theme == "light" ? (
-          <DarkModeSharpIcon className="text-dark" />
-        ) : theme == "dark" ? (
-          <LightModeSharpIcon className="text-white" />
-        ) : (
-          <DarkModeSharpIcon />
-        )}
-      </button>
       <div className="w-[240px] md:w-[200px] sm:w-[200px] xs:w-[0px]">
         <DrawerComp
           folders={folders}
@@ -194,13 +180,13 @@ export default function Dashboard() {
           pl-[3.5%] 
           pr-[2%]
           mt-[5%]
-          md:mt-[7%]
-          sm:mt-[7%]
+          sm:mt-[25px]
         `}
       >
         <section
           className="flex 
-            justify-between 
+            justify-between
+            items-center 
             pr-[10%]
             md:pr-0
             sm:pr-0
@@ -209,7 +195,7 @@ export default function Dashboard() {
           <input
             type="text"
             className={`
-            xs:ml-10
+              xs:ml-10
               w-[60%]
               sm:w-full
               mx-auto
@@ -236,15 +222,15 @@ export default function Dashboard() {
                 });
             }}
           />
-          <div className="pl-4 flex gap-4 md:gap-2 sm:gap-0 items-center">
+          <div className="pl-4 md:pl-2 sm:pl-1 flex gap-4 md:gap-1 sm:gap-0 items-center">
             <div>
               <div
-                className={` text-[#5073d2] text-base sm:text-sm font-semibold`}
+                className={` text-[#5073d2] text-base sm:text-xs font-semibold`}
               >
                 {email}
               </div>
               <p
-                className={`${manrope.className} text-[#7c8db5b8] text-xs sm:text-[11px] `}
+                className={`${manrope.className} text-[#7c8db5b8] text-xs sm:text-[10px] `}
               >
                 Premium
               </p>
@@ -274,13 +260,27 @@ export default function Dashboard() {
                 }}
                 PaperProps={{
                   className:
-                    "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
+                    "dark:bg-[#252525] dark:text-white text-[#545454] text-base font-medium",
                 }}
               >
                 <MenuItem>Logout</MenuItem>
               </Menu>
             </p>
           </div>
+
+          <button
+            onClick={() => {
+              setTheme(theme == "light" ? "dark" : "light");
+            }}
+          >
+            {theme == "light" ? (
+              <DarkModeSharpIcon className="text-dark" />
+            ) : theme == "dark" ? (
+              <LightModeSharpIcon className="text-white" />
+            ) : (
+              <DarkModeSharpIcon />
+            )}
+          </button>
         </section>
         {searchQuery.length == 0 ? (
           <>
@@ -432,12 +432,7 @@ export default function Dashboard() {
               ) : (
                 filesDetails.map((v, i) => {
                   const fileObj = v as FileObject;
-                  return (
-                    <FileList
-                      key={i}
-                      fileObj={fileObj}
-                    />
-                  );
+                  return <FileList key={i} fileObj={fileObj} />;
                 })
               )}
             </section>
@@ -463,12 +458,7 @@ export default function Dashboard() {
             ) : (
               filesDetails.map((v, i) => {
                 const fileObj = v as FileObject;
-                return (
-                  <FileList
-                    key={i}
-                    fileObj={fileObj}
-                  />
-                );
+                return <FileList key={i} fileObj={fileObj} />;
               })
             )}
           </section>

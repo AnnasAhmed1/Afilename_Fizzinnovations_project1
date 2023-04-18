@@ -27,6 +27,10 @@ export default function Login() {
         right-[25%]
         md:right-[15%]
         sm:right-[10%]
+        md:pt-2
+        md:pb-6
+        sm:pt-0.5
+        sm:pb-3
         "
     >
       <h3
@@ -41,7 +45,7 @@ export default function Login() {
       <hr />
 
       <h6
-        className={`font pt-8 px-5 font-medium pb-10 text-[#262626] dark:text-[#ffffff] text-base text-center`}
+        className={`font pt-8 md:pt-6 sm:pt-2 px-5 md:px-3 sm:px-2 font-medium pb-10 md:pb-6 sm:pb-2 text-[#262626] dark:text-[#ffffff] text-base md:text-sm sm:text-xs text-center`}
       >
         A login link was sent to you. You can check your email and click on the
         link or button.

@@ -1,4 +1,3 @@
-// import './globals.css'
 "use client";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";

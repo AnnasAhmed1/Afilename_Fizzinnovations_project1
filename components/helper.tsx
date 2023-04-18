@@ -8,7 +8,7 @@ const karla = Karla({ subsets: ["latin"] });
 export function P1({ text }: { text: string }) {
   return (
     <p
-      className={`text-base sm:text-xs text-[#131313] dark:text-[#ffffff] font-bold ${inter.className}`}
+      className={`text-base sm:text-[11px] text-[#131313] dark:text-[#ffffff] font-bold ${inter.className}`}
     >
       {text}
     </p>

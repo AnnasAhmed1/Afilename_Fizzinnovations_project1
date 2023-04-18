@@ -17,9 +17,6 @@ export default function Signup({
   handleChange: any;
 }) {
   const [email, setEmail] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => setModalOpen(false);
   return (
     <>
       <div
@@ -39,6 +36,10 @@ export default function Signup({
         absolute
         top-[20%]
         right-[25%]
+        md:pt-2
+        md:pb-6
+        sm:pt-0.5
+        sm:pb-3
         md:right-[15%]
         sm:right-[10%]
         "
@@ -68,8 +69,8 @@ export default function Signup({
           md:px-8
           sm:px-6
           mt-12
-          md:mt-10
-          sm:mt-8
+          md:mt-8
+          sm:mt-4
           "
         >
           <TextField
@@ -82,11 +83,13 @@ export default function Signup({
               width: "100%",
               marginBottom: "3rem",
               color: "white",
+              fontSize:"12px",
               "@media (min-width: 768px, max-width: 1023px)": {
-                marginBottom: "2.5rem",
+                marginBottom: "2rem",
+
               },
               "@media (max-width: 767px)": {
-                marginBottom: "2rem",
+                marginBottom: "1rem",
               },
             }}
             onChange={(e) => {
@@ -97,9 +100,10 @@ export default function Signup({
             className={`${mavenPro.className}
             block 
             py-[15px]
-            md:py-[10px] 
-            sm:py-[10px] 
-            w-[65%] 
+            md:py-[8px] 
+            sm:py-[4px] 
+            w-[65%]
+            sm:w-[55%] 
             mx-auto 
             font-base 
             text-center
@@ -119,8 +123,8 @@ export default function Signup({
           className={`
           ${karla.className} 
           pt-10
-          md:pt-8
-          sm:pt-6
+          md:pt-6
+          sm:pt-4
           font-light ß
           text-[13px] 
           text-center`}

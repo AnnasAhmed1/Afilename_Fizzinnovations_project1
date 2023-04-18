@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { API } from "./API";
+import { toast } from "react-toastify";
 
 /**
  * A function to handle GET API requests.
@@ -55,7 +56,18 @@ export const handleInsertAction = (url: any, data: any) => {
         },
       });
       resolve(response);
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error);
+      let errorMessage = "";
+      if (error.response?.data?.error) {
+        errorMessage = error.response?.data?.error;
+      } else {
+        errorMessage = "error occured";
+      }
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: false,
+      });
       reject(error);
     }
   });

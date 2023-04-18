@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import { Inter, Karla } from "next/font/google";
@@ -14,43 +14,38 @@ import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
+import errorToast from "./error";
 
 const karla = Karla({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
-interface FileObject {
-  title: string;
-  contentType: string;
-  dateUploaded: any;
-}
-const dateCalc = (_date: any) => {
-  const apiDate = new Date(_date);
 
-  const currentDate = new Date();
-
-  const timeDiff = currentDate.getTime() - apiDate.getTime();
-  const secondsDiff = Math.floor(timeDiff / 1000);
-  const minutesDiff = Math.floor(secondsDiff / 60);
-  const hoursDiff = Math.floor(minutesDiff / 60);
-  const daysDiff = Math.floor(hoursDiff / 24);
-  if (secondsDiff < 60) {
-    return `${secondsDiff} seconds ago`;
-  } else if (minutesDiff < 60) {
-    return `${minutesDiff} minutes ago`;
-  } else if (hoursDiff < 24) {
-    return `${hoursDiff} hours ago`;
-  } else {
-    return `${daysDiff} days ago`;
-  }
-};
-
-export default function FileList({
-  fileObj,
-}: {
-  fileObj: any;
-}) {
+export default function FileList({ fileObj }: { fileObj: any }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [time, setTime] = useState("");
   const open = Boolean(anchorEl);
+  useEffect(() => {
+    setTime(dateCalc(fileObj?.dateUploaded));
+  }, []);
+  const dateCalc = (_date: any) => {
+    const apiDate = new Date(_date);
 
+    const currentDate = new Date();
+
+    const timeDiff = currentDate.getTime() - apiDate.getTime();
+    const secondsDiff = Math.floor(timeDiff / 1000);
+    const minutesDiff = Math.floor(secondsDiff / 60);
+    const hoursDiff = Math.floor(minutesDiff / 60);
+    const daysDiff = Math.floor(hoursDiff / 24);
+    if (secondsDiff < 60) {
+      return `${secondsDiff} seconds ago`;
+    } else if (minutesDiff < 60) {
+      return `${minutesDiff} minutes ago`;
+    } else if (hoursDiff < 24) {
+      return `${hoursDiff} hours ago`;
+    } else {
+      return `${daysDiff} days ago`;
+    }
+  };
   const handleCopyClick = async (_fileId: any) => {
     const authUrl = new URL(`/files/${_fileId}`, window.location.origin);
     navigator.clipboard.writeText(authUrl.href);
@@ -68,7 +63,6 @@ export default function FileList({
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-  const finalDate = dateCalc(fileObj?.dateUploaded);
 
   function formatBytes(bytes: number): string {
     if (bytes < 1024) {
@@ -95,6 +89,7 @@ export default function FileList({
         downloadLink.click();
       })
       .catch((error) => {
+        errorToast(error?.message);
         console.log(error);
       });
     handleMenuClose();
@@ -126,10 +121,10 @@ export default function FileList({
         <p className="text-sm sm:text-[12px] font-medium mb-[1px] break-. break-all ">
           {fileObj.title}
         </p>
-        <p className="text-xs sm:text-[10px] ">{finalDate}</p>
+        <p className="text-xs sm:text-[10px] ">{time}</p>
       </div>
       <p
-      className="
+        className="
         text-[11px]
         sm-text-[9px]
         font-bold
@@ -139,7 +134,8 @@ export default function FileList({
         px-[5px]
         my-auto
         border-[#EBEFF2]
-      ">
+      "
+      >
         {formatBytes(fileObj.usage)}
       </p>
       <div className="">
@@ -172,8 +168,8 @@ export default function FileList({
               handleDownload(fileObj.fileId);
             }}
           >
-              <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />{" "}
-              Download
+            <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />{" "}
+            Download
           </MenuItem>
           <MenuItem
             onClick={() => {
@@ -199,3 +195,6 @@ export default function FileList({
     </div>
   );
 }
+FileList.getInitialProps = async (fileObj: any) => {
+  return { fileObj: fileObj };
+};
