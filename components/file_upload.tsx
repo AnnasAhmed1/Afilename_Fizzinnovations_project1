@@ -19,21 +19,6 @@ const FileUpload = ({
     filename?: string,
     contentType?: string
   ) => {
-    if (file?.size == 0) {
-      toast.error("cannot upload empty file", {
-        position: "top-center",
-        autoClose: 2000,
-      });
-      return;
-    } else {
-      if (file?.size / 1073741824 > 5) {
-        toast.error("Connot upload file larger than 5 GB", {
-          position: "top-center",
-          autoClose: 2000,
-        });
-        return;
-      }
-    }
     try {
       let percent = 0;
       const response: any = await handleInsertAction("files/upload", {
@@ -53,7 +38,7 @@ const FileUpload = ({
         onUploadProgress,
       });
       percent = uploadingProgress;
-      onFinishUpload(uploadingProgress);
+      onFinishUpload(response.data?.fileId);
     } catch (error) {
       console.log(error);
     }

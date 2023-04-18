@@ -61,7 +61,21 @@ export default function Dashboard() {
 
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
-    console.log(file);
+    if (file?.size == 0) {
+      toast.error("cannot upload empty file", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+      return;
+    } else {
+      if (file?.size / 1073741824 > 5) {
+        toast.error("Connot upload file larger than 5 GB", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+        return;
+      }
+    }
     uploadingFiles.push(file);
     setUploadingFiles([...uploadingFiles]);
   };
@@ -265,45 +279,7 @@ export default function Dashboard() {
               >
                 Folders
               </h1>
-              {uploadingFiles?.length > 0 ? (
-                <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
-                  <h1
-                    className={`
-                    text-[18px]
-                    font-bold
-                    text-[#1A1A1A]
-                    dark:text-[#ffffff]
-                    text-center
-                  `}
-                  >
-                    {`Uploading ${uploadingFiles?.length} Files...`}
-                  </h1>
 
-                  {uploadingFiles.map((file, index) => {
-                    console.log(file?.name, "==>uploading file name");
-                    return (
-                      <FileUpload
-                        key={index}
-                        file={file}
-                        onFinishUpload={(uploadingProgress: any) => {
-                          console.log(uploadingFiles, "==> before");
-                          setTimeout(() => {
-                            // if (uploadingFiles.length == 1) {
-                            //   setUploadingFiles([]);
-                            //   return;
-                            // }
-                            uploadingFiles.splice(index, 1);
-                            setUploadingFiles([...uploadingFiles]);
-                            console.log(uploadingProgress, "==> before");
-                            console.log(uploadingFiles, "==> after");
-                          }, 1000);
-                          getFiles();
-                        }}
-                      />
-                    );
-                  })}
-                </main>
-              ) : null}
               <div
                 className="
                     flex
@@ -406,6 +382,35 @@ export default function Dashboard() {
                 })
               )}
             </section>
+            {uploadingFiles?.length > 0 ? (
+                <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+                  <h1
+                    className={`
+                    text-[18px]
+                    font-bold
+                    text-[#1A1A1A]
+                    dark:text-[#ffffff]
+                    text-center
+                  `}
+                  >
+                    {`Uploading ${uploadingFiles?.length} Files...`}
+                  </h1>
+
+                  {uploadingFiles.map((file, index) => (
+                    <FileUpload
+                      key={index}
+                      file={file}
+                      onFinishUpload={(uploadingProgress: any) => {
+                        setTimeout(() => {
+                          uploadingFiles.splice(index, 1);
+                          setUploadingFiles([...uploadingFiles]);
+                        }, 500);
+                        getFiles();
+                      }}
+                    />
+                  ))}
+                </main>
+              ) : null}
           </>
         ) : (
           <section className="">

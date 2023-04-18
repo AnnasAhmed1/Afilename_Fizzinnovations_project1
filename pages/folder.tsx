@@ -18,6 +18,8 @@ import FileList from "@/components/file_list";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
+import { toast } from "react-toastify";
+import FileUpload from "@/components/file_upload";
 
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -51,52 +53,6 @@ export default function Folder({ query }: { query: any }) {
       : (getFolders(), setEmail(Cookies.get("email")?.split("@")[0]));
   }, []);
 
-  const uploadRequest = async (
-    file?: any,
-    filename?: any,
-    contentType?: any
-  ) => {
-    try {
-      const response: any = await handleInsertAction("files/upload", {
-        filename,
-        contentType,
-      });
-
-      const fileIndex = uploadingFiles.length;
-      setUploadingFiles([...uploadingFiles, file]);
-      setUploadingProgress([...uploadingProgress, 0]);
-
-      await axios
-        .put(response.data.url, file, {
-          headers: {
-            "Content-Type": contentType,
-          },
-          onUploadProgress: (progressEvent) => {
-            const totalLength = progressEvent?.total;
-            if (totalLength) {
-              const progress = Math.round(
-                (progressEvent.loaded * 100) / totalLength
-              );
-              const newProgress = [...uploadingProgress];
-              newProgress[fileIndex] = progress;
-              setUploadingProgress(newProgress);
-              console.log(newProgress);
-            }
-          },
-        })
-        .then(async () => {
-          uploadInFolder(response.data.fileId);
-        });
-
-      const newProgress = [...uploadingProgress];
-      newProgress[fileIndex] = 100;
-      setUploadingProgress(newProgress);
-      console.log("success");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const uploadInFolder = async (fileId?: any) => {
     try {
       handleInsertAction(`folders/${id}/files`, {
@@ -115,7 +71,23 @@ export default function Folder({ query }: { query: any }) {
 
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
-    uploadRequest(file, file?.name, file?.type);
+    if (file?.size == 0) {
+      toast.error("cannot upload empty file", {
+        position: "top-center",
+        autoClose: 2000,
+      });
+      return;
+    } else {
+      if (file?.size / 1073741824 > 5) {
+        toast.error("Connot upload file larger than 5 GB", {
+          position: "top-center",
+          autoClose: 2000,
+        });
+        return;
+      }
+    }
+    uploadingFiles.push(file);
+    setUploadingFiles([...uploadingFiles]);
   };
 
   const handleFolderChangeFunction = (e: any) => {
@@ -328,6 +300,35 @@ export default function Folder({ query }: { query: any }) {
             return <FileList key={i} fileObj={fileObj} />;
           })}
         </section>
+        {uploadingFiles?.length > 0 ? (
+          <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+            <h1
+              className={`
+                    text-[18px]
+                    font-bold
+                    text-[#1A1A1A]
+                    dark:text-[#ffffff]
+                    text-center
+                  `}
+            >
+              {`Uploading ${uploadingFiles?.length} Files...`}
+            </h1>
+
+            {uploadingFiles.map((file, index) => (
+              <FileUpload
+                key={index}
+                file={file}
+                onFinishUpload={(fileId: any) => {
+                  setTimeout(() => {
+                    uploadingFiles.splice(index, 1);
+                    setUploadingFiles([...uploadingFiles]);
+                  }, 500);
+                  uploadInFolder(fileId);
+                }}
+              />
+            ))}
+          </main>
+        ) : null}
       </main>
     </Box>
   );
