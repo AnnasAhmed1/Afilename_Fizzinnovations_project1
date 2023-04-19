@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Karla, Manrope } from "next/font/google";
 import { useRouter } from "next/router";
-import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
+import { handleDeleteAction, handleFetchAction, handleInsertAction } from "@/config/API_actions";
 import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
 import axios from "axios";
@@ -326,6 +326,14 @@ export default function Folder() {
                   }, 500);
                   uploadInFolder(fileId);
                 }}
+                onCancelRequest={(fileId?: string) => {
+                    handleDeleteAction(`files/delete?fileId=${fileId}`);
+                    uploadingFiles.splice(index, 1);
+                    setUploadingFiles([...uploadingFiles]);
+                    toast.error("File upload cancelled", {
+                      position: "top-center",
+                    });
+                  }}
               />
             ))}
           </main>

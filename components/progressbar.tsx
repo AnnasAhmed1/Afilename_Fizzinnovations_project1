@@ -9,9 +9,11 @@ import CloseIcon from "@mui/icons-material/Close";
 const ProgressBar = ({
   progress,
   filename,
+  cancelRequest,
 }: {
   progress: any;
   filename: any;
+  cancelRequest: any;
 }) => {
   return (
     <section
@@ -48,7 +50,7 @@ const ProgressBar = ({
       >
         {progress}%
       </p>
-      <p>
+      <p onClick={cancelRequest}>
         <CloseIcon
           style={{
             fontSize: "15px",

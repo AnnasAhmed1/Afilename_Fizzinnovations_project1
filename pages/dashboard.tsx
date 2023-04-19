@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 import { Karla, Manrope } from "next/font/google";
-import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
+import {
+  handleDeleteAction,
+  handleFetchAction,
+  handleInsertAction,
+} from "@/config/API_actions";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
@@ -404,12 +408,23 @@ export default function Dashboard() {
                     key={index}
                     file={file}
                     onFinishUpload={(fileId: string) => {
+                      console.log("annnasasnas");
+                      console.log(index, "fininsh");
                       setTimeout(() => {
                         uploadingFiles.splice(index, 1);
                         setUploadingFiles([...uploadingFiles]);
                       }, 500);
                       // getFiles();
                       getSingleFileDetails(fileId);
+                    }}
+                    onCancelRequest={(fileId?: string) => {
+                      console.log(index, "cancel");
+                      handleDeleteAction(`files/delete?fileId=${fileId}`);
+                      uploadingFiles.splice(index, 1);
+                      setUploadingFiles([...uploadingFiles]);
+                      toast.error("File upload cancelled", {
+                        position: "top-center",
+                      });
                     }}
                   />
                 ))}

@@ -80,18 +80,15 @@ export default function Signup({
             placeholder="email@example.com"
             // className="border-white  text-white border dark:text-black dark:border-white"
             InputProps={{
-              className:"border-white border dark:border-white"
+              className:"border-white text-white border dark:border-white/"
             }}
             required
             sx={{
               width: "100%",
               marginBottom: "3rem",
-              // color: "white",
               fontSize:"12px",
-              // border:"transparent",
               "@media (min-width: 768px, max-width: 1023px)": {
                 marginBottom: "2rem",
-
               },
               "@media (max-width: 767px)": {
                 marginBottom: "1rem",

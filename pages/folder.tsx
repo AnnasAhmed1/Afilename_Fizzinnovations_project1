@@ -5,7 +5,11 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Karla, Manrope } from "next/font/google";
 import { useRouter } from "next/router";
-import { handleFetchAction, handleInsertAction } from "@/config/API_actions";
+import {
+  handleDeleteAction,
+  handleFetchAction,
+  handleInsertAction,
+} from "@/config/API_actions";
 import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
 import axios from "axios";
@@ -150,8 +154,7 @@ export default function Folder({ query }: { query: any }) {
   };
   const handleDowunloadUrl = async (_fileId: any) => {
     await handleFetchAction(`/files/download?file=${_fileId}`)
-      .then((response: any) => {
-      })
+      .then((response: any) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -318,11 +321,21 @@ export default function Folder({ query }: { query: any }) {
                 key={index}
                 file={file}
                 onFinishUpload={(fileId: string) => {
+                  console.log(index, "fininsh");
                   setTimeout(() => {
                     uploadingFiles.splice(index, 1);
                     setUploadingFiles([...uploadingFiles]);
                   }, 500);
                   uploadInFolder(fileId);
+                }}
+                onCancelRequest={(fileId?: string) => {
+                  console.log(index, "canecl");
+                  handleDeleteAction(`files/delete?fileId=${fileId}`);
+                  uploadingFiles.splice(index, 1);
+                  setUploadingFiles([...uploadingFiles]);
+                  toast.error("File upload cancelled", {
+                    position: "top-center",
+                  });
                 }}
               />
             ))}

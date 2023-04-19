@@ -61,6 +61,8 @@ export const handleInsertAction = (url: any, data: any) => {
       let errorMessage = "";
       if (error.response?.data?.error) {
         errorMessage = error.response?.data?.error;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response?.data?.error;
       } else {
         errorMessage = "error occured";
       }
@@ -109,7 +111,7 @@ export const handleDeleteAction = (url: any) => {
         method: "DELETE",
         url,
         headers: {
-          "Content-Type": "application/json",
+          "x-api-key": Cookies.get("apikey"),
         },
       });
       resolve(response);
