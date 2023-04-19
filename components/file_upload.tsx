@@ -45,10 +45,8 @@ const FileUpload = ({
   };
 
   useEffect(() => {
-    console.log("useEffect call upload");
     uploadRequest(file, file?.name, file?.type);
   }, []);
-  console.log(uploadingProgress, "==>uploadingProgress", file?.name);
   return <ProgressBar progress={uploadingProgress} filename={file?.name} />;
 };
 

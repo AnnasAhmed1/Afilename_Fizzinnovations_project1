@@ -10,12 +10,10 @@ function FilePage({ query }: { query: any }) {
   const handleDownload = async () => {
     await handleFetchAction(`/files/downloadurl?file=${fileId}`)
       .then((response: any) => {
-        console.log(response);
         const downloadLink = document.createElement("a");
         downloadLink.href = response.data.url;
         downloadLink.download = "";
         downloadLink.click();
-        console.log(URL.revokeObjectURL(response.data.url));
       })
       .catch((err) => {
         console.log(err);

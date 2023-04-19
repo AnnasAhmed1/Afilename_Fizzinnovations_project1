@@ -84,7 +84,6 @@ export default function Dashboard() {
   };
 
   const createFolder = async (folderName: string) => {
-    console.log(folderName);
     try {
       handleInsertAction("/folders/createfolder", {
         name: folderName,
@@ -122,6 +121,14 @@ export default function Dashboard() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const getSingleFileDetails = async (fileId?: any) => {
+    await handleFetchAction(`files/${fileId}`).then((res: any) => {
+      const data = res.data;
+      filesDetails.push(data);
+      setFilesDetails([...filesDetails]);
+    });
   };
 
   const getFolders = async () => {
@@ -176,18 +183,14 @@ export default function Dashboard() {
               border-black
               py-0 
               dark:border-white
-              dark:bg-[#ffffff]
-              dark:text-[black]
               px-4
               h-8
              `}
             placeholder="search"
             onChange={async (e) => {
               setSearchQuery(e.target.value);
-              console.log(e.target.value);
               await handleFetchAction(`/account/search?q=${e.target.value}`)
                 .then((response: any) => {
-                  console.log(response);
                   getFilesDetails(response.data.fileIds);
                 })
                 .catch((err) => {
@@ -197,7 +200,7 @@ export default function Dashboard() {
           />
           <div className="pl-4 md:pl-2 sm:pl-1 flex gap-4 md:gap-1 sm:gap-0 items-center">
             <div>
-              <p className=" text-[#5073d2] text-base sm:text-xs font-semibold">
+              <p className="text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold">
                 {email}
               </p>
               <p
@@ -383,34 +386,35 @@ export default function Dashboard() {
               )}
             </section>
             {uploadingFiles?.length > 0 ? (
-                <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
-                  <h1
-                    className={`
+              <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+                <h1
+                  className={`
                     text-[18px]
                     font-bold
                     text-[#1A1A1A]
                     dark:text-[#ffffff]
                     text-center
                   `}
-                  >
-                    {`Uploading ${uploadingFiles?.length} Files...`}
-                  </h1>
+                >
+                  {`Uploading ${uploadingFiles?.length} Files...`}
+                </h1>
 
-                  {uploadingFiles.map((file, index) => (
-                    <FileUpload
-                      key={index}
-                      file={file}
-                      onFinishUpload={(uploadingProgress: any) => {
-                        setTimeout(() => {
-                          uploadingFiles.splice(index, 1);
-                          setUploadingFiles([...uploadingFiles]);
-                        }, 500);
-                        getFiles();
-                      }}
-                    />
-                  ))}
-                </main>
-              ) : null}
+                {uploadingFiles.map((file, index) => (
+                  <FileUpload
+                    key={index}
+                    file={file}
+                    onFinishUpload={(fileId: string) => {
+                      setTimeout(() => {
+                        uploadingFiles.splice(index, 1);
+                        setUploadingFiles([...uploadingFiles]);
+                      }, 500);
+                      // getFiles();
+                      getSingleFileDetails(fileId);
+                    }}
+                  />
+                ))}
+              </main>
+            ) : null}
           </>
         ) : (
           <section className="">

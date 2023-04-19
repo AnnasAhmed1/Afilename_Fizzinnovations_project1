@@ -26,6 +26,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import MusicVideoRoundedIcon from "@mui/icons-material/MusicVideoRounded";
 import SourceIcon from "@mui/icons-material/Source";
 import AddIcon from "@mui/icons-material/Add";
+import { useRouter } from "next/router";
 
 const karla = Karla({ subsets: ["latin"] });
 
@@ -49,6 +50,7 @@ function DrawerContent({
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
+  const router = useRouter();
 
   const optionsList = [
     {
@@ -328,7 +330,12 @@ function DrawerContent({
               marginBottom: "1rem",
             }}
             className="p-0 my-4"
-            onClick={() => {}}
+            onClick={() => {
+              console.log(files);
+              router.push(
+                 `/recent?filesArray=${JSON.stringify(files)}`,undefined, { shallow: true }
+              );
+            }}
           >
             <ListItemIcon
               sx={{

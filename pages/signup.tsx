@@ -64,6 +64,7 @@ export default function Signup({
             handleSubmit(email);
           }}
           className="
+          dark:text-white
           w-full
           px-12
           md:px-8
@@ -77,13 +78,17 @@ export default function Signup({
             id="filled-textarea"
             label="Email"
             placeholder="email@example.com"
-            className="text-white  dark:bg-[#ffffff]"
+            // className="border-white  text-white border dark:text-black dark:border-white"
+            InputProps={{
+              className:"border-white border dark:border-white"
+            }}
             required
             sx={{
               width: "100%",
               marginBottom: "3rem",
-              color: "white",
+              // color: "white",
               fontSize:"12px",
+              // border:"transparent",
               "@media (min-width: 768px, max-width: 1023px)": {
                 marginBottom: "2rem",
 

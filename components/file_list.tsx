@@ -22,9 +22,11 @@ const inter = Inter({ subsets: ["latin"] });
 export default function FileList({ fileObj }: { fileObj: any }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [time, setTime] = useState("");
+  const [storage, setStorage] = useState("");
   const open = Boolean(anchorEl);
   useEffect(() => {
     setTime(dateCalc(fileObj?.dateUploaded));
+    setStorage(formatBytes(fileObj.usage));
   }, []);
   const dateCalc = (_date: any) => {
     const apiDate = new Date(_date);
@@ -80,24 +82,18 @@ export default function FileList({ fileObj }: { fileObj: any }) {
       method: "GET",
       url: `files/download?file=${_fileId}`,
       responseType: "blob",
-    })
-      .then((response) => {
-        const url = URL.createObjectURL(response.data);
-        const downloadLink = document.createElement("a");
-        downloadLink.href = url;
-        downloadLink.download = "";
-        downloadLink.click();
-      })
-      .catch((error) => {
-        errorToast(error?.message);
-        console.log(error);
-      });
+    }).then((response) => {
+      const url = URL.createObjectURL(response.data);
+      const downloadLink = document.createElement("a");
+      downloadLink.href = url;
+      downloadLink.download = "";
+      downloadLink.click();
+    });
     handleMenuClose();
   };
 
   return (
     <div
-      //   key={i}
       className={`
         flex
         gap-3
@@ -123,6 +119,7 @@ export default function FileList({ fileObj }: { fileObj: any }) {
         </p>
         <p className="text-xs sm:text-[10px] ">{time}</p>
       </div>
+      {/* <p>{fileObj.usage}</p> */}
       <p
         className="
         text-[11px]
@@ -136,7 +133,7 @@ export default function FileList({ fileObj }: { fileObj: any }) {
         border-[#EBEFF2]
       "
       >
-        {formatBytes(fileObj.usage)}
+        {storage}
       </p>
       <div className="">
         <Button

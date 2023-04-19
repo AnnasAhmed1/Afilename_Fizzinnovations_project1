@@ -31,7 +31,7 @@ interface FileObject {
   fileId: any;
 }
 
-export default function Folder({ query }: { query: any }) {
+export default function Folder() {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
   const { id, name } = router.query;
@@ -46,11 +46,15 @@ export default function Folder({ query }: { query: any }) {
   const [email, setEmail] = useState<string>();
 
   const open = Boolean(anchorEl);
+  //   const router = useRouter();
+  const { filesArray } = router.query;
+  const parsedFiles = filesArray ? JSON.parse(filesArray as string) : [];
 
   useEffect(() => {
     !Cookies.get("apikey")
       ? router.push("/")
-      : (getFolders(), setEmail(Cookies.get("email")?.split("@")[0]));
+      : // setFiles(query),
+        setEmail(Cookies.get("email")?.split("@")[0]);
   }, []);
 
   const uploadInFolder = async (fileId?: any) => {
@@ -150,8 +154,7 @@ export default function Folder({ query }: { query: any }) {
   };
   const handleDowunloadUrl = async (_fileId: any) => {
     await handleFetchAction(`/files/download?file=${_fileId}`)
-      .then((response: any) => {
-      })
+      .then((response: any) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -292,11 +295,10 @@ export default function Folder({ query }: { query: any }) {
               <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
             </button>
             <FolderCopyIcon className="ml-[5px] mr-[15px] text-3xl dark:text-[#ffffff]" />
-            {name}
+            Recent
           </h1>
-          {filesDetails?.map((v, i) => {
-            const fileObj = v as FileObject;
-            return <FileList key={i} fileObj={fileObj} />;
+          {parsedFiles?.map((v: any, i: any) => {
+            return <FileList key={i} fileObj={v} />;
           })}
         </section>
         {uploadingFiles?.length > 0 ? (
@@ -332,6 +334,10 @@ export default function Folder({ query }: { query: any }) {
     </Box>
   );
 }
-Folder.getInitialProps = async (ctx: any) => {
-  return { query: ctx.query };
+// Folder.getInitialProps = async (ctx: any) => {
+//   return { query: ctx.query };
+// };
+
+Folder.getInitialProps = ({ query, asPath }: { query: any; asPath: any }) => {
+  return { query, asPath };
 };

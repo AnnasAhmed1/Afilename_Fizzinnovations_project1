@@ -10,7 +10,6 @@ function VerifyPage({ query }: { query: any }) {
   const router = useRouter();
   const { email, token } = router.query;
   const verifyLogin = async () => {
-    console.log(email, token, "verify check");
     email && token
       ? handleInsertAction("/account/verify", {
           email,
@@ -24,7 +23,7 @@ function VerifyPage({ query }: { query: any }) {
           .catch((error) => {
             console.log(error);
           })
-      : console.log(email, token, "not found");
+      : null;
   };
   useEffect(() => {
     verifyLogin();
