@@ -409,19 +409,18 @@ export default function Dashboard() {
                     key={index}
                     file={file}
                     onFinishUpload={(fileId: string) => {
-                      console.log(index, "fininsh");
-                      setTimeout(() => {
-                        uploadingFiles.splice(index, 1);
-                        setUploadingFiles([...uploadingFiles]);
-                      }, 500);
-                      console.log(uploadingFiles)
+                      setUploadingFiles((prevState) =>
+                      prevState.filter((_, i) => i !== index)
+                    );
                       getSingleFileDetails(fileId);
                     }}
                     onCancelRequest={(fileId?: string) => {
-                      console.log(index, "cancel");
                       handleDeleteAction(`files/delete?fileId=${fileId}`);
-                      uploadingFiles.splice(index, 1);
-                      setUploadingFiles([...uploadingFiles]);
+                      // uploadingFiles.splice(index, 1);
+                      // setUploadingFiles([...uploadingFiles]);
+                      setUploadingFiles((prevState) =>
+                        prevState.filter((_, i) => i !== index)
+                      );
                       toast.error("File upload cancelled", {
                         position: "top-center",
                       });

@@ -323,17 +323,17 @@ export default function Folder({ query }: { query: any }) {
                 file={file}
                 onFinishUpload={(fileId: string) => {
                   console.log(index, "fininsh");
-                  setTimeout(() => {
-                    uploadingFiles.splice(index, 1);
-                    setUploadingFiles([...uploadingFiles]);
-                  }, 500);
+                  setUploadingFiles((prevState) =>
+                      prevState.filter((_, i) => i !== index)
+                    );
                   uploadInFolder(fileId);
                 }}
                 onCancelRequest={(fileId?: string) => {
                   console.log(index, "canecl");
                   handleDeleteAction(`files/delete?fileId=${fileId}`);
-                  uploadingFiles.splice(index, 1);
-                  setUploadingFiles([...uploadingFiles]);
+                  setUploadingFiles((prevState) =>
+                  prevState.filter((_, i) => i !== index)
+                );
                   toast.error("File upload cancelled", {
                     position: "top-center",
                   });
