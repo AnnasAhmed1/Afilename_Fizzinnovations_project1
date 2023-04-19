@@ -130,6 +130,7 @@ export default function Dashboard() {
   const getSingleFileDetails = async (fileId?: any) => {
     await handleFetchAction(`files/${fileId}`).then((res: any) => {
       const data = res.data;
+      console.log(res.data);
       filesDetails.push(data);
       setFilesDetails([...filesDetails]);
     });
@@ -408,13 +409,12 @@ export default function Dashboard() {
                     key={index}
                     file={file}
                     onFinishUpload={(fileId: string) => {
-                      console.log("annnasasnas");
                       console.log(index, "fininsh");
                       setTimeout(() => {
                         uploadingFiles.splice(index, 1);
                         setUploadingFiles([...uploadingFiles]);
                       }, 500);
-                      // getFiles();
+                      console.log(uploadingFiles)
                       getSingleFileDetails(fileId);
                     }}
                     onCancelRequest={(fileId?: string) => {

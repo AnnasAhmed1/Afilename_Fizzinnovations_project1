@@ -137,6 +137,7 @@ export default function Folder({ query }: { query: any }) {
   const getSingleFileDetails = async (fileId?: any) => {
     await handleFetchAction(`files/${fileId}`).then((res: any) => {
       const data = res.data;
+      console.log(res.data);
       filesDetails.push(data);
       setFilesDetails([...filesDetails]);
     });

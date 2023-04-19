@@ -152,13 +152,6 @@ export default function Folder() {
         console.log(err);
       });
   };
-  const handleDowunloadUrl = async (_fileId: any) => {
-    await handleFetchAction(`/files/download?file=${_fileId}`)
-      .then((response: any) => {})
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <Box sx={{ display: "flex" }}>

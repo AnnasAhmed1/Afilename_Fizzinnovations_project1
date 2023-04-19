@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios, { CancelTokenSource } from "axios";
-import { toast } from "react-toastify";
 import { handleInsertAction } from "@/config/API_actions";
 import ProgressBar from "./progressbar";
-import CloseIcon from "@mui/icons-material/Close";
 
 const FileUpload = ({
   file,
@@ -49,10 +47,14 @@ const FileUpload = ({
           );
           setUploadingProgress(progress);
         },
+        onFinishUpload: () => {
+          console.log("finishupload");
+          onFinishUpload(response.data?.fileId);
+        },
         cancelToken: source.token,
       };
       await axios.put(response.data.url, file, config);
-      percent = uploadingProgress;
+      // percent = uploadingProgress;
       onFinishUpload(response.data?.fileId);
     } catch (error) {
       if (axios.isCancel(error)) {
