@@ -50,7 +50,7 @@ const ProgressBar = ({
       >
         {progress}%
       </p>
-      <p onClick={cancelRequest}>
+      <p className="cursor-pointer" onClick={cancelRequest}>
         <CloseIcon
           style={{
             fontSize: "15px",

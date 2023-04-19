@@ -78,9 +78,13 @@ export default function Signup({
             id="filled-textarea"
             label="Email"
             placeholder="email@example.com"
+            
             // className="border-white  text-white border dark:text-black dark:border-white"
             InputProps={{
-              className:"border-white text-white border dark:border-white/"
+              className:"text-white border"
+            }}
+            InputLabelProps={{
+              className:" text-white"
             }}
             required
             sx={{
