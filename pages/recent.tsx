@@ -5,7 +5,11 @@ import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Karla, Manrope } from "next/font/google";
 import { useRouter } from "next/router";
-import { handleDeleteAction, handleFetchAction, handleInsertAction } from "@/config/API_actions";
+import {
+  handleDeleteAction,
+  handleFetchAction,
+  handleInsertAction,
+} from "@/config/API_actions";
 import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
 import axios from "axios";
@@ -156,7 +160,7 @@ export default function Folder() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <div className="w-[240px] md:w-[200px] sm:w-[200px] xs:w-[0px]">
+      <div className="w-[240px] sm:w-[200px] xs:w-[0px]">
         <DrawerComp
           folders={folders}
           handleFileChangeFunction={handleFileChangeFunction}
@@ -320,13 +324,13 @@ export default function Folder() {
                   uploadInFolder(fileId);
                 }}
                 onCancelRequest={(fileId?: string) => {
-                    handleDeleteAction(`files/delete?fileId=${fileId}`);
-                    uploadingFiles.splice(index, 1);
-                    setUploadingFiles([...uploadingFiles]);
-                    toast.error("File upload cancelled", {
-                      position: "top-center",
-                    });
-                  }}
+                  handleDeleteAction(`files/delete?fileId=${fileId}`);
+                  uploadingFiles.splice(index, 1);
+                  setUploadingFiles([...uploadingFiles]);
+                  toast.error("File upload cancelled", {
+                    position: "top-center",
+                  });
+                }}
               />
             ))}
           </main>

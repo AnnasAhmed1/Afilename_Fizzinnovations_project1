@@ -164,7 +164,7 @@ export default function Folder({ query }: { query: any }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <div className="w-[240px] md:w-[200px] sm:w-[200px] xs:w-[0px]">
+      <div className="w-[240px] sm:w-[200px] xs:w-[0px]">
         <DrawerComp
           folders={folders}
           handleFileChangeFunction={handleFileChangeFunction}

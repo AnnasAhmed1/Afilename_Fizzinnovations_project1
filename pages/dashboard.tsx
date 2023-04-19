@@ -148,7 +148,7 @@ export default function Dashboard() {
 
   return (
     <div style={{ display: "flex" }}>
-      <div className="w-[240px] md:w-[200px] sm:w-[200px] xs:w-[0px]">
+      <div className="w-[240px]  sm:w-[200px] xs:w-[0px]">
         <DrawerComp
           folders={folders}
           handleFileChangeFunction={handleFileChangeFunction}
