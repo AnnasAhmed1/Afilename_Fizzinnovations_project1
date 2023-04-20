@@ -23,6 +23,7 @@ import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { toast } from "react-toastify";
 import FileUpload from "@/components/file_upload";
+import DarkLightIcon from "@/components/dark_light_icon";
 
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -246,20 +247,7 @@ export default function Dashboard() {
               </Menu>
             </p>
           </div>
-
-          <button
-            onClick={() => {
-              setTheme(theme == "light" ? "dark" : "light");
-            }}
-          >
-            {theme == "light" ? (
-              <DarkModeSharpIcon className="text-dark" />
-            ) : theme == "dark" ? (
-              <LightModeSharpIcon className="text-white" />
-            ) : (
-              <DarkModeSharpIcon />
-            )}
-          </button>
+          <DarkLightIcon />
         </section>
         {searchQuery.length == 0 ? (
           <>
@@ -410,8 +398,8 @@ export default function Dashboard() {
                     file={file}
                     onFinishUpload={(fileId: string) => {
                       setUploadingFiles((prevState) =>
-                      prevState.filter((_, i) => i !== index)
-                    );
+                        prevState.filter((_, i) => i !== index)
+                      );
                       getSingleFileDetails(fileId);
                     }}
                     onCancelRequest={(fileId?: string) => {

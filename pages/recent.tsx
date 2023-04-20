@@ -24,6 +24,7 @@ import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { toast } from "react-toastify";
 import FileUpload from "@/components/file_upload";
+import DarkLightIcon from "@/components/dark_light_icon";
 
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -260,19 +261,7 @@ export default function Folder() {
               </Menu>
             </p>
           </div>
-          <button
-            onClick={() => {
-              setTheme(theme == "light" ? "dark" : "light");
-            }}
-          >
-            {theme == "light" ? (
-              <DarkModeSharpIcon className="text-dark" />
-            ) : theme == "dark" ? (
-              <LightModeSharpIcon className="text-white" />
-            ) : (
-              <DarkModeSharpIcon />
-            )}
-          </button>
+          <DarkLightIcon/>
         </section>
 
         <section className=" pl-[2%]">
