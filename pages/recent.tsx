@@ -261,7 +261,7 @@ export default function Folder() {
               </Menu>
             </p>
           </div>
-          <DarkLightIcon/>
+          <DarkLightIcon />
         </section>
 
         <section className=" pl-[2%]">
@@ -288,7 +288,7 @@ export default function Folder() {
           })}
         </section>
         {uploadingFiles?.length > 0 ? (
-          <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+          <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#121212] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
             <h1
               className={`
                     text-[18px]

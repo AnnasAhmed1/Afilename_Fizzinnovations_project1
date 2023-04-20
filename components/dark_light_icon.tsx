@@ -19,7 +19,7 @@ const DarkLightIcon = () => {
       ) : theme == "dark" ? (
         <LightModeSharpIcon className="text-white" />
       ) : (
-        <DarkModeSharpIcon className="text-black" />
+        <LightModeSharpIcon />
       )}
     </button>
   );

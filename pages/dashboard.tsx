@@ -379,7 +379,7 @@ export default function Dashboard() {
               )}
             </section>
             {uploadingFiles?.length > 0 ? (
-              <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white border-2 border-gray-100 rounded-md ">
+              <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#121212] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
                 <h1
                   className={`
                     text-[18px]
@@ -404,8 +404,6 @@ export default function Dashboard() {
                     }}
                     onCancelRequest={(fileId?: string) => {
                       handleDeleteAction(`files/delete?fileId=${fileId}`);
-                      // uploadingFiles.splice(index, 1);
-                      // setUploadingFiles([...uploadingFiles]);
                       setUploadingFiles((prevState) =>
                         prevState.filter((_, i) => i !== index)
                       );

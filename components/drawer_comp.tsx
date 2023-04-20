@@ -229,7 +229,7 @@ function DrawerContent({
             />
             <h1
               className="
-                text-3xl
+                text-[1.65rem]
                 sm:text-2xl 
                 text-[rgba(0,0,0,0.75)]
                 dark:text-[rgba(255,255,255,0.75)] 
@@ -333,7 +333,9 @@ function DrawerContent({
             onClick={() => {
               console.log(files);
               router.push(
-                 `/recent?filesArray=${JSON.stringify(files)}`,undefined, { shallow: true }
+                `/recent?filesArray=${JSON.stringify(files)}`,
+                undefined,
+                { shallow: true }
               );
             }}
           >
