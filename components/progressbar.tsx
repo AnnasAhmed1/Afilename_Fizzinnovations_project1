@@ -28,6 +28,7 @@ const ProgressBar = ({
         className="
         text-[10px]
         w-[75px]
+        dark:text-white
         // /min-w-[20px]
         // /max-w-[20px]
         "
@@ -46,13 +47,14 @@ const ProgressBar = ({
       <p
         className="
         text-[11px]
+        dark:text-white
       "
       >
         {progress}%
       </p>
       <p className="cursor-pointer" onClick={cancelRequest}>
         <CloseIcon
-        className="bg-white dark:bg-[#121212]"
+        className="bg-white dark:bg-[#121212] dark:text-white"
           style={{
             fontSize: "15px",
           }}

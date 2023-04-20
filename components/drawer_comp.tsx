@@ -172,7 +172,12 @@ function DrawerContent({
                 id="filled-textarea"
                 label="Folder Name"
                 placeholder="enter folder name"
-                className="text-white  dark:bg-[#ffffff]"
+                InputProps={{
+                  className:"dark:text-white border"
+                }}
+                InputLabelProps={{
+                  className:" dark:text-white"
+                }}
                 required
                 sx={{
                   width: "100%",
@@ -214,8 +219,7 @@ function DrawerContent({
                 items-center 
                 justify-center 
                 py-8 
-                gap-2  
-                sm:gap-1 
+                gap-1  
                 ${karla.className}`}
           >
             <Image
@@ -307,6 +311,7 @@ function DrawerContent({
               text={optionsList[2].title}
               Icon={optionsList[2].icon}
               handleFileChangeFunction={handleFileChangeFunction}
+              folder={true}
             />
             <hr />
             <ListItemComp

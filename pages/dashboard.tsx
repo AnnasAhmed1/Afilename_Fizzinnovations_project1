@@ -66,6 +66,9 @@ export default function Dashboard() {
 
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
     if (file?.size == 0) {
       toast.error("cannot upload empty file", {
         position: "top-center",

@@ -31,7 +31,6 @@ const FileUpload = ({
     setRequest(source);
     let fileId = "";
     try {
-      let percent = 0;
       const response: any = await handleInsertAction("files/upload", {
         filename,
         contentType,
@@ -54,7 +53,6 @@ const FileUpload = ({
         cancelToken: source.token,
       };
       await axios.put(response.data.url, file, config);
-      // percent = uploadingProgress;
       onFinishUpload(response.data?.fileId);
     } catch (error) {
       if (axios.isCancel(error)) {

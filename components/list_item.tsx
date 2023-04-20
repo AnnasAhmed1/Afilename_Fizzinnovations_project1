@@ -1,4 +1,4 @@
-import  React, { useRef } from "react";
+import React, { useRef } from "react";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 
@@ -9,8 +9,10 @@ export default function ListItemComp(props: {
   filetype?: string;
   input?: boolean;
   onClick?: any;
+  folder?: boolean;
 }) {
-  const { text, Icon, handleFileChangeFunction, filetype, onClick } = props;
+  const { text, Icon, handleFileChangeFunction, filetype, onClick, folder } =
+    props;
   const fileInputRef = useRef<HTMLInputElement>(null);
   var input;
   props.input ? (input = false) : (input = true);
@@ -30,11 +32,11 @@ export default function ListItemComp(props: {
            gap-[10px]
            pl-[5px]
            cursor-pointer"
-          onClick={input ? handleClick : onClick}
+        onClick={input ? handleClick : onClick}
       >
         {Icon}
         <p
-        className="sm:text-xs"
+          className="sm:text-xs"
           style={{
             margin: "5px 0",
             wordBreak: "break-all",
@@ -50,6 +52,7 @@ export default function ListItemComp(props: {
           accept={filetype}
           style={{ display: "none" }}
           onChange={handleFileChange}
+          multiple={folder}
         />
       ) : null}
     </>

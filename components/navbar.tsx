@@ -15,6 +15,7 @@ import { handleInsertAction } from "@/config/API_actions";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { useTheme } from "next-themes";
+import DarkLightIcon from "./dark_light_icon";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -237,19 +238,7 @@ export default function Navbar() {
         >
           Login
         </button>
-        <button
-          onClick={() => {
-            setTheme(theme == "light" ? "dark" : "light");
-          }}
-        >
-          {theme == "light" ? (
-            <DarkModeSharpIcon className="text-dark" />
-          ) : theme == "dark" ? (
-            <LightModeSharpIcon className="text-white" />
-          ) : (
-            <DarkModeSharpIcon />
-          )}
-        </button>
+      <DarkLightIcon/>
       </div>
     </nav>
   );

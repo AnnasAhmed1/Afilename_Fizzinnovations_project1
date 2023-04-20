@@ -14,7 +14,6 @@ import InsertPhotoOutlinedIcon from "@mui/icons-material/InsertPhotoOutlined";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
-import errorToast from "./error";
 
 const karla = Karla({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });

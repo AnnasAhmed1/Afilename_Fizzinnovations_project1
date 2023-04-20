@@ -20,8 +20,6 @@ import Cookies from "js-cookie";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import FileList from "@/components/file_list";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
-import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { toast } from "react-toastify";
 import FileUpload from "@/components/file_upload";
 import DarkLightIcon from "@/components/dark_light_icon";
@@ -49,6 +47,7 @@ export default function Folder({ query }: { query: any }) {
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
   const [uploadingProgress, setUploadingProgress] = useState<Array<any>>([]);
   const [email, setEmail] = useState<string>();
+  const [uploadingFilesSize, setUploadingFilesSize] = useState(0);
 
   const open = Boolean(anchorEl);
 
@@ -72,6 +71,9 @@ export default function Folder({ query }: { query: any }) {
 
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
+    if (!file) {
+      return;
+    }
     if (file?.size == 0) {
       toast.error("cannot upload empty file", {
         position: "top-center",
@@ -87,6 +89,7 @@ export default function Folder({ query }: { query: any }) {
         return;
       }
     }
+    setUploadingFilesSize(uploadingFilesSize + parseFloat(file?.size));
     uploadingFiles.push(file);
     setUploadingFiles([...uploadingFiles]);
   };
@@ -161,6 +164,20 @@ export default function Folder({ query }: { query: any }) {
         console.log(err);
       });
   };
+  console.log(uploadingFilesSize);
+  console.log(uploadingFiles, "checklllll");
+
+  function formatBytes(bytes: number): string {
+    if (bytes < 1024) {
+      return bytes + "B";
+    } else if (bytes < 1048576) {
+      return (bytes / 1024).toFixed(1) + "KB";
+    } else if (bytes < 1073741824) {
+      return (bytes / 1048576).toFixed(1) + "MB";
+    } else {
+      return (bytes / 1073741824).toFixed(1) + "GB";
+    }
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -296,14 +313,16 @@ export default function Folder({ query }: { query: any }) {
           <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#121212] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
             <h1
               className={`
-                    text-[18px]
+                    text-[16px]
                     font-bold
                     text-[#1A1A1A]
                     dark:text-[#ffffff]
                     text-center
                   `}
             >
-              {`Uploading ${uploadingFiles?.length} Files...`}
+              {`Uploading ${uploadingFiles?.length} Files (${formatBytes(
+                uploadingFilesSize
+              )})...`}
             </h1>
 
             {uploadingFiles.map((file, index) => (
@@ -315,13 +334,21 @@ export default function Folder({ query }: { query: any }) {
                   setUploadingFiles((prevState) =>
                     prevState.filter((_, i) => i !== index)
                   );
+                  setUploadingFilesSize(
+                    (prevState) => prevState - parseFloat(file?.size)
+                  );
                   uploadInFolder(fileId);
                 }}
                 onCancelRequest={(fileId?: string) => {
-                  console.log(index, "canecl");
+                  console.log(uploadingFiles, "canecl");
                   handleDeleteAction(`files/delete?fileId=${fileId}`);
                   setUploadingFiles((prevState) =>
-                    prevState.filter((_, i) => i !== index)
+                    // prevState.filter((_, i) => i !== index)
+                    prevState.splice(index, 1)
+                  );
+
+                  setUploadingFilesSize(
+                    (prevState) => prevState - parseFloat(file?.size)
                   );
                   toast.error("File upload cancelled", {
                     position: "top-center",
