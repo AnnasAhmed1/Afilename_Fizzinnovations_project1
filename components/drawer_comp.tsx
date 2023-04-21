@@ -34,6 +34,7 @@ const drawerWidth = 240;
 
 function DrawerContent({
   folders,
+  allFiles,
   files,
   handleFileChangeFunction,
   handleFolderChangeFunction,
@@ -41,6 +42,7 @@ function DrawerContent({
 }: {
   folders: any;
   files: any;
+  allFiles: any;
   createFolder: any;
   handleFileChangeFunction: any;
   handleFolderChangeFunction: any;
@@ -110,7 +112,7 @@ function DrawerContent({
   };
   return (
     <>
-      <div className="bg-white dark:bg-[#121212] h-full pr-[7px] pl-[14px]">
+      <div className="bg-white dark:bg-[#3C4048] h-full pr-[7px] pl-[14px]">
         <Modal
           open={modalOpen}
           onClose={() => handleClose()}
@@ -122,8 +124,8 @@ function DrawerContent({
             flex
             flex-col
             bg-white
-            dark:bg-[#121212]
-            dark:border-[#121212]
+            dark:bg-[#3C4048]
+            dark:border-[#3C4048]
             pt-4
             pb-8
             rounded-[24px]
@@ -173,10 +175,10 @@ function DrawerContent({
                 label="Folder Name"
                 placeholder="enter folder name"
                 InputProps={{
-                  className:"dark:text-white border"
+                  className: "dark:text-white border",
                 }}
                 InputLabelProps={{
-                  className:" dark:text-white"
+                  className: " dark:text-white",
                 }}
                 required
                 sx={{
@@ -226,15 +228,13 @@ function DrawerContent({
               src={require("../images/logo.svg")}
               alt="logo"
               className="
-                w-5
-                md:w-4
-                sm:w-4
+                w-4
+              
                 "
             />
             <h1
               className="
-                text-[1.65rem]
-                sm:text-2xl 
+                text-2xl
                 text-[rgba(0,0,0,0.75)]
                 dark:text-[rgba(255,255,255,0.75)] 
                 font-extrabold"
@@ -336,9 +336,8 @@ function DrawerContent({
             }}
             className="p-0 my-4"
             onClick={() => {
-              console.log(files);
               router.push(
-                `/recent?filesArray=${JSON.stringify(files)}`,
+                `/check2?filesArray=${JSON.stringify(allFiles)}`,
                 undefined,
                 { shallow: true }
               );
@@ -425,12 +424,14 @@ function DrawerContent({
 export default function ResponsiveDrawer({
   folders,
   files,
+  allFiles,
   handleFileChangeFunction,
   handleFolderChangeFunction,
   createFolder,
 }: {
   folders: any;
   files: any;
+  allFiles: any;
   createFolder: any;
   handleFileChangeFunction: any;
   handleFolderChangeFunction: any;
@@ -480,6 +481,7 @@ export default function ResponsiveDrawer({
             createFolder={createFolder}
             handleFolderChangeFunction={handleFolderChangeFunction}
             files={files}
+            allFiles={allFiles}
           />
         </Drawer>
         <Drawer
@@ -505,6 +507,7 @@ export default function ResponsiveDrawer({
             createFolder={createFolder}
             handleFolderChangeFunction={handleFolderChangeFunction}
             files={files}
+            allFiles={allFiles}
           />
         </Drawer>
       </Box>

@@ -57,7 +57,6 @@ export const handleInsertAction = (url: any, data: any) => {
       });
       resolve(response);
     } catch (error: any) {
-      console.log(error);
       let errorMessage = "";
       if (error.response?.data?.error) {
         errorMessage = error.response?.data?.error;

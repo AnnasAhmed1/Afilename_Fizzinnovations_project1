@@ -54,7 +54,7 @@ const ProgressBar = ({
       </p>
       <p className="cursor-pointer" onClick={cancelRequest}>
         <CloseIcon
-        className="bg-white dark:bg-[#121212] dark:text-white"
+          className="bg-white dark:bg-[#3C4048] dark:text-white"
           style={{
             fontSize: "15px",
           }}

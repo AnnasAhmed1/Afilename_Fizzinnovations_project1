@@ -47,7 +47,6 @@ const FileUpload = ({
           setUploadingProgress(progress);
         },
         onFinishUpload: () => {
-          console.log("finishupload");
           onFinishUpload(response.data?.fileId);
         },
         cancelToken: source.token,
@@ -57,9 +56,7 @@ const FileUpload = ({
     } catch (error) {
       if (axios.isCancel(error)) {
         onCancelRequest(fileId);
-      } else {
-        console.log(error);
-      }
+      } 
     }
   };
 

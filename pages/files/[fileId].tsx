@@ -8,16 +8,14 @@ function FilePage({ query }: { query: any }) {
   const { fileId } = router.query;
 
   const handleDownload = async () => {
-    await handleFetchAction(`/files/downloadurl?file=${fileId}`)
-      .then((response: any) => {
+    await handleFetchAction(`/files/downloadurl?file=${fileId}`).then(
+      (response: any) => {
         const downloadLink = document.createElement("a");
         downloadLink.href = response.data.url;
         downloadLink.download = "";
         downloadLink.click();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      }
+    );
   };
   useEffect(() => {
     handleDownload();

@@ -1,34 +1,38 @@
 import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import { Karla, Manrope } from "next/font/google";
-import { useRouter } from "next/router";
 import {
   handleDeleteAction,
   handleFetchAction,
   handleInsertAction,
 } from "@/config/API_actions";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
+import ProgressBar from "@/components/progressbar";
+import DrawerComp from "@/components/drawer_comp";
+import Image from "next/image";
 import axios from "axios";
+import FileList from "@/components/file_list";
+
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import DrawerComp from "@/components/drawer_comp";
-import Cookies from "js-cookie";
-import FolderCopyIcon from "@mui/icons-material/FolderCopy";
-import FileList from "@/components/file_list";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { toast } from "react-toastify";
 import FileUpload from "@/components/file_upload";
 import DarkLightIcon from "@/components/dark_light_icon";
+import FolderCopyIcon from "@mui/icons-material/FolderCopy";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
-
+interface MyObject {
+  name: string;
+  _id: string;
+}
 interface FileObject {
   title: string;
   contentType: string;
@@ -36,44 +40,30 @@ interface FileObject {
   fileId: any;
 }
 
-export default function Folder() {
-  const { theme, setTheme } = useTheme();
+export default function Recent() {
   const router = useRouter();
-  const { id, name } = router.query;
-  const [files, setFiles] = useState<Array<any>>([]);
-  const [filesDetails, setFilesDetails] = useState<Array<object>>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [folders, setFolders] = useState<Array<any>>([]);
+  const [files, setFiles] = useState([]);
+  const [filesDetails, setFilesDetails] = useState<Array<any>>([]);
+  const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const { theme, setTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
-  const [uploadingProgress, setUploadingProgress] = useState<Array<any>>([]);
-  const [email, setEmail] = useState<string>();
-
   const open = Boolean(anchorEl);
-  //   const router = useRouter();
+  const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
+  const [uploadingProgress, setUploadingProgress] = useState<number>();
+  const [progress, setProgress] = useState<number[]>([]);
+  const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
+  const [uploadProgress, setUploadProgress] = useState<number[]>([]);
+  const [currentUpload, setCurrentUpload] = useState(null);
+  const [email, setEmail] = useState<string>();
   const { filesArray } = router.query;
   const parsedFiles = filesArray ? JSON.parse(filesArray as string) : [];
 
   useEffect(() => {
-    !Cookies.get("apikey")
-      ? router.push("/")
-      : // setFiles(query),
-        setEmail(Cookies.get("email")?.split("@")[0]);
+    !Cookies.get("apikey") ? router.push("/") : getFilesDetails(parsedFiles),
+      setEmail(Cookies.get("email")?.split("@")[0]);
   }, []);
-
-  const uploadInFolder = async (fileId?: any) => {
-    try {
-      handleInsertAction(`folders/${id}/files`, {
-        fileId,
-      }).then(() => {
-        getSingleFileDetails(fileId);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
     if (!file) {
@@ -97,48 +87,54 @@ export default function Folder() {
     uploadingFiles.push(file);
     setUploadingFiles([...uploadingFiles]);
   };
-
   const handleFolderChangeFunction = (e: any) => {
     setNewFolderName(e.target.value);
   };
 
   const createFolder = async (folderName: string) => {
-    try {
-      handleInsertAction("/folders/createfolder", {
-        name: folderName,
-      }).then(() => {
-        getFolders();
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getFiles = async (_folders: any) => {
-    let folderIndex: number;
-    _folders?.map((v: any, i: any) => {
-      if (v._id == id) {
-        folderIndex = i;
-        setFiles(_folders[folderIndex]?.fileIds);
-        getFilesDetails(_folders[folderIndex]?.fileIds);
-        return;
-      }
+    handleInsertAction("/folders/createfolder", {
+      name: folderName,
+    }).then(() => {
+      getFolders();
     });
   };
 
-  const getFilesDetails = async (_files?: any) => {
+  const getFiles = async () => {
+    handleFetchAction("/account/files").then((res: any) => {
+      const response = res.data.fileIds;
+      setFiles(response);
+      getFilesDetails(response);
+    });
+  };
+
+  const getFilesDetails = async (
+    _files?: any[],
+    numItemsToLoad: number = 7
+  ) => {
     let tempArr: any[] = [];
-    try {
-      await _files?.map(
-        async (v: string, i: any) =>
-          await handleFetchAction(`files/${v}`).then((res: any) => {
-            const data = res.data;
-            tempArr.push(data);
-            setFilesDetails([...tempArr]);
-          })
+    let numItemsLoaded = 0;
+
+    while (_files?.length && numItemsLoaded < _files.length) {
+      const itemsToLoad = _files.slice(
+        numItemsLoaded,
+        numItemsLoaded + numItemsToLoad
       );
-    } catch (error) {
-      console.log(error);
+
+      await Promise.all(
+        itemsToLoad.map(async (v: string, i: any) => {
+          const res: any = await handleFetchAction(`files/${v}`);
+          const data = res.data;
+          tempArr.push(data);
+        })
+      );
+
+      setFilesDetails([...tempArr]);
+      numItemsLoaded += numItemsToLoad;
+
+      // Wait for scroll event before loading the next set of items
+      await new Promise((resolve) => {
+        window.addEventListener("scroll", resolve, { once: true });
+      });
     }
   };
 
@@ -151,79 +147,69 @@ export default function Folder() {
   };
 
   const getFolders = async () => {
-    handleFetchAction("/account/folders")
-      .then((response: any) => {
-        setFolders(response.data.folders);
-        getFiles(response.data.folders);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    handleFetchAction("/account/folders").then((response: any) => {
+      setFolders(response.data.folders);
+    });
   };
-
   return (
-    <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <div className="w-[240px] sm:w-[200px] xs:w-[0px]">
+    <div style={{ display: "flex" }}>
+      <div className="w-[240px]  sm:w-[200px] xs:w-[0px]">
         <DrawerComp
           folders={folders}
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
           files={filesDetails}
+          allFiles={files}
         />
       </div>
-      <main
+      <div
         className={`
-        w-[calc(100%-240px)]
-        sm:w-[calc(100%-200px)]
-        xs:w-full
-        pl-[3.5%] 
-        pr-[2%]
-        mt-[5%]
-        sm:mt-[25px]
-      `}
+          w-[calc(100%-240px)]
+          sm:w-[calc(100%-200px)]
+          xs:w-full
+          pl-[3.5%] 
+          pr-[2%]
+          mt-[5%]
+          sm:mt-[25px]
+        `}
       >
         <section
           className="flex 
-          justify-between
-          items-center 
-          pr-[10%]
-          md:pr-0
-          sm:pr-0
+            justify-between
+            items-center 
+            pr-[10%]
+            md:pr-0
+            sm:pr-0
             "
         >
           <input
             type="text"
             className={`
-            xs:ml-10
-            w-[60%]
-            sm:w-full
-            mx-auto
-            border
-            border-black
-            py-0 
-            dark:border-white
-            px-4
-            h-8
+              xs:ml-10
+              w-[60%]
+              sm:w-full
+              mx-auto
+              border
+              border-black
+              py-0 
+              dark:border-white
+              px-4
+              h-8
              `}
             placeholder="search"
             onChange={async (e) => {
               setSearchQuery(e.target.value);
-              await handleFetchAction(`/account/search?q=${e.target.value}`)
-                .then((response: any) => {
-                  getFilesDetails(response.data.fileIds);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+              await handleFetchAction(
+                `/account/search?q=${e.target.value}`
+              ).then((response: any) => {
+                getFilesDetails(response.data.fileIds);
+              });
             }}
           />
           <div className="pl-4 md:pl-2 sm:pl-1 flex gap-4 md:gap-1 sm:gap-0 items-center">
             <div>
-              <p
-                className={`text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold`}
-              >
+              <p className="text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold">
                 {email}
               </p>
               <p
@@ -257,7 +243,7 @@ export default function Folder() {
                 }}
                 PaperProps={{
                   className:
-                    "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
+                    "dark:bg-[#252525] dark:text-white text-[#545454] text-base font-medium",
                 }}
               >
                 <MenuItem>Logout</MenuItem>
@@ -266,10 +252,11 @@ export default function Folder() {
           </div>
           <DarkLightIcon />
         </section>
-
-        <section className=" pl-[2%]">
-          <h1
-            className={`
+        {searchQuery.length == 0 ? (
+          <>
+            <section className="">
+              <h1
+                className={`
             ${karla.className}
             font-bold
             text-[32px]
@@ -279,62 +266,87 @@ export default function Folder() {
             mt-10
             ml-[-10px]
           `}
-          >
-            <button onClick={() => router.push("/dashboard")}>
-              <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
-            </button>
-            <FolderCopyIcon className="ml-[5px] mr-[15px] text-3xl dark:text-[#ffffff]" />
-            Recent
-          </h1>
-          {parsedFiles?.map((v: any, i: any) => {
-            return <FileList key={i} fileObj={v} />;
-          })}
-        </section>
-        {uploadingFiles?.length > 0 ? (
-          <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#121212] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
-            <h1
-              className={`
+              >
+                <button onClick={() => router.push("/dashboard")}>
+                  <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
+                </button>
+                <FolderCopyIcon className="ml-[5px] mr-[15px] text-3xl dark:text-[#ffffff]" />
+                Recent
+              </h1>
+              {filesDetails.length == 0 ? (
+                <p className="my-4">No files yet</p>
+              ) : (
+                filesDetails.map((v, i) => {
+                  const fileObj = v as FileObject;
+                  return <FileList key={i} fileObj={fileObj} />;
+                })
+              )}
+            </section>
+            {uploadingFiles?.length > 0 ? (
+              <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#3C4048] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
+                <h1
+                  className={`
                     text-[18px]
                     font-bold
                     text-[#1A1A1A]
                     dark:text-[#ffffff]
                     text-center
                   `}
-            >
-              {`Uploading ${uploadingFiles?.length} Files...`}
-            </h1>
+                >
+                  {`Uploading ${uploadingFiles?.length} Files...`}
+                </h1>
 
-            {uploadingFiles.map((file, index) => (
-              <FileUpload
-                key={index}
-                file={file}
-                onFinishUpload={(fileId: string) => {
-                  setUploadingFiles((prevState) =>
-                    prevState.filter((_, i) => i !== index)
-                  );
-                  uploadInFolder(fileId);
-                }}
-                onCancelRequest={(fileId?: string) => {
-                  handleDeleteAction(`files/delete?fileId=${fileId}`);
-                  setUploadingFiles((prevState) =>
-                    prevState.filter((_, i) => i !== index)
-                  );
-                  toast.error("File upload cancelled", {
-                    position: "top-center",
-                  });
-                }}
-              />
-            ))}
-          </main>
-        ) : null}
-      </main>
-    </Box>
+                {uploadingFiles.map((file, index) => (
+                  <FileUpload
+                    key={index}
+                    file={file}
+                    onFinishUpload={(fileId: string) => {
+                      setUploadingFiles((prevState) =>
+                        prevState.filter((_, i) => i !== index)
+                      );
+                      getSingleFileDetails(fileId);
+                    }}
+                    onCancelRequest={(fileId?: string) => {
+                      handleDeleteAction(`files/delete?fileId=${fileId}`);
+                      setUploadingFiles((prevState) =>
+                        prevState.filter((_, i) => i !== index)
+                      );
+                      toast.error("File upload cancelled", {
+                        position: "top-center",
+                      });
+                    }}
+                  />
+                ))}
+              </main>
+            ) : null}
+          </>
+        ) : (
+          <section className="">
+            <h1
+              className={`
+                ${karla.className}
+                font-bold
+                text-xl
+                text-[#2E2E2E]
+                dark:text-[#ffffff]
+                tracking-[1px]
+                my-4
+                pl-[1.5%]
+              `}
+            >
+              Files
+            </h1>
+            {filesDetails.length == 0 ? (
+              <p className="my-4">No files yet</p>
+            ) : (
+              filesDetails.map((v, i) => {
+                const fileObj = v as FileObject;
+                return <FileList key={i} fileObj={fileObj} />;
+              })
+            )}
+          </section>
+        )}
+      </div>
+    </div>
   );
 }
-// Folder.getInitialProps = async (ctx: any) => {
-//   return { query: ctx.query };
-// };
-
-Folder.getInitialProps = ({ query, asPath }: { query: any; asPath: any }) => {
-  return { query, asPath };
-};

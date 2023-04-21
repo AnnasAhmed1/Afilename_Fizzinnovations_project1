@@ -57,7 +57,7 @@ export default function PlanCard({
           <p
             className={` text-14 sm:text-xs ${
               !subtext
-                ? "text-white dark:text-[#121212]"
+                ? "text-white dark:text-[#3C4048]"
                 : "text-[rgba(0,0,0,0.85)]   dark:text-[rgba(255,255,255,0.85)]"
             }`}
           >

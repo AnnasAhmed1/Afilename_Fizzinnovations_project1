@@ -14,8 +14,8 @@ export default function Login() {
         sm:gap-2
         flex-col
         bg-white
-        dark:bg-[#121212]
-        dark:border-[#121212]
+        dark:bg-[#3C4048]
+        dark:border-[#3C4048]
         py-[2%]
         rounded-[24px]
         w-[50%]

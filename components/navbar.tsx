@@ -57,10 +57,6 @@ export default function Navbar() {
         handleModalClose();
         handleVerifyModalOpen();
       })
-      .catch((error) => {
-        console.log(error.response?.data?.error);
-       
-      });
   };
   return (
     <nav

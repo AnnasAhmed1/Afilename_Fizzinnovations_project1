@@ -20,9 +20,7 @@ function VerifyPage({ query }: { query: any }) {
             Cookies.set("apikey", res.data.apikey);
             router.push("/dashboard");
           })
-          .catch((error) => {
-            console.log(error);
-          })
+          
       : null;
   };
   useEffect(() => {

@@ -24,8 +24,8 @@ export default function Signup({
         flex
         flex-col
         bg-white
-        dark:bg-[#121212]
-        dark:border-[#121212]
+        dark:bg-[#3C4048]
+        dark:border-[#3C4048]
         pt-4
         pb-8
         rounded-[24px]
@@ -79,16 +79,16 @@ export default function Signup({
             label="Email"
             placeholder="email@example.com"
             InputProps={{
-              className:"dark:text-white border"
+              className: "dark:text-white border",
             }}
             InputLabelProps={{
-              className:" dark:text-white"
+              className: " dark:text-white",
             }}
             required
             sx={{
               width: "100%",
               marginBottom: "3rem",
-              fontSize:"12px",
+              fontSize: "12px",
               "@media (min-width: 768px, max-width: 1023px)": {
                 marginBottom: "2rem",
               },

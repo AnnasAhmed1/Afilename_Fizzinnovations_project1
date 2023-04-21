@@ -58,15 +58,11 @@ export default function Folder({ query }: { query: any }) {
   }, []);
 
   const uploadInFolder = async (fileId?: any) => {
-    try {
-      handleInsertAction(`folders/${id}/files`, {
-        fileId,
-      }).then(() => {
-        getSingleFileDetails(fileId);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    handleInsertAction(`folders/${id}/files`, {
+      fileId,
+    }).then(() => {
+      getSingleFileDetails(fileId);
+    });
   };
 
   const handleFileChangeFunction = (event: any) => {
@@ -99,15 +95,11 @@ export default function Folder({ query }: { query: any }) {
   };
 
   const createFolder = async (folderName: string) => {
-    try {
-      handleInsertAction("/folders/createfolder", {
-        name: folderName,
-      }).then(() => {
-        getFolders();
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    handleInsertAction("/folders/createfolder", {
+      name: folderName,
+    }).then(() => {
+      getFolders();
+    });
   };
 
   const getFiles = async (_folders: any) => {
@@ -122,50 +114,56 @@ export default function Folder({ query }: { query: any }) {
     });
   };
 
-  const getFilesDetails = async (_files?: any) => {
+  const getFilesDetails = async (
+    _files?: any[],
+    numItemsToLoad: number = 5
+  ) => {
     let tempArr: any[] = [];
-    try {
-      await _files?.map(
-        async (v: string, i: any) =>
-          await handleFetchAction(`files/${v}`).then((res: any) => {
-            const data = res.data;
-            tempArr.push(data);
-            setFilesDetails([...tempArr]);
-          })
+    let numItemsLoaded = 0;
+
+    while (_files?.length && numItemsLoaded < _files.length) {
+      const itemsToLoad = _files.slice(
+        numItemsLoaded,
+        numItemsLoaded + numItemsToLoad
       );
-    } catch (error) {
-      console.log(error);
+
+      await Promise.all(
+        itemsToLoad.map(async (v: string, i: any) => {
+          const res: any = await handleFetchAction(`files/${v}`);
+          const data = res.data;
+          tempArr.push(data);
+        })
+      );
+
+      setFilesDetails([...tempArr]);
+      numItemsLoaded += numItemsToLoad;
+
+      // Wait for scroll event before loading the next set of items
+      await new Promise((resolve) => {
+        window.addEventListener("scroll", resolve, { once: true });
+      });
     }
   };
 
   const getSingleFileDetails = async (fileId?: any) => {
     await handleFetchAction(`files/${fileId}`).then((res: any) => {
       const data = res.data;
-      console.log(res.data);
       filesDetails.push(data);
       setFilesDetails([...filesDetails]);
     });
   };
 
   const getFolders = async () => {
-    handleFetchAction("/account/folders")
-      .then((response: any) => {
-        setFolders(response.data.folders);
-        getFiles(response.data.folders);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    handleFetchAction("/account/folders").then((response: any) => {
+      setFolders(response.data.folders);
+      getFiles(response.data.folders);
+    });
   };
   const handleDowunloadUrl = async (_fileId: any) => {
-    await handleFetchAction(`/files/download?file=${_fileId}`)
-      .then((response: any) => {})
-      .catch((err) => {
-        console.log(err);
-      });
+    await handleFetchAction(`/files/download?file=${_fileId}`).then(
+      (response: any) => {}
+    );
   };
-  console.log(uploadingFilesSize);
-  console.log(uploadingFiles, "checklllll");
 
   function formatBytes(bytes: number): string {
     if (bytes < 1024) {
@@ -189,6 +187,7 @@ export default function Folder({ query }: { query: any }) {
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
           files={filesDetails}
+          allFiles={files}
         />
       </div>
       <main
@@ -228,13 +227,11 @@ export default function Folder({ query }: { query: any }) {
             placeholder="search"
             onChange={async (e) => {
               setSearchQuery(e.target.value);
-              await handleFetchAction(`/account/search?q=${e.target.value}`)
-                .then((response: any) => {
-                  getFilesDetails(response.data.fileIds);
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
+              await handleFetchAction(
+                `/account/search?q=${e.target.value}`
+              ).then((response: any) => {
+                getFilesDetails(response.data.fileIds);
+              });
             }}
           />
           <div className="pl-4 md:pl-2 sm:pl-1 flex gap-4 md:gap-1 sm:gap-0 items-center">
@@ -310,7 +307,7 @@ export default function Folder({ query }: { query: any }) {
           })}
         </section>
         {uploadingFiles?.length > 0 ? (
-          <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#121212] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
+          <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#3C4048] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
             <h1
               className={`
                     text-[16px]
@@ -330,7 +327,6 @@ export default function Folder({ query }: { query: any }) {
                 key={index}
                 file={file}
                 onFinishUpload={(fileId: string) => {
-                  console.log(index, "fininsh");
                   setUploadingFiles((prevState) =>
                     prevState.filter((_, i) => i !== index)
                   );
@@ -340,7 +336,6 @@ export default function Folder({ query }: { query: any }) {
                   uploadInFolder(fileId);
                 }}
                 onCancelRequest={(fileId?: string) => {
-                  console.log(uploadingFiles, "canecl");
                   handleDeleteAction(`files/delete?fileId=${fileId}`);
                   setUploadingFiles((prevState) =>
                     // prevState.filter((_, i) => i !== index)
