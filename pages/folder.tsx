@@ -228,14 +228,10 @@ export default function Folder({ query }: { query: any }) {
           />
           <div className="pl-4 md:pl-2 sm:pl-1 flex gap-4 md:gap-1 sm:gap-0 items-center">
             <div>
-              <p
-                className="text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold"
-              >
+              <p className="text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold">
                 {email}
               </p>
-              <p
-                className="font-manrope text-[#7c8db5b8] text-xs sm:text-[10px]"
-              >
+              <p className="font-manrope text-[#7c8db5b8] text-xs sm:text-[10px]">
                 Premium
               </p>
             </div>
@@ -292,10 +288,14 @@ export default function Folder({ query }: { query: any }) {
             <FolderCopyIcon className="ml-[5px] mr-[15px] text-3xl dark:text-[#ffffff]" />
             {name}
           </h1>
-          {filesDetails?.map((v, i) => {
-            const fileObj = v as FileObject;
-            return <FileList key={i} fileObj={fileObj} />;
-          })}
+          {filesDetails?.length == 0 ? (
+            <p>No files yet</p>
+          ) : (
+            filesDetails?.map((v, i) => {
+              const fileObj = v as FileObject;
+              return <FileList key={i} fileObj={fileObj} />;
+            })
+          )}
         </section>
         {uploadingFiles?.length > 0 ? (
           <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#3C4048] border-2 border-gray-100 dark:border-gray-900 rounded-md ">

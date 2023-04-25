@@ -8,13 +8,13 @@ const DarkLightIcon = () => {
   return (
     <button
       onClick={() => {
-        setTheme(theme == "light" ? "dark" : "light");
+        setTheme(theme === "light" ? "dark" : "light");
       }}
     >
       {theme == "light" ? (
-        <DarkModeSharpIcon className="text-black" />
-      ) : theme == "dark" ? (
-        <LightModeSharpIcon className="text-white" />
+        <DarkModeSharpIcon  />
+        ) : theme == "dark" ? (
+          <LightModeSharpIcon />
       ) : (
         <LightModeSharpIcon />
       )}

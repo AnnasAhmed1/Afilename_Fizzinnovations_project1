@@ -26,7 +26,7 @@ interface FileObject {
   fileId: any;
 }
 
-export default function Recent() {
+export default function Recent({ query }: { query: any }) {
   const router = useRouter();
   const [files, setFiles] = useState([]);
   const [filesDetails, setFilesDetails] = useState<Array<any>>([]);
@@ -37,10 +37,10 @@ export default function Recent() {
   const open = Boolean(anchorEl);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
   const [email, setEmail] = useState<string>();
-  const { filesArray } = router.query;
-  const parsedFiles = filesArray ? JSON.parse(filesArray as string) : [];
-
+  
   useEffect(() => {
+    const { filesArray } = router.query;
+    const parsedFiles = filesArray ? JSON.parse(filesArray as string) : [];
     console.log(parsedFiles);
     !Cookies.get("apikey") ? router.push("/") : getFilesDetails(parsedFiles),
       setEmail(Cookies.get("email")?.split("@")[0]);
@@ -320,3 +320,7 @@ export default function Recent() {
     </div>
   );
 }
+
+Recent.getInitialProps = async (ctx: any) => {
+  return { query: ctx.query };
+};
