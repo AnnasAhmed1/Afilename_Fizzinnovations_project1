@@ -283,7 +283,7 @@ export default function DrawerContent({
             className="p-0 my-4"
             onClick={() => {
               router.push(
-                `/check2?filesArray=${JSON.stringify(allFiles)}`,
+                `/recent?filesArray=${JSON.stringify(allFiles)}`,
                 undefined,
                 { shallow: true }
               );
@@ -304,7 +304,6 @@ export default function DrawerContent({
             <p
               className="
                 text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)]
-                ${karla.className}
                 text-sm
                 sm:text-xs
                 mr-auto

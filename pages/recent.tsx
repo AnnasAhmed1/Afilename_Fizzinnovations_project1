@@ -41,6 +41,7 @@ export default function Recent() {
   const parsedFiles = filesArray ? JSON.parse(filesArray as string) : [];
 
   useEffect(() => {
+    console.log(parsedFiles);
     !Cookies.get("apikey") ? router.push("/") : getFilesDetails(parsedFiles),
       setEmail(Cookies.get("email")?.split("@")[0]);
   }, []);
