@@ -46,9 +46,6 @@ const FileUpload = ({
           );
           setUploadingProgress(progress);
         },
-        onFinishUpload: () => {
-          onFinishUpload(response.data?.fileId);
-        },
         cancelToken: source.token,
       };
       await axios.put(response.data.url, file, config);

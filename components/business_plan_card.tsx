@@ -1,11 +1,7 @@
-import { Karla } from "next/font/google";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import StopIcon from "@mui/icons-material/Stop";
 import Image from "next/image";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
 
-const karla = Karla({ subsets: ["latin"] });
 interface MyObject {
   title: string;
   icon: string;
@@ -43,9 +39,7 @@ export default function BusinessPlanCard({
        rounded-2xl
        relative"
       >
-        <p
-          className={`${karla.className} flex items-center text-3xl sm:text-2xl font-bold w-full gap-2 px-3.5`}
-        >
+        <p className="flex items-center text-3xl sm:text-2xl font-bold w-full gap-2 px-3.5">
           <Image
             src={require(`../images/${image}_logo.svg`)}
             alt="logo"
@@ -55,8 +49,8 @@ export default function BusinessPlanCard({
         </p>
         <hr className="w-full" />
         <div
-          className={`${karla.className} text-center font-bold text-[#242634]
-         dark:text-[#ffffff]`}
+          className=" text-center font-bold text-[#242634]
+         dark:text-[#ffffff]"
         >
           <p className="text-4xl sm:text-3xl">${price}</p>
           <p className="text-base sm:text-sm">
@@ -76,7 +70,7 @@ export default function BusinessPlanCard({
             return (
               <p
                 key={i}
-                className={`${karla.className} text-14 sm:text-xs  text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)] flex items-center gap-2`}
+                className="text-14 sm:text-xs  text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)] flex items-center gap-2"
               >
                 {myObj.icon == "stop" ? (
                   <StopIcon
@@ -95,15 +89,11 @@ export default function BusinessPlanCard({
           })}
         </div>
         {button ? (
-          <button
-            className={`${karla.className}  mb-8 bottom-7 font-extrabold text-14 text-white bg-[#0066FF] rounded-full py-1 px-4 sm:px-7`}
-          >
+          <button className="mb-8 bottom-7 font-extrabold text-14 text-white bg-[#0066FF] rounded-full py-1 px-4 sm:px-7">
             Contact us
           </button>
         ) : (
-          <p
-            className={`${karla.className} bottom-7 text-xs sm:text-[10] text-center font-bold`}
-          >
+          <p className="bottom-7 text-xs sm:text-[10] text-center font-bold">
             *Price based on the Pro III annual plan
             <br />
             *Pro Flexi at $16.24 a month

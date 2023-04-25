@@ -1,38 +1,24 @@
 import React, { useEffect, useState } from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import { Karla, Manrope } from "next/font/google";
+
 import {
   handleDeleteAction,
   handleFetchAction,
   handleInsertAction,
 } from "@/config/API_actions";
+import DrawerComp from "@/components/responsive_drawer";
+import FileList from "@/components/file_list";
+import FileUpload from "@/components/file_upload";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
-import ProgressBar from "@/components/progressbar";
-import DrawerComp from "@/components/drawer_comp";
-import Image from "next/image";
-import axios from "axios";
-import FileList from "@/components/file_list";
+import { toast } from "react-toastify";
 
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
-import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
-import { toast } from "react-toastify";
-import FileUpload from "@/components/file_upload";
 import DarkLightIcon from "@/components/dark_light_icon";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-const manrope = Manrope({ subsets: ["latin"] });
-const karla = Karla({ subsets: ["latin"] });
-interface MyObject {
-  name: string;
-  _id: string;
-}
 interface FileObject {
   title: string;
   contentType: string;
@@ -47,15 +33,9 @@ export default function Recent() {
   const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
-  const { theme, setTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
-  const [uploadingProgress, setUploadingProgress] = useState<number>();
-  const [progress, setProgress] = useState<number[]>([]);
-  const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
-  const [uploadProgress, setUploadProgress] = useState<number[]>([]);
-  const [currentUpload, setCurrentUpload] = useState(null);
   const [email, setEmail] = useState<string>();
   const { filesArray } = router.query;
   const parsedFiles = filesArray ? JSON.parse(filesArray as string) : [];
@@ -99,14 +79,6 @@ export default function Recent() {
     });
   };
 
-  const getFiles = async () => {
-    handleFetchAction("/account/files").then((res: any) => {
-      const response = res.data.fileIds;
-      setFiles(response);
-      getFilesDetails(response);
-    });
-  };
-
   const getFilesDetails = async (
     _files?: any[],
     numItemsToLoad: number = 7
@@ -121,7 +93,7 @@ export default function Recent() {
       );
 
       await Promise.all(
-        itemsToLoad.map(async (v: string, i: any) => {
+        itemsToLoad.map(async (v: string) => {
           const res: any = await handleFetchAction(`files/${v}`);
           const data = res.data;
           tempArr.push(data);
@@ -139,10 +111,12 @@ export default function Recent() {
   };
 
   const getSingleFileDetails = async (fileId?: any) => {
-    await handleFetchAction(`files/${fileId}`).then((res: any) => {
-      const data = res.data;
-      filesDetails.push(data);
-      setFilesDetails([...filesDetails]);
+    await handleFetchAction(`files/${fileId}`).then(async () => {
+      await handleFetchAction(`files/${fileId}`).then((res: any) => {
+        const data = res.data;
+        filesDetails.push(data);
+        setFilesDetails([...filesDetails]);
+      });
     });
   };
 
@@ -159,12 +133,11 @@ export default function Recent() {
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
-          files={filesDetails}
           allFiles={files}
         />
       </div>
       <div
-        className={`
+        className="
           w-[calc(100%-240px)]
           sm:w-[calc(100%-200px)]
           xs:w-full
@@ -172,7 +145,7 @@ export default function Recent() {
           pr-[2%]
           mt-[5%]
           sm:mt-[25px]
-        `}
+        "
       >
         <section
           className="flex 
@@ -185,7 +158,7 @@ export default function Recent() {
         >
           <input
             type="text"
-            className={`
+            className="
               xs:ml-10
               w-[60%]
               sm:w-full
@@ -196,7 +169,7 @@ export default function Recent() {
               dark:border-white
               px-4
               h-8
-             `}
+             "
             placeholder="search"
             onChange={async (e) => {
               setSearchQuery(e.target.value);
@@ -212,9 +185,7 @@ export default function Recent() {
               <p className="text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold">
                 {email}
               </p>
-              <p
-                className={`${manrope.className} text-[#7c8db5b8] text-xs sm:text-[10px] `}
-              >
+              <p className="font-manrope text-[#7c8db5b8] text-xs sm:text-[10px] ">
                 Premium
               </p>
             </div>
@@ -256,8 +227,7 @@ export default function Recent() {
           <>
             <section className="">
               <h1
-                className={`
-            ${karla.className}
+                className="
             font-bold
             text-[32px]
             text-[#2E2E2E]
@@ -265,7 +235,7 @@ export default function Recent() {
             mb-4
             mt-10
             ml-[-10px]
-          `}
+          "
               >
                 <button onClick={() => router.push("/dashboard")}>
                   <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
@@ -285,13 +255,13 @@ export default function Recent() {
             {uploadingFiles?.length > 0 ? (
               <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#3C4048] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
                 <h1
-                  className={`
+                  className="
                     text-[18px]
                     font-bold
                     text-[#1A1A1A]
                     dark:text-[#ffffff]
                     text-center
-                  `}
+                  "
                 >
                   {`Uploading ${uploadingFiles?.length} Files...`}
                 </h1>
@@ -323,8 +293,7 @@ export default function Recent() {
         ) : (
           <section className="">
             <h1
-              className={`
-                ${karla.className}
+              className="
                 font-bold
                 text-xl
                 text-[#2E2E2E]
@@ -332,7 +301,7 @@ export default function Recent() {
                 tracking-[1px]
                 my-4
                 pl-[1.5%]
-              `}
+              "
             >
               Files
             </h1>

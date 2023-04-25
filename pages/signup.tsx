@@ -1,11 +1,6 @@
 import React, { useState } from "react";
-import { Karla, Maven_Pro } from "next/font/google";
 import EastIcon from "@mui/icons-material/East";
 import { TextField } from "@mui/material";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-const karla = Karla({ subsets: ["latin"] });
-const mavenPro = Maven_Pro({ subsets: ["latin"] });
 
 export default function Signup({
   heading,
@@ -45,15 +40,14 @@ export default function Signup({
         "
       >
         <h3
-          className={`
-          ${karla.className} font-extrabold 
+          className="font-extrabold 
           text-4xl
           md:text-3xl
           sm:text-2xl
           mb-2
           text-center 
           text-[rgba(0,0,0,0.75) 
-          `}
+          "
         >
           {heading}
         </h3>
@@ -101,7 +95,7 @@ export default function Signup({
             }}
           />
           <button
-            className={`${mavenPro.className}
+            className="
             block 
             py-[15px]
             md:py-[8px] 
@@ -113,7 +107,7 @@ export default function Signup({
             text-center
             bg-[#0066FF] 
             rounded-[5px]
-           text-white`}
+           text-white"
             type={"submit"}
           >
             Continue
@@ -124,14 +118,13 @@ export default function Signup({
           </button>
         </form>
         <h6
-          className={`
-          ${karla.className} 
+          className="
           pt-10
           md:pt-6
           sm:pt-4
           font-light ß
           text-[13px] 
-          text-center`}
+          text-center"
         >
           By signing in you agree to our legal policies.
         </h6>

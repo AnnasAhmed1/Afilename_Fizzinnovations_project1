@@ -1,8 +1,5 @@
 import React from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
 import { useTheme } from "next-themes";
-// ICONS
 import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
 import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 

@@ -1,29 +1,20 @@
 import Image from "next/image";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Inter, Karla } from "next/font/google";
 import { P1 } from "./helper";
 import { Box, Modal } from "@mui/material";
 import Signup from "../pages/signup";
 import Login from "../pages/login";
 import { handleInsertAction } from "@/config/API_actions";
-import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
-import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
-import { useTheme } from "next-themes";
 import DarkLightIcon from "./dark_light_icon";
 
-const inter = Inter({ subsets: ["latin"] });
-const karla = Karla({ subsets: ["latin"] });
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const { theme, setTheme } = useTheme();
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -52,11 +43,10 @@ export default function Navbar() {
   const handleSubmit = async (email: string) => {
     await handleInsertAction("/account/signin/", {
       email: email,
-    })
-      .then((res: any) => {
-        handleModalClose();
-        handleVerifyModalOpen();
-      })
+    }).then(() => {
+      handleModalClose();
+      handleVerifyModalOpen();
+    });
   };
   return (
     <nav
@@ -135,8 +125,8 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`flex items-center gap-3 md:gap-3 sm:gap-1.5 
-        `}
+        className="flex items-center gap-3 md:gap-3 sm:gap-1.5 
+        "
       >
         <Image
           src={require("../images/logo.svg")}
@@ -156,7 +146,7 @@ export default function Navbar() {
         </h1>
       </div>
       <div
-        className={`flex flex-1 justify-center gap-12 md:hidden sm:hidden md:gap-8`}
+        className="flex flex-1 justify-center gap-12 md:hidden sm:hidden md:gap-8"
       >
         <a
           className="scroll-smooth cursor-pointer"
@@ -212,14 +202,14 @@ export default function Navbar() {
         </button>
         <button
           className="border py-1.5
-        border-transparent
+         border-transparent
          bg-black
          dark:bg-[#ffffff] 
          md:p-1.5
          sm:p-0
          text-base 
           font-bold 
-         ${inter.className}
+         font-inter
           text-white
           dark:text-black
           w-28
@@ -234,7 +224,7 @@ export default function Navbar() {
         >
           Login
         </button>
-      <DarkLightIcon/>
+        <DarkLightIcon />
       </div>
     </nav>
   );

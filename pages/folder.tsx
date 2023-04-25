@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Karla, Manrope } from "next/font/google";
 import { useRouter } from "next/router";
 import {
   handleDeleteAction,
@@ -12,10 +9,9 @@ import {
 } from "@/config/API_actions";
 import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
-import axios from "axios";
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import DrawerComp from "@/components/drawer_comp";
+import DrawerComp from "@/components/responsive_drawer";
 import Cookies from "js-cookie";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import FileList from "@/components/file_list";
@@ -23,9 +19,6 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { toast } from "react-toastify";
 import FileUpload from "@/components/file_upload";
 import DarkLightIcon from "@/components/dark_light_icon";
-
-const manrope = Manrope({ subsets: ["latin"] });
-const karla = Karla({ subsets: ["latin"] });
 
 interface FileObject {
   title: string;
@@ -35,7 +28,6 @@ interface FileObject {
 }
 
 export default function Folder({ query }: { query: any }) {
-  const { theme, setTheme } = useTheme();
   const router = useRouter();
   const { id, name } = router.query;
   const [files, setFiles] = useState<Array<any>>([]);
@@ -45,7 +37,6 @@ export default function Folder({ query }: { query: any }) {
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
-  const [uploadingProgress, setUploadingProgress] = useState<Array<any>>([]);
   const [email, setEmail] = useState<string>();
   const [uploadingFilesSize, setUploadingFilesSize] = useState(0);
 
@@ -146,10 +137,12 @@ export default function Folder({ query }: { query: any }) {
   };
 
   const getSingleFileDetails = async (fileId?: any) => {
-    await handleFetchAction(`files/${fileId}`).then((res: any) => {
-      const data = res.data;
-      filesDetails.push(data);
-      setFilesDetails([...filesDetails]);
+    await handleFetchAction(`files/${fileId}`).then(async () => {
+      await handleFetchAction(`files/${fileId}`).then((res: any) => {
+        const data = res.data;
+        filesDetails.push(data);
+        setFilesDetails([...filesDetails]);
+      });
     });
   };
 
@@ -186,12 +179,11 @@ export default function Folder({ query }: { query: any }) {
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
-          files={filesDetails}
           allFiles={files}
         />
       </div>
       <main
-        className={`
+        className="
         w-[calc(100%-240px)]
         sm:w-[calc(100%-200px)]
         xs:w-full
@@ -199,7 +191,7 @@ export default function Folder({ query }: { query: any }) {
         pr-[2%]
         mt-[5%]
         sm:mt-[25px]
-      `}
+      "
       >
         <section
           className="flex 
@@ -212,7 +204,7 @@ export default function Folder({ query }: { query: any }) {
         >
           <input
             type="text"
-            className={`
+            className="
             xs:ml-10
             w-[60%]
             sm:w-full
@@ -223,7 +215,7 @@ export default function Folder({ query }: { query: any }) {
             dark:border-white
             px-4
             h-8
-             `}
+            "
             placeholder="search"
             onChange={async (e) => {
               setSearchQuery(e.target.value);
@@ -237,12 +229,12 @@ export default function Folder({ query }: { query: any }) {
           <div className="pl-4 md:pl-2 sm:pl-1 flex gap-4 md:gap-1 sm:gap-0 items-center">
             <div>
               <p
-                className={`text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold`}
+                className="text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold"
               >
                 {email}
               </p>
               <p
-                className={`${manrope.className} text-[#7c8db5b8] text-xs sm:text-[10px] `}
+                className="font-manrope text-[#7c8db5b8] text-xs sm:text-[10px]"
               >
                 Premium
               </p>
@@ -284,8 +276,7 @@ export default function Folder({ query }: { query: any }) {
 
         <section className=" pl-[2%]">
           <h1
-            className={`
-            ${karla.className}
+            className="
             font-bold
             text-[32px]
             text-[#2E2E2E]
@@ -293,7 +284,7 @@ export default function Folder({ query }: { query: any }) {
             mb-4
             mt-10
             ml-[-10px]
-          `}
+          "
           >
             <button onClick={() => router.push("/dashboard")}>
               <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
@@ -309,13 +300,13 @@ export default function Folder({ query }: { query: any }) {
         {uploadingFiles?.length > 0 ? (
           <main className="w-[295px] px-3 py-2 bottom-2 right-4 fixed max-h-[308px] overflow-scroll scrollbar-thin bg-white dark:bg-[#3C4048] border-2 border-gray-100 dark:border-gray-900 rounded-md ">
             <h1
-              className={`
+              className="
                     text-[16px]
                     font-bold
                     text-[#1A1A1A]
                     dark:text-[#ffffff]
                     text-center
-                  `}
+                  "
             >
               {`Uploading ${uploadingFiles?.length} Files (${formatBytes(
                 uploadingFilesSize

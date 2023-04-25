@@ -1,6 +1,5 @@
-import React ,{useState} from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
+import React, { useState } from "react";
+import ListItemComp from "@/components/list_item";
 import { useRouter } from "next/router";
 // icons
 import ListItemButton from "@mui/material/ListItemButton";
@@ -9,7 +8,6 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import FolderCopyIcon from "@mui/icons-material/FolderCopy";
-import ListItemComp from "@/components/list_item";
 import SourceIcon from "@mui/icons-material/Source";
 
 export default function NestedListComp(props: { folders?: Array<Object> }) {
@@ -26,24 +24,30 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
 
   return (
     <>
-      <ListItemButton style={{
-        padding:0,
-        marginTop:"1rem",
-        marginBottom:"1rem",
-      }} className="p-0 my-4" onClick={handleClick}>
+      <ListItemButton
+        style={{
+          padding: 0,
+          marginTop: "1rem",
+          marginBottom: "1rem",
+        }}
+        className="p-0 my-4"
+        onClick={handleClick}
+      >
         <ListItemIcon
           sx={{
             minWidth: "auto",
             paddingRight: "10px",
           }}
         >
-          <SourceIcon style={{fontSize:"16px"}} className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base" />
+          <SourceIcon
+            style={{ fontSize: "16px" }}
+            className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)] text-base"
+          />
         </ListItemIcon>
 
         <p
           className="
         text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)]
-        ${karla.className}
         text-sm
         sm:text-xs
         mr-auto
@@ -75,7 +79,10 @@ export default function NestedListComp(props: { folders?: Array<Object> }) {
               text={folderObj.name}
               input={true}
               Icon={
-                <FolderCopyIcon style={{fontSize:"16px"}} className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]" />
+                <FolderCopyIcon
+                  style={{ fontSize: "16px" }}
+                  className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+                />
               }
               handleFileChangeFunction={null}
             />

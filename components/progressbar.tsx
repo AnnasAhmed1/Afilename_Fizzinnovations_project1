@@ -1,9 +1,4 @@
-import React, { useState } from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import { toast } from "react-toastify";
-import { handleInsertAction } from "@/config/API_actions";
-import axios from "axios";
+import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 const ProgressBar = ({
@@ -17,20 +12,17 @@ const ProgressBar = ({
 }) => {
   return (
     <section
-      className={`
-      karla.className
+      className="
       flex
       gap-1
       items-center
-      `}
+      "
     >
       <p
         className="
         text-[10px]
         w-[75px]
         dark:text-white
-        // /min-w-[20px]
-        // /max-w-[20px]
         "
       >
         {filename?.slice(0, 12)}...

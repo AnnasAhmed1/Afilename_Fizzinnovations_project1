@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import { Karla, Manrope } from "next/font/google";
 import {
   handleDeleteAction,
   handleFetchAction,
@@ -9,24 +6,17 @@ import {
 } from "@/config/API_actions";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { useTheme } from "next-themes";
 import { Button, Menu, MenuItem } from "@mui/material";
-import ProgressBar from "@/components/progressbar";
-import DrawerComp from "@/components/drawer_comp";
+import DrawerComp from "@/components/responsive_drawer";
 import Image from "next/image";
-import axios from "axios";
 import FileList from "@/components/file_list";
 
 // ICONS
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
-import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { toast } from "react-toastify";
 import FileUpload from "@/components/file_upload";
 import DarkLightIcon from "@/components/dark_light_icon";
 
-const manrope = Manrope({ subsets: ["latin"] });
-const karla = Karla({ subsets: ["latin"] });
 interface MyObject {
   name: string;
   _id: string;
@@ -45,15 +35,9 @@ export default function Dashboard() {
   const [folders, setFolders] = useState([]);
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
-  const { theme, setTheme } = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const [uploadingFiles, setUploadingFiles] = useState<Array<any>>([]);
-  const [uploadingProgress, setUploadingProgress] = useState<number>();
-  const [progress, setProgress] = useState<number[]>([]);
-  const [filesToUpload, setFilesToUpload] = useState<File[]>([]);
-  const [uploadProgress, setUploadProgress] = useState<number[]>([]);
-  const [currentUpload, setCurrentUpload] = useState(null);
   const [email, setEmail] = useState<string>();
 
   useEffect(() => {
@@ -127,10 +111,8 @@ export default function Dashboard() {
           tempArr.push(data);
         })
       );
-
       setFilesDetails([...tempArr]);
       numItemsLoaded += numItemsToLoad;
-
       // Wait for scroll event before loading the next set of items
       await new Promise((resolve) => {
         window.addEventListener("scroll", resolve, { once: true });
@@ -139,10 +121,12 @@ export default function Dashboard() {
   };
 
   const getSingleFileDetails = async (fileId?: any) => {
-    await handleFetchAction(`files/${fileId}`).then((res: any) => {
-      const data = res.data;
-      filesDetails.push(data);
-      setFilesDetails([...filesDetails]);
+    await handleFetchAction(`files/${fileId}`).then(async () => {
+      await handleFetchAction(`files/${fileId}`).then((res: any) => {
+        const data = res.data;
+        filesDetails.push(data);
+        setFilesDetails([...filesDetails]);
+      });
     });
   };
 
@@ -161,11 +145,10 @@ export default function Dashboard() {
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
           allFiles={files}
-          files={filesDetails}
         />
       </div>
       <div
-        className={`
+        className="
           w-[calc(100%-240px)]
           sm:w-[calc(100%-200px)]
           xs:w-full
@@ -173,7 +156,7 @@ export default function Dashboard() {
           pr-[2%]
           mt-[5%]
           sm:mt-[25px]
-        `}
+        "
       >
         <section
           className="flex 
@@ -186,7 +169,7 @@ export default function Dashboard() {
         >
           <input
             type="text"
-            className={`
+            className="
               xs:ml-10
               w-[60%]
               sm:w-full
@@ -197,7 +180,7 @@ export default function Dashboard() {
               dark:border-white
               px-4
               h-8
-             `}
+             "
             placeholder="search"
             onChange={async (e) => {
               setSearchQuery(e.target.value);
@@ -213,9 +196,7 @@ export default function Dashboard() {
               <p className="text-[#2E3271]  dark:text-[#5073d2] text-base sm:text-xs font-semibold">
                 {email}
               </p>
-              <p
-                className={`${manrope.className} text-[#7c8db5b8] text-xs sm:text-[10px] `}
-              >
+              <p className="font-manrope text-[#7c8db5b8] text-xs sm:text-[10px]">
                 Premium
               </p>
             </div>
@@ -267,15 +248,14 @@ export default function Dashboard() {
               "
             >
               <h1
-                className={`
-                ${karla.className}
+                className="
                   tracking-[1px]
                   font-bold
                   text-xl
                   text-[#2E2E2E]
                   dark:text-[#ffffff]
                   my-4
-                `}
+                "
               >
                 Folders
               </h1>
@@ -334,8 +314,8 @@ export default function Dashboard() {
                           className="w-[100px] md:w-[80px] mx-auto"
                         />
                         <p
-                          className={`
-                            $inter.className
+                          className="
+                            font-inter
                             text-[18px]
                             md:text-base
                             font-semibold
@@ -348,7 +328,7 @@ export default function Dashboard() {
                             leading-[18px]
                             tracking-[0.01em]
                             break-all
-                          `}
+                          "
                         >
                           {obj.name}
                         </p>
@@ -360,8 +340,7 @@ export default function Dashboard() {
             </section>
             <section className="">
               <h1
-                className={`
-                  ${karla.className}
+                className="
                   font-bold
                   text-xl
                   text-[#2E2E2E]
@@ -369,7 +348,7 @@ export default function Dashboard() {
                   tracking-[1px]
                   my-4
                   pl-[1.5%]
-                `}
+                "
               >
                 Files
               </h1>
@@ -423,8 +402,7 @@ export default function Dashboard() {
         ) : (
           <section className="">
             <h1
-              className={`
-                ${karla.className}
+              className="
                 font-bold
                 text-xl
                 text-[#2E2E2E]
@@ -432,7 +410,7 @@ export default function Dashboard() {
                 tracking-[1px]
                 my-4
                 pl-[1.5%]
-              `}
+              "
             >
               Files
             </h1>

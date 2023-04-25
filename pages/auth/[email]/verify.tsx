@@ -2,8 +2,6 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { CircularProgress } from "@mui/material";
-import "../../../styles/globals.css";
-import "tailwindcss/tailwind.css";
 import { handleInsertAction } from "@/config/API_actions";
 
 function VerifyPage({ query }: { query: any }) {
@@ -14,13 +12,11 @@ function VerifyPage({ query }: { query: any }) {
       ? handleInsertAction("/account/verify", {
           email,
           token,
+        }).then(function (res: any) {
+          Cookies.set("email", res.data.email);
+          Cookies.set("apikey", res.data.apikey);
+          router.push("/dashboard");
         })
-          .then(function (res: any) {
-            Cookies.set("email", res.data.email);
-            Cookies.set("apikey", res.data.apikey);
-            router.push("/dashboard");
-          })
-          
       : null;
   };
   useEffect(() => {

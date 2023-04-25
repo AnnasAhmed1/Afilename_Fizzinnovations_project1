@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import { Inter, Karla } from "next/font/google";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
 import { API } from "@/config/API";
 import { Button, Menu, MenuItem } from "@mui/material";
 // ICONS
@@ -15,23 +11,19 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import DownloadForOfflineIcon from "@mui/icons-material/DownloadForOffline";
 import ContentCopyRoundedIcon from "@mui/icons-material/ContentCopyRounded";
 
-const karla = Karla({ subsets: ["latin"] });
-const inter = Inter({ subsets: ["latin"] });
-
 export default function FileList({ fileObj }: { fileObj: any }) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [time, setTime] = useState("");
   const [storage, setStorage] = useState("");
   const open = Boolean(anchorEl);
+  
   useEffect(() => {
     setTime(dateCalc(fileObj?.dateUploaded));
     setStorage(formatBytes(fileObj.usage));
   }, []);
   const dateCalc = (_date: any) => {
     const apiDate = new Date(_date);
-
     const currentDate = new Date();
-
     const timeDiff = currentDate.getTime() - apiDate.getTime();
     const secondsDiff = Math.floor(timeDiff / 1000);
     const minutesDiff = Math.floor(secondsDiff / 60);
@@ -93,7 +85,7 @@ export default function FileList({ fileObj }: { fileObj: any }) {
 
   return (
     <div
-      className={`
+      className="
         flex
         gap-3
         border-b
@@ -101,7 +93,7 @@ export default function FileList({ fileObj }: { fileObj: any }) {
         items-center
         text-[#242634]
         dark:text-[#ffffff]
-        $karla.className`}
+        "
     >
       {fileObj?.contentType?.slice(0, 5) == "image" ? (
         <InsertPhotoOutlinedIcon className="text-xl mt-4 mb-auto" />
@@ -157,14 +149,13 @@ export default function FileList({ fileObj }: { fileObj: any }) {
             className:
               "dark:bg-[#252525] sm:text-[12px] md:text-[12px] dark:text-white text-[#545454]  text-base font-medium",
           }}
-          className="dark:bg-black//"
         >
           <MenuItem
             onClick={() => {
               handleDownload(fileObj.fileId);
             }}
           >
-            <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />{" "}
+            <DownloadForOfflineIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />
             Download
           </MenuItem>
           <MenuItem
@@ -172,7 +163,7 @@ export default function FileList({ fileObj }: { fileObj: any }) {
               handleCopyClick(fileObj?.fileId);
             }}
           >
-            <ContentCopyRoundedIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />{" "}
+            <ContentCopyRoundedIcon className=" text-[#545454] dark:text-[#ffffff] mr-[5px]" />
             Copy Link
           </MenuItem>
           <MenuItem

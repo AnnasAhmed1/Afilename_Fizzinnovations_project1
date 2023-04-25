@@ -1,28 +1,18 @@
-// import Navbar from "";
 import BusinessPlanCard from "@/components/business_plan_card";
 import Footer from "@/components/footer";
 import { H1 } from "@/components/helper";
 import Navbar from "@/components/navbar";
 import PlanCard from "@/components/plan_card";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import { Karla } from "next/font/google";
-
-const karla = Karla({ subsets: ["latin"] });
 
 export default function Main() {
   return (
     <div>
       <Navbar />
       <section className="flex flex-col items-center gap-28/ sm:gap-14/ px-[5%] sm:px-[4%]">
-        <h1
-          className={`${karla.className}  text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] dark:text-white text-center`}
-        >
+        <h1 className=" text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] dark:text-white text-center">
           Store whatever you want, when you want
         </h1>
-        <p
-          className={`${karla.className} text-xl leading-10 sm:text-sm text-[#242634] dark:text-white text-center`}
-        >
+        <p className="text-xl leading-10 sm:text-sm text-[#242634] dark:text-white text-center">
           Simple file sharing, storage, at a fair price.
           <br />
           Stop overpaying with gigantic media companies.
@@ -31,27 +21,24 @@ export default function Main() {
         </p>
         <section
           id="upload"
-          className={`${karla.className} flex flex-col py-[5%] items-center gap-4`}
+          className="flex flex-col py-[5%] items-center gap-4"
         >
           <H1 text="Upload A File Now" />
-
-          <button
-            className={`${karla.className} text-14 sm:text-xs font-extrabold text-center bg-[#0066FF] text-white py-1 px-16 sm:px-7 rounded-full`}
-          >
+          <button className="text-14 sm:text-xs font-extrabold text-center bg-[#0066FF] text-white py-1 px-16 sm:px-7 rounded-full">
             Upload a file
           </button>
         </section>
         <section id="personal" className="">
           <H1 text="Personal" />
           <p
-            className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634]
-         dark:text-[#ffffff] pt-[10%] font-bold text-center`}
+            className="text-2xl leading-[40px] sm:text-base text-[#242634]
+           dark:text-[#ffffff] pt-[10%] font-bold text-center"
           >
             Personal Plans
           </p>
           <p
-            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]
-       dark:text-[#ffffff]  font-bold text-center`}
+            className="text-base pb-[3%] sm:text-sm text-[#242634]
+           dark:text-[#ffffff]  font-bold text-center"
           >
             For personal use only.
           </p>
@@ -105,9 +92,7 @@ export default function Main() {
         <section id="business" className="my-[18%] ">
           <H1 text="Business Pricing" />
 
-          <p
-            className={`${karla.className} text-xl md:text-base sm:text-sm pt-[3%] text-center font-semibold`}
-          >
+          <p className="text-xl md:text-base sm:text-sm pt-[3%] text-center font-semibold">
             Consumption-Based Rate Comparison
             <br />
             Pay as you go
@@ -143,7 +128,7 @@ export default function Main() {
             />
           </div>
         </section>
-        <section id="creators" className={`${karla.className} text-center `}>
+        <section id="creators" className="text-center ">
           <H1 text="Creators" />
           <p className="text-xl leading-[40px] md:text-base sm:text-sm font-semibold py-8">
             Get <b>100% </b>

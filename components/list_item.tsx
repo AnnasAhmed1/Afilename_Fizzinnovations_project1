@@ -1,6 +1,4 @@
 import React, { useRef } from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
 
 export default function ListItemComp(props: {
   text?: string;

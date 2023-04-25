@@ -1,23 +1,15 @@
-import * as React from "react";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-import Box from "@mui/material/Box";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import { ExpandLess, ExpandMore } from "@mui/icons-material";
+import React, { useState } from "react";
+import Image from "next/image";
+import ListItemComp from "@/components/list_item";
+import NestedListComp from "@/components/nested_list_comp";
+import { useRouter } from "next/router";
 import {
   Collapse,
-  Drawer,
   ListItemButton,
   ListItemIcon,
   Modal,
   TextField,
 } from "@mui/material";
-import Image from "next/image";
-import ListItemComp from "@/components/list_item";
-import NestedListComp from "@/components/nested_list_comp";
-import { useState } from "react";
-import { Karla } from "next/font/google";
 // ICONS
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -26,86 +18,26 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import MusicVideoRoundedIcon from "@mui/icons-material/MusicVideoRounded";
 import SourceIcon from "@mui/icons-material/Source";
 import AddIcon from "@mui/icons-material/Add";
-import { useRouter } from "next/router";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 
-const karla = Karla({ subsets: ["latin"] });
-
-const drawerWidth = 240;
-
-function DrawerContent({
+export default function DrawerContent({
   folders,
   allFiles,
-  files,
   handleFileChangeFunction,
   handleFolderChangeFunction,
   createFolder,
 }: {
   folders: any;
-  files: any;
   allFiles: any;
   createFolder: any;
   handleFileChangeFunction: any;
   handleFolderChangeFunction: any;
 }) {
   const [open, setOpen] = useState(true);
-  const [recentOpen, setRecentOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
   const router = useRouter();
-
-  const optionsList = [
-    {
-      title: "New Folder",
-      icon: (
-        <CreateNewFolderIcon
-          style={{ fontSize: "16px" }}
-          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
-        />
-      ),
-      type: "any",
-    },
-    {
-      title: "Upload a File",
-      icon: (
-        <AttachFileIcon
-          style={{ fontSize: "16px" }}
-          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
-        />
-      ),
-      type: "any",
-    },
-    {
-      title: "Upload a Folder",
-      icon: (
-        <DriveFolderUploadSharpIcon
-          style={{ fontSize: "16px" }}
-          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
-        />
-      ),
-      type: "any",
-    },
-    {
-      title: "Upload a Video",
-      icon: (
-        <VideocamIcon
-          style={{ fontSize: "16px" }}
-          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
-        />
-      ),
-      type: "video/*",
-    },
-    {
-      title: "Upload Music",
-      icon: (
-        <MusicVideoRoundedIcon
-          style={{ fontSize: "16px" }}
-          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
-        />
-      ),
-      type: "audio/*",
-    },
-  ];
 
   const handleClick = () => {
     setOpen(!open);
@@ -141,15 +73,14 @@ function DrawerContent({
               "
           >
             <h3
-              className={`
-              ${karla.className} font-extrabold 
+              className=" font-extrabold 
               text-4xl
               md:text-3xl
               sm:text-2xl
               mb-2
               text-center 
               text-[rgba(0,0,0,0.75) 
-                  `}
+              "
             >
               Create Folder
             </h3>
@@ -195,7 +126,7 @@ function DrawerContent({
                 onChange={handleFolderChangeFunction}
               />
               <button
-                className={`${karla.className}
+                className="
                block 
                py-[15px]
                md:py-[10px] 
@@ -206,7 +137,7 @@ function DrawerContent({
                text-center
                bg-[#0066FF] 
                rounded-[5px]
-             text-white`}
+             text-white"
                 type={"submit"}
               >
                 Create Folder
@@ -216,21 +147,20 @@ function DrawerContent({
         </Modal>
         <div className="min-h-[60vh] sm:min-h-[68vh]  overflow-y-scroll scrollbar-thin">
           <div
-            className={`
-                flex  
-                items-center 
-                justify-center 
-                py-8 
-                gap-1  
-                ${karla.className}`}
+            className="
+            flex  
+            items-center 
+            justify-center 
+            py-8 
+            gap-1  
+            "
           >
             <Image
               src={require("../images/logo.svg")}
               alt="logo"
               className="
-                w-4
-              
-                "
+              w-4
+              "
             />
             <h1
               className="
@@ -277,6 +207,7 @@ function DrawerContent({
             )}
           </ListItemButton>
           <Collapse in={open} timeout="auto" unmountOnExit>
+
             <div
               className="
                   flex
@@ -291,40 +222,55 @@ function DrawerContent({
                 handleOpen();
               }}
             >
-              {optionsList[0].icon}
+               <CreateNewFolderIcon
+          style={{ fontSize: "16px" }}
+          className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+        />
               <p
                 className="sm:text-xs"
                 style={{
                   margin: "5px 0",
                 }}
               >
-                {optionsList[0].title}
+                New Folder
               </p>
             </div>
             <hr />
             <ListItemComp
-              text={optionsList[1].title}
-              Icon={optionsList[1].icon}
+              text={"Upload a File"}
+              Icon={<AttachFileIcon
+                style={{ fontSize: "16px" }}
+                className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+              />}
               handleFileChangeFunction={handleFileChangeFunction}
             />
             <ListItemComp
-              text={optionsList[2].title}
-              Icon={optionsList[2].icon}
+              text={"Upload a Folder"}
+              Icon={<DriveFolderUploadSharpIcon
+                style={{ fontSize: "16px" }}
+                className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+              />}
               handleFileChangeFunction={handleFileChangeFunction}
               folder={true}
             />
             <hr />
             <ListItemComp
-              text={optionsList[3].title}
-              Icon={optionsList[3].icon}
+              text={"Upload a Video"}
+              Icon={<VideocamIcon
+                style={{ fontSize: "16px" }}
+                className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+              />}
               handleFileChangeFunction={handleFileChangeFunction}
-              filetype={optionsList[3].type}
+              filetype={"video/*"}
             />
             <ListItemComp
-              text={optionsList[4].title}
-              Icon={optionsList[4].icon}
+              text={"Upload Music"}
+              Icon={<MusicVideoRoundedIcon
+                style={{ fontSize: "16px" }}
+                className="text-base text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]"
+              />}
               handleFileChangeFunction={handleFileChangeFunction}
-              filetype={optionsList[4].type}
+              filetype={"audio/*"}
             />
           </Collapse>
           <NestedListComp folders={folders} />
@@ -369,8 +315,7 @@ function DrawerContent({
           </ListItemButton>
         </div>
         <button
-          className={`
-              ${karla.className}
+          className="
               text-sm
               sm:text-xs
               text-white
@@ -386,18 +331,18 @@ function DrawerContent({
               sm:my-[25px]
               mr-[10px]
               sm:mr-[5px]
-             `}
+             "
         >
           Upgrade Plan
         </button>
         <div
-          className={`${karla.className}
+          className="
                 text-[10px]
                 sm:text-[8px]
                 text-[#7c8db5b8]
                 mx-[30px]/
                 pb-4
-                `}
+                "
         >
           <p>
             Legal
@@ -421,96 +366,3 @@ function DrawerContent({
   );
 }
 
-export default function ResponsiveDrawer({
-  folders,
-  files,
-  allFiles,
-  handleFileChangeFunction,
-  handleFolderChangeFunction,
-  createFolder,
-}: {
-  folders: any;
-  files: any;
-  allFiles: any;
-  createFolder: any;
-  handleFileChangeFunction: any;
-  handleFolderChangeFunction: any;
-}) {
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-  return (
-    <Box sx={{ display: "flex" }}>
-      <IconButton
-        color="inherit"
-        aria-label="open drawer"
-        edge="start"
-        onClick={handleDrawerToggle}
-        sx={{ margin: "24px 20px 0px ", display: { sm: "none" } }}
-      >
-        <MenuIcon className="dark:text-white" />
-      </IconButton>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-            className: "scrollbar-thin border-r border-[#717171]  ",
-          }}
-          className="bg-[#ffffff] dark:bg-black "
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: "40%",
-              overflowX: "hidden",
-            },
-          }}
-        >
-          <DrawerContent
-            folders={folders}
-            handleFileChangeFunction={handleFileChangeFunction}
-            createFolder={createFolder}
-            handleFolderChangeFunction={handleFolderChangeFunction}
-            files={files}
-            allFiles={allFiles}
-          />
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          PaperProps={{
-            className:
-              "scrollbar-thin border-r pl-[20px] sm:pl-[8px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]",
-          }}
-          className="scrollbar-thin border-r pl-[20px] sm:pl-[15px] pr-[10px] sm:pr-[5px] border-[#717171] w-[240px] sm:w-[200px]"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              overflowX: "hidden",
-              backgroundColor: "transparent",
-            },
-          }}
-          open
-        >
-          <DrawerContent
-            folders={folders}
-            handleFileChangeFunction={handleFileChangeFunction}
-            createFolder={createFolder}
-            handleFolderChangeFunction={handleFolderChangeFunction}
-            files={files}
-            allFiles={allFiles}
-          />
-        </Drawer>
-      </Box>
-    </Box>
-  );
-}

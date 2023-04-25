@@ -1,8 +1,4 @@
-import * as React from "react";
-import { Karla } from "next/font/google";
-import "../styles/globals.css";
-import "tailwindcss/tailwind.css";
-const karla = Karla({ subsets: ["latin"] });
+import React from "react";
 
 export default function Login() {
   return (
@@ -34,19 +30,17 @@ export default function Login() {
         "
     >
       <h3
-        className={`${karla.className} font-extrabold 
+        className="font-extrabold 
         md:text-3xl
         sm:text-2xl
         text-4xl text-center text-[rgba(0,0,0,0.75) 
-  `}
+      "
       >
         Verify Login
       </h3>
       <hr />
 
-      <h6
-        className={`font pt-8 md:pt-6 sm:pt-2 px-5 md:px-3 sm:px-2 font-medium pb-10 md:pb-6 sm:pb-2 text-[#262626] dark:text-[#ffffff] text-base md:text-sm sm:text-xs text-center`}
-      >
+      <h6 className="pt-8 md:pt-6 sm:pt-2 px-5 md:px-3 sm:px-2 font-medium pb-10 md:pb-6 sm:pb-2 text-[#262626] dark:text-[#ffffff] text-base md:text-sm sm:text-xs text-center">
         A login link was sent to you. You can check your email and click on the
         link or button.
         <br />
