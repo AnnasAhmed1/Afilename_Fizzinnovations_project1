@@ -1,14 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+  body {
+    @apply dark:bg-[#3C4048] bg-white;
+  }
+}
 
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    /* font-family: "Karla";
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  /* font-family: "Karla";
     font-family: "Inter"; */
 }
-svg{
-    color: #000 !important;
-}
+/* svg {
+  color: #000 !important;
+} */

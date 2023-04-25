@@ -8,13 +8,14 @@ import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Inter, Karla } from "next/font/google";
 import { P1 } from "./helper";
-import Link from "next/link";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import Signup from "../pages/signup";
 import Login from "../pages/login";
 import { handleInsertAction } from "@/config/API_actions";
-import { API } from "@/config/API";
-import Cookies from "js-cookie";
+import LightModeSharpIcon from "@mui/icons-material/LightModeSharp";
+import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
+import { useTheme } from "next-themes";
+import DarkLightIcon from "./dark_light_icon";
 
 const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -22,6 +23,7 @@ const karla = Karla({ subsets: ["latin"] });
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { theme, setTheme } = useTheme();
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
@@ -33,8 +35,8 @@ export default function Navbar() {
     const element = document.querySelector(`#${id}`);
     element?.scrollIntoView({ behavior: "smooth" });
   }
-  const [ref, setRef] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [heading, setHeading] = useState("Signup");
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
   const [verifyModalOpen, setVerifyModalOpen] = useState(false);
@@ -46,31 +48,25 @@ export default function Navbar() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setEmail(e.target.value);
-    console.log(email);
   };
   const handleSubmit = async (email: string) => {
     await handleInsertAction("/account/signin/", {
       email: email,
     })
       .then((res: any) => {
-        console.log(email);
-        console.log(res.data);
         handleModalClose();
         handleVerifyModalOpen();
       })
-      .catch((error) => {
-        console.log(error);
-      });
   };
   return (
     <nav
       className="
-    flex 
-    justify-between 
-    items-center 
-    px-[2%] 
-    pt-4 
-    pb-[7%]/"
+      flex 
+      justify-between 
+      items-center 
+      px-[2%] 
+      pt-4 
+      "
     >
       <Modal
         open={modalOpen}
@@ -83,6 +79,7 @@ export default function Navbar() {
           <Signup
             handleChange={handleChange}
             handleSubmit={() => handleSubmit(email)}
+            heading={heading}
           />
         </Box>
       </Modal>
@@ -100,10 +97,10 @@ export default function Navbar() {
       </Modal>
       <div
         className="
-      hidden
-      md:block
-      sm:block
-      "
+        hidden
+        md:block
+        sm:block
+        "
       >
         <Button
           id="basic-button"
@@ -116,6 +113,7 @@ export default function Navbar() {
           <MenuIcon
             className="
            text-black
+           dark:text-white
            "
           />
         </Button>
@@ -149,7 +147,11 @@ export default function Navbar() {
           sm:w-4
           "
         />
-        <h1 className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)] font-extrabold">
+        <h1
+          className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)]
+          dark:text-[rgba(255,255,255,0.75)]
+           font-extrabold"
+        >
           AFILENAME
         </h1>
       </div>
@@ -180,29 +182,29 @@ export default function Navbar() {
         >
           <P1 text="Creators" />
         </a>
-        {/* <Link href="" legacyBehavior> */}
-          <a className="scroll-smooth cursor-pointer">
-            <P1 text="Docs" />
-          </a>
-        {/* </Link> */}
+        <a className="scroll-smooth cursor-pointer">
+          <P1 text="Docs" />
+        </a>
       </div>
       <div
         className="
         flex
         gap-4
         sm:gap-1.5
-    "
+        "
       >
         <button
           className="border 
           py-1.5
-          md:p-1.5 
-          sm:p-1 
-          border-black 
+          md:p-1
+          sm:p-0 
+          border-black
+          dark:border-white
           w-28 
-          sm:w-14 
+          sm:w-12 
           md:w-24"
           onClick={() => {
+            setHeading("Signup");
             handleModalOpen();
           }}
         >
@@ -211,24 +213,28 @@ export default function Navbar() {
         <button
           className="border py-1.5
         border-transparent
-         bg-black 
+         bg-black
+         dark:bg-[#ffffff] 
          md:p-1.5
-         sm:p-1
+         sm:p-0
          text-base 
           font-bold 
          ${inter.className}
-          text-white 
+          text-white
+          dark:text-black
           w-28
           md:w-24
-          sm:w-14
+          sm:w-12
           sm:text-xs
           "
           onClick={() => {
+            setHeading("Login");
             handleModalOpen();
           }}
         >
           Login
         </button>
+      <DarkLightIcon/>
       </div>
     </nav>
   );

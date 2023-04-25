@@ -1,8 +1,6 @@
 import Cookies from "js-cookie";
-import { base_url } from "@/config/API";
-import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { CircularProgress } from "@mui/material";
 import "../../../styles/globals.css";
 import "tailwindcss/tailwind.css";
@@ -12,7 +10,6 @@ function VerifyPage({ query }: { query: any }) {
   const router = useRouter();
   const { email, token } = router.query;
   const verifyLogin = async () => {
-    console.log(email, token, "verify check");
     email && token
       ? handleInsertAction("/account/verify", {
           email,
@@ -23,10 +20,8 @@ function VerifyPage({ query }: { query: any }) {
             Cookies.set("apikey", res.data.apikey);
             router.push("/dashboard");
           })
-          .catch((error) => {
-            console.log(error);
-          })
-      : console.log(email, token, "not found");
+          
+      : null;
   };
   useEffect(() => {
     verifyLogin();

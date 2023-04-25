@@ -24,6 +24,8 @@ import DarkModeSharpIcon from "@mui/icons-material/DarkModeSharp";
 import { toast } from "react-toastify";
 import FileUpload from "@/components/file_upload";
 import DarkLightIcon from "@/components/dark_light_icon";
+import FolderCopyIcon from "@mui/icons-material/FolderCopy";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const manrope = Manrope({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
@@ -38,7 +40,7 @@ interface FileObject {
   fileId: any;
 }
 
-export default function Dashboard() {
+export default function Recent() {
   const router = useRouter();
   const [files, setFiles] = useState([]);
   const [filesDetails, setFilesDetails] = useState<Array<any>>([]);
@@ -55,15 +57,13 @@ export default function Dashboard() {
   const [uploadProgress, setUploadProgress] = useState<number[]>([]);
   const [currentUpload, setCurrentUpload] = useState(null);
   const [email, setEmail] = useState<string>();
+  const { filesArray } = router.query;
+  const parsedFiles = filesArray ? JSON.parse(filesArray as string) : [];
 
   useEffect(() => {
-    !Cookies.get("apikey")
-      ? router.push("/")
-      : (getFolders(),
-        getFiles(),
-        setEmail(Cookies.get("email")?.split("@")[0]));
+    !Cookies.get("apikey") ? router.push("/") : getFilesDetails(parsedFiles),
+      setEmail(Cookies.get("email")?.split("@")[0]);
   }, []);
-
   const handleFileChangeFunction = (event: any) => {
     const file = event.target.files[0];
     if (!file) {
@@ -109,7 +109,7 @@ export default function Dashboard() {
 
   const getFilesDetails = async (
     _files?: any[],
-    numItemsToLoad: number = 5
+    numItemsToLoad: number = 7
   ) => {
     let tempArr: any[] = [];
     let numItemsLoaded = 0;
@@ -151,7 +151,6 @@ export default function Dashboard() {
       setFolders(response.data.folders);
     });
   };
-
   return (
     <div style={{ display: "flex" }}>
       <div className="w-[240px]  sm:w-[200px] xs:w-[0px]">
@@ -160,8 +159,8 @@ export default function Dashboard() {
           handleFileChangeFunction={handleFileChangeFunction}
           createFolder={() => createFolder(newFolderName)}
           handleFolderChangeFunction={handleFolderChangeFunction}
-          allFiles={files}
           files={filesDetails}
+          allFiles={files}
         />
       </div>
       <div
@@ -255,123 +254,24 @@ export default function Dashboard() {
         </section>
         {searchQuery.length == 0 ? (
           <>
-            <section
-              className="
-                pl-[3%]
-                mb-8
-                border-b-[0.25px]
-                pt-[5%]
-                pb-[5%]
-                border-black
-                dark:border-white
-              "
-            >
-              <h1
-                className={`
-                ${karla.className}
-                  tracking-[1px]
-                  font-bold
-                  text-xl
-                  text-[#2E2E2E]
-                  dark:text-[#ffffff]
-                  my-4
-                `}
-              >
-                Folders
-              </h1>
-
-              <div
-                className="
-                    flex
-                    gap-6
-                    md:gap-4
-                    overflow-x-scroll
-                    scrollbar-thin
-                    scroll-m-0
-                    scroll-p-0
-                  "
-              >
-                {folders?.length == 0 ? (
-                  <p className="my-4">No folders yet</p>
-                ) : (
-                  folders?.map((v, i) => {
-                    const obj = v as MyObject;
-                    return (
-                      <div
-                        key={i}
-                        className="border-2
-                          border-[rgba(0,0,0,0.06)]
-                          dark:border-[rgba(255,255,255,0.9)]
-                          container
-                          cursor-pointer
-                          rounded-lg
-                          min-w-[150px]
-                          w-[150px]
-                          h-[185px]
-                          md:min-w-[120px]
-                          md:w-[120px]
-                          md:h-[145px]
-                          md:pt-[25px]
-                          md:pb-[10px]
-                          sm:min-w-[120px]
-                          sm:w-[120px]
-                          sm:h-[145px]
-                          sm:pt-[25px]
-                          sm:pb-[10px]
-                          pt-[35px]
-                          pb-[20px]
-                          "
-                        onClick={() => {
-                          router.push({
-                            pathname: "/folder",
-                            query: { id: obj._id, name: obj.name },
-                          });
-                        }}
-                      >
-                        <Image
-                          src={require("../images/folder_icon.svg")}
-                          alt="folder icon"
-                          className="w-[100px] md:w-[80px] mx-auto"
-                        />
-                        <p
-                          className={`
-                            $inter.className
-                            text-[18px]
-                            md:text-base
-                            font-semibold
-                            text-[#1A1A1A]
-                            dark:text-[#ffffff]
-                            mt-[10px]
-                            px-[10px]
-                            text-center
-                            mx-6/
-                            leading-[18px]
-                            tracking-[0.01em]
-                            break-all
-                          `}
-                        >
-                          {obj.name}
-                        </p>
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            </section>
             <section className="">
               <h1
                 className={`
-                  ${karla.className}
-                  font-bold
-                  text-xl
-                  text-[#2E2E2E]
-                  dark:text-[#ffffff]
-                  tracking-[1px]
-                  my-4
-                  pl-[1.5%]
-                `}
+            ${karla.className}
+            font-bold
+            text-[32px]
+            text-[#2E2E2E]
+            dark:text-[#ffffff]
+            mb-4
+            mt-10
+            ml-[-10px]
+          `}
               >
-                Files
+                <button onClick={() => router.push("/dashboard")}>
+                  <ArrowBackIosIcon className="mr-[20px]/ text-lg" />
+                </button>
+                <FolderCopyIcon className="ml-[5px] mr-[15px] text-3xl dark:text-[#ffffff]" />
+                Recent
               </h1>
               {filesDetails.length == 0 ? (
                 <p className="my-4">No files yet</p>

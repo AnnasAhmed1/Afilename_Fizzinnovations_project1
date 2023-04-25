@@ -1,11 +1,10 @@
-import { Inter, Karla } from "next/font/google";
+import { Karla } from "next/font/google";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import StopIcon from "@mui/icons-material/Stop";
 import Image from "next/image";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 
-const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 interface MyObject {
   title: string;
@@ -17,10 +16,6 @@ export default function BusinessPlanCard({
   price,
   price1,
   button,
-  subtext,
-  plan,
-  buttonText,
-  bottomText,
   services,
 }: {
   name: string;
@@ -28,10 +23,6 @@ export default function BusinessPlanCard({
   price: string;
   price1: string;
   button: boolean;
-  subtext: boolean;
-  plan: string;
-  buttonText: string;
-  bottomText: string;
   services: Array<object>;
 }) {
   return (
@@ -46,7 +37,11 @@ export default function BusinessPlanCard({
        flex-col 
        pb-[4%]
        shadow-card 
-       pt-5 /h-[73vh] /sm:h-[65vh] overflow-hidden rounded-2xl relative"
+       dark:shadow-cardDark
+       pt-5
+       overflow-hidden
+       rounded-2xl
+       relative"
       >
         <p
           className={`${karla.className} flex items-center text-3xl sm:text-2xl font-bold w-full gap-2 px-3.5`}
@@ -60,7 +55,8 @@ export default function BusinessPlanCard({
         </p>
         <hr className="w-full" />
         <div
-          className={`${karla.className} text-center font-bold text-[#242634]`}
+          className={`${karla.className} text-center font-bold text-[#242634]
+         dark:text-[#ffffff]`}
         >
           <p className="text-4xl sm:text-3xl">${price}</p>
           <p className="text-base sm:text-sm">
@@ -80,12 +76,18 @@ export default function BusinessPlanCard({
             return (
               <p
                 key={i}
-                className={`${karla.className} text-14 sm:text-xs  text-[rgba(0,0,0,0.85)] flex items-center gap-2`}
+                className={`${karla.className} text-14 sm:text-xs  text-[rgba(0,0,0,0.85)]  dark:text-[rgba(255,255,255,0.85)] flex items-center gap-2`}
               >
                 {myObj.icon == "stop" ? (
-                  <StopIcon style={{color:"#FF0100 !important"}} className="text-base border text-[#FF0100]" />
+                  <StopIcon
+                    style={{ color: "#FF0100 !important" }}
+                    className="text-base border text-[#FF0100]"
+                  />
                 ) : (
-                  <CheckBoxIcon style={{color:"#0066FF !important"}} className="text-base text-blue-500" />
+                  <CheckBoxIcon
+                    style={{ color: "#0066FF !important" }}
+                    className="text-base text-blue-500"
+                  />
                 )}
                 {myObj.title}
               </p>

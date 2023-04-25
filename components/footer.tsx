@@ -11,7 +11,9 @@ export default function Footer() {
     <>
       <nav
         className="
-      border-t border-black
+      border-t
+       border-black
+       dark:border-white
       flex
       items-center
       justify-center
@@ -38,7 +40,10 @@ export default function Footer() {
           "
             // className="w-4"
           />
-          <h1 className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)] font-extrabold">
+          <h1
+            className="text-4xl md:text-3xl sm:text-xl text-[rgba(0,0,0,0.75)] 
+            dark:text-[rgba(255,255,255,0.75)]  font-extrabold"
+          >
             AFILENAME
           </h1>
         </div>
@@ -57,15 +62,6 @@ export default function Footer() {
           Contact Us
         </p>
       </nav>
-      {/* <div
-        className={`hidden md:flex sm:flex flex-wrap items-center justify-center sm:gap-4 md:gap-6`}
-      >
-        <p className={`${inter.className} text-2xl font-bold`}>Legal</p>
-        <P1 text="Terms" />
-        <P1 text="Privacy Policy" />
-        <P1 text="Refund Policy" />
-        <P1 text="DMCA Policy" />
-      </div> */}
     </>
   );
 }

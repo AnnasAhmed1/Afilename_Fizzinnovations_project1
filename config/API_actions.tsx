@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { API } from "./API";
+import { toast } from "react-toastify";
 
 /**
  * A function to handle GET API requests.
@@ -44,7 +45,6 @@ export const handleFetchAction = (url: any) => {
  * @returns {Promise} - A promise that resolves with the response data on success, and rejects with an error on failure.
  */
 export const handleInsertAction = (url: any, data: any) => {
-  console.log(url, data);
   return new Promise(async (resolve, reject) => {
     try {
       const response = await API({
@@ -56,7 +56,19 @@ export const handleInsertAction = (url: any, data: any) => {
         },
       });
       resolve(response);
-    } catch (error) {
+    } catch (error: any) {
+      let errorMessage = "";
+      if (error.response?.data?.error) {
+        errorMessage = error.response?.data?.error;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response?.data?.error;
+      } else {
+        errorMessage = "error occured";
+      }
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: false,
+      });
       reject(error);
     }
   });
@@ -98,7 +110,7 @@ export const handleDeleteAction = (url: any) => {
         method: "DELETE",
         url,
         headers: {
-          "Content-Type": "application/json",
+          "x-api-key": Cookies.get("apikey"),
         },
       });
       resolve(response);

@@ -4,26 +4,24 @@ import Footer from "@/components/footer";
 import { H1 } from "@/components/helper";
 import Navbar from "@/components/navbar";
 import PlanCard from "@/components/plan_card";
-import Cookies from "js-cookie";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
-import { Inter, Karla } from "next/font/google";
+import { Karla } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
 const karla = Karla({ subsets: ["latin"] });
 
 export default function Main() {
   return (
-    <div className="scroll-smooth ">
+    <div>
       <Navbar />
       <section className="flex flex-col items-center gap-28/ sm:gap-14/ px-[5%] sm:px-[4%]">
         <h1
-          className={`${karla.className}  text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] text-center`}
+          className={`${karla.className}  text-6xl sm:text-3xl md:text-5xl py-[8%] font-bold text-[#242634] dark:text-white text-center`}
         >
           Store whatever you want, when you want
         </h1>
         <p
-          className={`${karla.className} text-xl leading-10 sm:text-sm text-[#242634] text-center`}
+          className={`${karla.className} text-xl leading-10 sm:text-sm text-[#242634] dark:text-white text-center`}
         >
           Simple file sharing, storage, at a fair price.
           <br />
@@ -45,14 +43,15 @@ export default function Main() {
         </section>
         <section id="personal" className="">
           <H1 text="Personal" />
-
           <p
-            className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634] pt-[10%] font-bold text-center`}
+            className={`${karla.className} text-2xl leading-[40px] sm:text-base text-[#242634]
+         dark:text-[#ffffff] pt-[10%] font-bold text-center`}
           >
             Personal Plans
           </p>
           <p
-            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]  font-bold text-center`}
+            className={`${karla.className} text-base pb-[3%] sm:text-sm text-[#242634]
+       dark:text-[#ffffff]  font-bold text-center`}
           >
             For personal use only.
           </p>
@@ -122,10 +121,6 @@ export default function Main() {
               price="0.99"
               price1="0.30"
               button={true}
-              subtext={false}
-              plan="The Bundled Plan includes"
-              buttonText="Get with a bundle"
-              bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
               services={[
                 { title: "No hidden fees", icon: "tick" },
                 { title: "No transfer fees", icon: "tick" },
@@ -139,10 +134,6 @@ export default function Main() {
               price="2.69"
               price1="2.69"
               button={false}
-              subtext={false}
-              plan="The Bundled Plan includes"
-              buttonText="Get with a bundle"
-              bottomText="Bundle can be purchased with an additional product or separately with one of our authorized resellers."
               services={[
                 { title: "Encyption", icon: "tick" },
                 { title: "Limited API", icon: "stop" },
@@ -166,13 +157,13 @@ export default function Main() {
             imagine.
           </p>
 
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#0066FF] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
+          <button className="text-white font-extrabold text-sm sm:text-xs my-10 bg-[#0066FF] block w-48 sm:w-40 mx-[auto] rounded-2xl  px-5 sm:px-4 py-1">
             Upload a Video Now
           </button>
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#5F5E5E] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
+          <button className="text-white font-extrabold text-sm sm:text-xs my-10 bg-[#5F5E5E] block w-48 sm:w-40 mx-[auto] rounded-2xl  px-5 sm:px-4 py-1">
             Upload a Music
           </button>
-          <button className="text-white text-sm sm:text-xs my-10 bg-[#B1B3B6] block w-44 sm:w-40 mx-[auto] rounded-2xl py-2 px-5 sm:px-4 py-1">
+          <button className="text-white font-extrabold text-sm sm:text-xs my-10 bg-[#B1B3B6] block w-48 sm:w-40 mx-[auto] rounded-2xl px-5 sm:px-4 py-1">
             Upload a Clip Now
           </button>
         </section>

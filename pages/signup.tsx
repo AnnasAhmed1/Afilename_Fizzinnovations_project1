@@ -1,25 +1,22 @@
 import React, { useState } from "react";
 import { Karla, Maven_Pro } from "next/font/google";
 import EastIcon from "@mui/icons-material/East";
-import { Modal, TextField } from "@mui/material";
-import Login from "./login";
-import { handleInsertAction } from "@/config/API_actions";
+import { TextField } from "@mui/material";
 import "../styles/globals.css";
 import "tailwindcss/tailwind.css";
 const karla = Karla({ subsets: ["latin"] });
 const mavenPro = Maven_Pro({ subsets: ["latin"] });
 
 export default function Signup({
+  heading,
   handleChange,
   handleSubmit,
 }: {
+  heading: string;
   handleSubmit: any;
   handleChange: any;
 }) {
   const [email, setEmail] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => setModalOpen(false);
   return (
     <>
       <div
@@ -27,25 +24,38 @@ export default function Signup({
         flex
         flex-col
         bg-white
+        dark:bg-[#3C4048]
+        dark:border-[#3C4048]
         pt-4
         pb-8
         rounded-[24px]
         w-[50%]
+        md:w-[70%]
+        sm:w-[80%]
         border-2
         absolute
         top-[20%]
-        right-[25%]"
+        right-[25%]
+        md:pt-2
+        md:pb-6
+        sm:pt-0.5
+        sm:pb-3
+        md:right-[15%]
+        sm:right-[10%]
+        "
       >
         <h3
           className={`
           ${karla.className} font-extrabold 
           text-4xl
-         mb-2
+          md:text-3xl
+          sm:text-2xl
+          mb-2
           text-center 
-          text-[rgba(0,0,0,0.75)]
+          text-[rgba(0,0,0,0.75) 
           `}
         >
-          Signup
+          {heading}
         </h3>
         <hr />
         <form
@@ -54,19 +64,37 @@ export default function Signup({
             handleSubmit(email);
           }}
           className="
+          dark:text-white
           w-full
           px-12
+          md:px-8
+          sm:px-6
           mt-12
+          md:mt-8
+          sm:mt-4
           "
         >
           <TextField
             id="filled-textarea"
             label="Email"
             placeholder="email@example.com"
+            InputProps={{
+              className: "dark:text-white border",
+            }}
+            InputLabelProps={{
+              className: " dark:text-white",
+            }}
             required
             sx={{
               width: "100%",
               marginBottom: "3rem",
+              fontSize: "12px",
+              "@media (min-width: 768px, max-width: 1023px)": {
+                marginBottom: "2rem",
+              },
+              "@media (max-width: 767px)": {
+                marginBottom: "1rem",
+              },
             }}
             onChange={(e) => {
               handleChange(e);
@@ -75,27 +103,32 @@ export default function Signup({
           <button
             className={`${mavenPro.className}
             block 
-            py-[15px] 
-            w-[65%] 
+            py-[15px]
+            md:py-[8px] 
+            sm:py-[4px] 
+            w-[65%]
+            sm:w-[55%] 
             mx-auto 
             font-base 
             text-center
-             bg-[#0066FF] 
-             rounded-[5px]
-              text-white`}
+            bg-[#0066FF] 
+            rounded-[5px]
+           text-white`}
             type={"submit"}
-            // onClick={() => {
-            //   handleSubmit(email);
-            // }}
           >
             Continue
-            <EastIcon sx={{color:"#ffffff !important"}} className="text-base ml-3" />
+            <EastIcon
+              sx={{ color: "#ffffff !important" }}
+              className="text-base ml-3"
+            />
           </button>
         </form>
         <h6
           className={`
           ${karla.className} 
           pt-10
+          md:pt-6
+          sm:pt-4
           font-light ß
           text-[13px] 
           text-center`}
