@@ -16,7 +16,7 @@ export default function FileList({ fileObj }: { fileObj: any }) {
   const [time, setTime] = useState("");
   const [storage, setStorage] = useState("");
   const open = Boolean(anchorEl);
-  
+
   useEffect(() => {
     setTime(dateCalc(fileObj?.dateUploaded));
     setStorage(formatBytes(fileObj.usage));
@@ -77,7 +77,7 @@ export default function FileList({ fileObj }: { fileObj: any }) {
       const url = URL.createObjectURL(response.data);
       const downloadLink = document.createElement("a");
       downloadLink.href = url;
-      downloadLink.download = "";
+      downloadLink.download = `${fileObj.title ? fileObj.title : "new_file"}`;
       downloadLink.click();
     });
     handleMenuClose();

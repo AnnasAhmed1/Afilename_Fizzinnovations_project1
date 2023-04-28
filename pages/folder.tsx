@@ -170,6 +170,12 @@ export default function Folder({ query }: { query: any }) {
     }
   }
 
+  const logout = () => {
+    Cookies.remove("email");
+    Cookies.remove("apikey");
+    router.push("/");
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -263,7 +269,13 @@ export default function Folder({ query }: { query: any }) {
                     "dark:bg-[#252525]  dark:text-white text-[#545454] text-base font-medium",
                 }}
               >
-                <MenuItem>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  Logout
+                </MenuItem>
               </Menu>
             </p>
           </div>

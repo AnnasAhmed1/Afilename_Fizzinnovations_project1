@@ -136,9 +136,15 @@ export default function Dashboard() {
     });
   };
 
+  const logout = () => {
+    Cookies.remove("email");
+    Cookies.remove("apikey");
+    router.push("/");
+  };
+
   return (
     <div style={{ display: "flex" }}>
-      <div className="w-[240px]  sm:w-[200px] xs:w-[0px]">
+      <div className="w-[240px] sm:w-[200px] xs:w-[0px]">
         <DrawerComp
           folders={folders}
           handleFileChangeFunction={handleFileChangeFunction}
@@ -228,7 +234,13 @@ export default function Dashboard() {
                     "dark:bg-[#252525] dark:text-white text-[#545454] text-base font-medium",
                 }}
               >
-                <MenuItem>Logout</MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  Logout
+                </MenuItem>
               </Menu>
             </p>
           </div>

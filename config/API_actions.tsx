@@ -24,7 +24,21 @@ export const handleFetchAction = (url: any) => {
     try {
       const response = await request;
       resolve(response);
-    } catch (error) {
+    } catch (error: any) {
+      let errorMessage = "";
+      if (error.response?.data?.error) {
+        errorMessage = error.response?.data?.error;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response?.data?.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      } else {
+        errorMessage = "error occured";
+      }
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: false,
+      });
       reject(error);
     }
   });
@@ -61,7 +75,9 @@ export const handleInsertAction = (url: any, data: any) => {
       if (error.response?.data?.error) {
         errorMessage = error.response?.data?.error;
       } else if (error.response?.data?.message) {
-        errorMessage = error.response?.data?.error;
+        errorMessage = error.response?.data?.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
       } else {
         errorMessage = "error occured";
       }
@@ -92,7 +108,21 @@ export const handleUpdateAction = (url: any, data: any) => {
         },
       });
       resolve(response);
-    } catch (error) {
+    } catch (error: any) {
+      let errorMessage = "";
+      if (error.response?.data?.error) {
+        errorMessage = error.response?.data?.error;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response?.data?.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      } else {
+        errorMessage = "error occured";
+      }
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: false,
+      });
       reject(error);
     }
   });
@@ -114,7 +144,21 @@ export const handleDeleteAction = (url: any) => {
         },
       });
       resolve(response);
-    } catch (error) {
+    } catch (error: any) {
+      let errorMessage = "";
+      if (error.response?.data?.error) {
+        errorMessage = error.response?.data?.error;
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response?.data?.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      } else {
+        errorMessage = "error occured";
+      }
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: false,
+      });
       reject(error);
     }
   });
